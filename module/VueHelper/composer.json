@@ -1,0 +1,14 @@
+{
+    "name": "swoopfx/vuehelper",
+    "description": "This provides Vue Js wrapper for Laminas Forms,",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Ezekiel Ajayi",
+            "email": "info@imapp.ng"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}

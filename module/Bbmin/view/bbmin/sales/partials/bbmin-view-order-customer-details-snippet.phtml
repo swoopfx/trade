@@ -1,0 +1,59 @@
+<?php
+?>
+
+<!-- begin widget-todolist -->
+<div class="widget-todolist widget-todolist-rounded">
+	<!-- begin widget-todolist-header -->
+	<div class="widget-todolist-header">
+		<div class="widget-todolist-header-left">
+			<h4 class="widget-todolist-header-title">Customer Details</h4>
+		</div>
+		
+	</div>
+	<!-- end widget-todolist-header -->
+
+	<!-- begin widget-todolist-body -->
+	<div class="widget-todolist-body">
+		<!-- begin widget-todolist-item -->
+		<div class="widget-todolist-item">
+			
+			<div class="widget-todolist-content">
+				<h4 class="widget-todolist-title">Customer Name</h4>
+				<p class="widget-todolist-desc"><?php echo $order->getCart()->getUser()->getProfile()->getFirstname()?>  <?php echo $order->getCart()->getUser()->getProfile()->getLastname()?> </p>
+			</div>
+			
+		</div>
+		<!-- end widget-todolist-item -->
+		
+		
+		
+		<!-- begin widget-todolist-item -->
+		<div class="widget-todolist-item">
+			
+			<div class="widget-todolist-content">
+				<h4 class="widget-todolist-title">Customer Phone</h4>
+				<p class="widget-todolist-desc"><?php echo $order->getCart()->getUser()->getUsername()?> </p>
+			</div>
+			
+		</div>
+		<!-- end widget-todolist-item -->
+		
+		
+		<!-- begin widget-todolist-item -->
+		<div class="widget-todolist-item">
+			
+			<div class="widget-todolist-content">
+				<h4 class="widget-todolist-title">Customer Email </h4>
+				<p class="widget-todolist-desc"><?php  echo $order->getCart()->getUser()->getEmail()?> </p>
+			</div>
+			
+		</div>
+		<!-- end widget-todolist-item -->
+		
+		
+		
+		
+	</div>
+	<!-- end widget-todolist-body -->
+</div>
+<!-- end widget-todolist -->

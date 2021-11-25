@@ -1,0 +1,40 @@
+<?php
+use Shop\Service\CartItemService;
+
+?>
+
+<?php  foreach ($products as $product):?>
+<table width="400" class="fluid" align="left" cellspacing="0"
+	cellpadding="0" border="0"
+	style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+	<tbody>
+	
+		<tr>
+			<td valign="top" align="left" width="95"
+				style="font-size: 1px; line-height: 0; mso-margin-top-alt: 1px; padding-bottom: 20px;"><img
+				src="<?php  echo $product['product_image'] ?>" width="72"
+				height="80" alt="Dy"
+				style="outline: none; text-decoration: none; -ms-interpolation-mode: bicubic; border: none;"></td>
+			<td align="left" valign="top"
+				style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; line-height: 18px; color: #6A6869; font-weight: bold; padding: 0px 0px 15px 0px;">
+				<?php echo $product['product_name'];?><br> <br> <span
+				style="font-size: 13px;">Quantity:</span><span
+				style="font-size: 13px; font-weight: normal;"> <?php echo $product[CartItemService::ITEM_QUANTITY_NAME]?></span>
+			</td>
+			
+		</tr>
+		
+	</tbody>
+</table>
+<table width="130" class="fluid" align="right" cellspacing="0"
+	cellpadding="0" border="0"
+	style="border-collapse: collapse; mso-table-lspace: 0pt; mso-table-rspace: 0pt;">
+	<tbody>
+		<tr>
+			<td valign="top" align="right"
+				style="font-family: Arial, Helvetica, sans-serif; font-size: 16px; font-weight: bold; line-height: 24px; color: #6A6869;">
+				<?php  echo $this->myCurrencyHelper($product[CartItemService::ITEM_TOTAL_PRICE_NAME])?></td>
+		</tr>
+	</tbody>
+</table>
+<?php endforeach;?>

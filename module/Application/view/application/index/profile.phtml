@@ -1,0 +1,145 @@
+<?php
+echo $this->headtitle("My Profile");
+
+?>
+<div id="wasabi"></div>
+<div class="slim-mainpanel">
+	<div class="container">
+		<div class="slim-pageheader">
+			<ol class="breadcrumb slim-breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Home</a></li>
+				<li class="breadcrumb-item"><a href="#">Pages</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Profile Page</li>
+			</ol>
+			<h6 class="slim-pagetitle">My Profile</h6>
+		</div>
+		<!-- slim-pageheader -->
+
+		<div class="row row-sm">
+			<div class="col-lg-8">
+				<?php  echo $this->appProfileOverviewHelper()?>
+
+<!-- 				<ul class="nav nav-activity-profile mg-t-20"> -->
+				<!-- 					<li class="nav-item"><a href="" class="nav-link"><i -->
+				<!-- 							class="icon ion-ios-redo tx-purple"></i> Share an update</a></li> -->
+				<!-- 					<li class="nav-item"><a href="" class="nav-link"><i -->
+				<!-- 							class="icon ion-image tx-primary"></i> Publish photo</a></li> -->
+				<!-- 					<li class="nav-item"><a href="" class="nav-link"><i -->
+				<!-- 							class="icon ion-document-text tx-success"></i> Add an article</a></li> -->
+				<!-- 				</ul> -->
+				<!-- nav -->
+
+
+
+<!-- 				<div class="card card-experience mg-t-20"> -->
+<!-- 					<div class="card-body"> -->
+<!-- 						<div class="slim-card-title">Referal History</div> -->
+<!-- 						<div class="media"> -->
+<!-- 							<div class="experience-logo"> -->
+<!-- 								<i class="icon ion-briefcase"></i> -->
+<!-- 							</div> -->
+							<!-- experience-logo -->
+<!-- 							<div class="media-body"> -->
+<!-- 								<h6 class="position-name">Front-End Engineer / Web Developer</h6> -->
+<!-- 								<p class="position-company">Cebu Machine Intelligence, Inc.</p> -->
+<!-- 								<p class="position-year"> -->
+<!-- 									Nov 2012 - Present (5 years +) &nbsp;-&nbsp; <a href="">Edit</a> -->
+<!-- 								</p> -->
+<!-- 							</div> -->
+							<!-- media-body -->
+<!-- 						</div> -->
+						<!-- media -->
+<!-- 					</div> -->
+					<!-- card-body -->
+<!-- 					<div class="card-footer"> -->
+<!-- 						<a href="">Show more<span class="d-none d-sm-inline"> experiences -->
+<!-- 								(4)</span> <i class="fa fa-angle-down"></i></a> <a href="">Add -->
+<!-- 							new</a> -->
+<!-- 					</div> -->
+					<!-- card-footer -->
+<!-- 				</div> -->
+				
+				
+				
+				
+				
+				<!-- card -->
+
+				<!-- 				<div class="card card-recommendation mg-t-20"> -->
+				<!-- 					<div class="card-body pd-25"> -->
+				<!-- 						<div class="slim-card-title">Recommendations</div> -->
+				<!-- 						<div class="media align-items-center mg-y-25"> -->
+				<!-- 							<img src="http://via.placeholder.com/500x500" -->
+				<!-- 								class="wd-40 rounded-circle" alt=""> -->
+				<!-- 							<div class="media-body mg-l-15"> -->
+				<!-- 								<h6 class="tx-14 mg-b-2"> -->
+				<!-- 									<a href="">Rolando Paloso</a> -->
+				<!-- 								</h6> -->
+				<!-- 								<p class="mg-b-0">Head Architect</p> -->
+				<!-- 							</div> -->
+				<!-- media-body -->
+				<!-- 							<span class="tx-12">Nov 20, 2017</span> -->
+				<!-- 						</div> -->
+				<!-- media -->
+
+				<!-- 						<p>Lorem ipsum dolor sit amet, consectetuer adipiscing elit. -->
+				<!-- 							Aenean commodo ligula eget dolor. Aenean massa. Cum sociis -->
+				<!-- 							natoque penatibus et magnis dis parturient montes, nascetur -->
+				<!-- 							ridiculus mus.</p> -->
+				<!-- 						<p class="mg-b-0">Donec quam felis, ultricies nec, pellentesque -->
+				<!-- 							eu, pretium quis, sem. Nulla consequat massa quis enim. Donec -->
+				<!-- 							pede justo, fringilla vel, aliquet nec, vulputate eget, arcu. In -->
+				<!-- 							enim justo, rhoncus ut, imperdiet a, venenatis vitae, justo.</p> -->
+				<!-- 					</div> -->
+				<!-- card-body -->
+
+				<!-- 					<div class="card-footer pd-y-12 pd-x-25 bd-t bd-gray-300"> -->
+				<!-- 						<a href="">More recommendations (2) <i class="fa fa-angle-down"></i></a> -->
+				<!-- 					</div> -->
+				<!-- card-footer -->
+				<!-- 				</div> -->
+			</div>
+			<!-- col-8 -->
+
+			<div class="col-lg-4 mg-t-20 mg-lg-t-0">
+				<div class="card card-connection">
+					<div class="row row-xs">
+						<div class="dash-item-overlay">
+							<h1 class="tx-orange">
+								<?php echo $this->myCurrencyHelper($this->creditAvailaibleBalance())?>
+							</h1>
+							<p class="earning-label">CREDIT</p>
+
+						</div>
+					</div>
+					<!-- row -->
+					<hr>
+					<div class="row row-xs">
+						<div class="dash-item-overlay">
+							<h1 class="tx-purple">
+								<?php  echo $this->myCurrencyHelper($this->walletAvailableBalance())?>
+							</h1>
+							<p class="earning-label">WALLET</p>
+
+						</div>
+
+					</div>
+					<!-- row -->
+				</div>
+				<!-- card -->
+
+
+				<?php  echo $this->appReferalOutstandingHelper()?>
+				<!-- card -->
+
+
+
+			</div>
+			<!-- col-4 -->
+		</div>
+		<!-- row -->
+
+	</div>
+	<!-- container -->
+</div>
+<!-- slim-mainpanel -->

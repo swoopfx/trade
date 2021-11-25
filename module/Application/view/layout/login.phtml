@@ -1,0 +1,92 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+
+<head>
+
+    <!-- Favicon-->
+    <!-- 		<link rel="shortcut icon" href="img/fav.png"> -->
+    <!-- Author Meta -->
+    <meta name="author" content="colorlib">
+    <!-- Meta Description -->
+    <meta name="description" content="">
+    <!-- Meta Keyword -->
+    <meta name="keywords" content="">
+    <!-- meta character set -->
+
+    <meta charset="utf-8">
+    <?php echo $this->headTitle(' Tanim Fits ' . $this->translate('Retailer'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+    <?php
+
+    echo $this->headMeta()
+        ->appendName('viewport', 'width=device-width, initial-scale=1.0, shrink-to-fit=no')
+        ->appendHttpEquiv('X-UA-Compatible', 'IE=edge') ?>
+
+    <!-- Le styles -->
+    <?php
+
+    echo $this->headLink(array(
+        'rel' => 'shortcut icon',
+        'type' => 'image/vnd.microsoft.icon',
+        'href' => $this->basePath() . '/img/favicon.ico'
+    ))
+        ->prependStylesheet($this->basePath('css/slim.css'))
+        ->prependStylesheet($this->basePath('lib/Ionicons/css/ionicons.css'))
+        ->prependStylesheet($this->basePath('lib/font-awesome/css/font-awesome.css')) ?>
+
+    <?php
+
+    echo $this->headScript()
+
+        ->prependFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js")
+        ->prependFile("https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6.2/dist/index.min.js")
+        ->prependFile($this->basePath('js/axios.min.js'))
+        ->prependFile($this->basePath('js/vue.js'))
+        ->prependFile($this->basePath('lib/jquery/js/jquery.js'))
+
+    ?>
+    <script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBobkXMM-uzqQLM5pqs_n7prJKJJ4-JK5I&callback=initMap&libraries=places&v=weekly" defer></script>
+
+</head>
+
+<body>
+
+    <div class="signin-wrapper">
+
+        <div class="signin-box">
+            <h2 class="slim-logo">
+                <a href="#"><img src="<?php echo $this->basePath("img/logo.png") ?>"> </a>
+            </h2>
+            <!-- 			<h2 class="signin-title-primary">Welcome back!</h2> -->
+            <?php
+            $flashMessenger = $this->flashMessenger()
+                ->setMessageOpenFormat('<div%s>
+     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+         &times;
+     </button>
+     <ul><li>')
+                ->setMessageSeparatorString('</li><li>')
+                ->setMessageCloseString('</li></ul></div>');
+            ?>
+            <?php echo $flashMessenger->render('error',   array('alert', 'alert-dismissable', 'alert-danger')); ?>
+            <?php echo $flashMessenger->render('info',    array('alert', 'alert-dismissable', 'alert-info')); ?>
+            <?php echo $flashMessenger->render('default', array('alert', 'alert-dismissable', 'alert-warning')); ?>
+            <?php echo $flashMessenger->render('success', array('alert', 'alert-dismissable', 'alert-success')); ?>
+            <?php echo $this->content ?>
+
+
+        </div>
+        <!-- signin-box -->
+
+    </div>
+    <!-- signin-wrapper -->
+
+    <!-- 	<script src="lib/jquery/js/jquery.js"></script> -->
+    <script src="/lib/popper.js/js/popper.js"></script>
+    <script src="/lib/bootstrap/js/bootstrap.js"></script>
+
+    <?php echo $this->inlineScript() ?>
+</body>
+
+</html>

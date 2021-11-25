@@ -1,0 +1,15 @@
+<?php
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->partial("wallet_change_passcode_fieldset_snippet", array("form"=>$form->get("walletChangePasscodeFieldset")));
+echo $this->formsubmit($form->get("submit"));
+echo $this->form()->closeTag();
+
+?>
+
+<div style="text-align: center;">
+							<i id="passcodeLoader" class="fa  fa-lg"
+								style="display: none;"><img alt=""
+								src="<?php  echo $this->basepath("/processin.gif")?>" height=25></i>
+						</div>

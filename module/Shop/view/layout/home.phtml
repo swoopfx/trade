@@ -1,0 +1,264 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+
+<head>
+
+	<!-- Favicon-->
+	<!-- 		<link rel="shortcut icon" href="img/fav.png"> -->
+	<!-- Author Meta -->
+	<meta name="author" content="colorlib">
+	<!-- Meta Description -->
+	<meta name="description" content="">
+	<!-- Meta Keyword -->
+	<meta name="keywords" content="">
+	<!-- meta character set -->
+
+	<meta charset="utf-8">
+	<?php echo $this->headTitle(' Tanim Fits ' . $this->translate('Portal'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+	<?php
+
+	echo $this->headMeta()
+		->appendName('viewport', 'width=device-width, initial-scale=1.0, shrink-to-fit=no')
+		->appendHttpEquiv('X-UA-Compatible', 'IE=edge') ?>
+
+	<!-- Le styles -->
+	<?php
+
+	echo $this->headLink(array(
+		'rel' => 'shortcut icon',
+		'type' => 'image/vnd.microsoft.icon',
+		'href' => $this->basePath() . '/img/favicon.ico'
+	))
+	
+		->prependStylesheet($this->basePath('lib/Ionicons/css/ionicons.css'))
+		->prependStylesheet($this->basePath('lib/font-awesome/css/font-awesome.css'))
+		->prependStylesheet($this->basePath('wasabi/css/wasabi.gritter.css'))
+		->prependStylesheet($this->basePath('wasabi/css/wasabi.modal.css'))
+		->prependStylesheet($this->basePath('wasabi/css/wasabi.suggest.css'))
+		->prependStylesheet($this->basePath('wasabi/css/wasabi.wizard.css'))
+		->prependStylesheet($this->basePath('shop/css/style.css'))
+		->prependStylesheet($this->basePath('shop/css/icomoon.css'))
+		->prependStylesheet($this->basePath('shop/css/flaticon.css'))
+		->prependStylesheet($this->basePath('shop/css/jquery.timepicker.css'))
+		->prependStylesheet($this->basePath('shop/css/bootstrap-datepicker.css'))
+		->prependStylesheet($this->basePath('shop/css/ionicons.min.css'))
+		->prependStylesheet($this->basePath('shop/css/aos.css'))
+		->prependStylesheet($this->basePath('shop/css/magnific-popup.css'))
+		->prependStylesheet($this->basePath('shop/css/owl.theme.default.min.css'))
+		->prependStylesheet($this->basePath('shop/css/owl.carousel.min.css'))
+		->prependStylesheet($this->basePath('shop/css/animate.css'))
+		->prependStylesheet($this->basePath('shop/css/open-iconic-bootstrap.min.css'))
+		->prependStylesheet("https://cdn.jsdelivr.net/npm/vue-toast-notification/dist/theme-default.css")?>
+
+
+
+	<?php
+
+	echo $this->headScript()
+	->prependFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js")
+	->prependFile("https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6.2/dist/index.min.js")
+		->prependFile($this->basePath('js/axios.min.js'))
+		->prependFile($this->basePath('js/vue.js'))
+		->prependFile($this->basePath('wasabi/js/wasabi.gritter.js'))
+		->prependFile($this->basePath('wasabi/js/wasabi.suggest.js'))
+		->prependFile($this->basePath('wasabi/js/wasabilib.min.js'))
+		->prependFile($this->basePath('shop/js/jquery.min.js')) ?>
+
+
+
+</head>
+
+<body>
+
+	<div class="py-1 bg-black">
+		<div class="container">
+			<div class="row no-gutters d-flex align-items-start align-items-center px-md-0">
+				<div class="col-lg-12 d-block">
+					<div class="row d-flex">
+						<div class="col-md pr-4 d-flex topper align-items-center">
+							<div class="icon mr-2 d-flex justify-content-center align-items-center">
+								<span class="icon-phone2"></span>
+							</div>
+							<span class="text"></span>
+						</div>
+						<div class="col-md pr-4 d-flex topper align-items-center">
+							<div class="icon mr-2 d-flex justify-content-center align-items-center">
+								<span class="icon-paper-plane"></span>
+							</div>
+							<span class="text">help@tanimfits.com.ng</span>
+						</div>
+						<div class="col-md-5 pr-4 d-flex topper align-items-center text-lg-right">
+							<span class="text">3-5 Business days delivery &amp; Free Returns</span>
+						</div>
+					</div>
+				</div>
+			</div>
+		</div>
+	</div>
+	<nav class="navbar navbar-expand-lg navbar-dark ftco_navbar bg-dark ftco-navbar-light" id="ftco-navbar">
+		<div class="container" id="globalcart">
+			<a class="navbar-brand" href="<?php echo $this->url("shop") ?>">TANIM FITS</a>
+			<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#ftco-nav" aria-controls="ftco-nav" aria-expanded="false" aria-label="Toggle navigation">
+				<span class="oi oi-menu"></span> Menu
+			</button>
+
+			<div class="collapse navbar-collapse" id="ftco-nav">
+				<?php echo $this->navigation("Laminas\Navigation\Shop")->menu()->setPartial("shop-navigation") ?>
+			</div>
+		</div>
+		<script>
+		let globalcart = new Vue({
+			el:"#globalcart",
+			data() {
+				return {
+					cartcount: 3,
+				}
+			},
+
+			mounted(){
+				this.getCartCount();
+			},
+
+			methods: {
+				getCartCount(){
+					axios.get("/productajax/cartcount").then(res=>{
+						if(res.status == 200){
+							this.cartcount = res.data.data
+						}
+					}).catch();
+				},
+				setCartCount(cout) {
+					this.cartcount  = cout;
+				},
+			},
+		});
+		</script>
+	</nav>
+	<!-- END nav -->
+
+
+
+
+
+
+
+
+	<?php echo $this->content ?>
+
+
+
+
+
+
+	<footer class="ftco-footer bg-light ftco-section">
+		<div class="container">
+			<div class="row">
+				<div class="mouse">
+					<a href="#" class="mouse-icon">
+						<div class="mouse-wheel">
+							<span class="ion-ios-arrow-up"></span>
+						</div>
+					</a>
+				</div>
+			</div>
+			<div class="row mb-5">
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">TANIM FITS</h2>
+						<!-- 						<p>Far far away, behind the word mountains, far from the countries -->
+						<!-- 							Vokalia and Consonantia.</p> -->
+						<ul class="ftco-footer-social list-unstyled float-md-left float-lft mt-5">
+							<li class="ftco-animate"><a href="#"><span class="icon-twitter"></span></a></li>
+							<li class="ftco-animate"><a href="#"><span class="icon-facebook"></span></a></li>
+							<li class="ftco-animate"><a href="#"><span class="icon-instagram"></span></a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4 ml-md-5">
+						<h2 class="ftco-heading-2">Menu</h2>
+						<ul class="list-unstyled">
+							<li><a href="<?php echo $this->url("shop") ?>" class="py-2 d-block">Shop</a></li>
+							<li><a href="<?php echo $this->url("shop/default", array("action" => "about")) ?>" class="py-2 d-block">About</a></li>
+							<!-- 							<li><a href="#" class="py-2 d-block">Journal</a></li> -->
+							<li><a href="<?php echo $this->url("shop/default", array("action" => "contact")) ?>" class="py-2 d-block">Contact Us</a></li>
+						</ul>
+					</div>
+				</div>
+				<div class="col-md-4">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">Help</h2>
+						<div class="d-flex">
+							<ul class="list-unstyled mr-l-5 pr-l-3 mr-4">
+								<!-- 	<li><a href="<?php //echo $this->url("shop/default", array("action" => "shipping")) ?>" class="py-2 d-block">Shipping Information</a></li>
+								
+								<li><a href="<?php //echo $this->url("shop/default", array("action" => "terms")) ?>" class="py-2 d-block">Terms &amp; Conditions</a></li>
+								<li><a href="<?php // echo $this->url("shop/default", array("action" => "privacy")) ?>" class="py-2 d-block">Privacy Policy</a></li> -->
+								<li><a href="<?php echo $this->url("shop/default", array("action" => "returns")) ?>" class="py-2 d-block">Returns &amp; Exchange</a></li>
+							</ul>
+											<!-- 		<ul class="list-unstyled"> -->
+							<!-- 								<li><a href="#" class="py-2 d-block">FAQs</a></li>
+							<!-- 								<li><a href="#" class="py-2 d-block">Contact</a></li> -->
+							<!-- 							</ul> -->
+						</div>
+					</div>
+				</div>
+				<div class="col-md">
+					<div class="ftco-footer-widget mb-4">
+						<h2 class="ftco-heading-2">Contact Us</h2>
+
+						<?php echo $this->shopFooterAddressHelper() ?>
+					</div>
+				</div>
+			</div>
+			<div class="row">
+				<div class="col-md-12 text-center">
+
+					<p>
+						<!-- Link back to Colorlib can't be removed. Template is licensed under CC BY 3.0. -->
+						Copyright &copy;
+						<script>
+							document.write(new Date().getFullYear());
+						</script>
+						All rights reserved | Designed by <i class="icon-heart color-danger" aria-hidden="true"></i> by <a href="http://tanimfits.com.ng" target="_blank">TANIM FITS</a>
+					</p>
+				</div>
+			</div>
+		</div>
+	</footer>
+
+
+
+	<!-- loader -->
+	<div id="ftco-loader" class="show fullscreen">
+		<svg class="circular" width="48px" height="48px">
+			<circle class="path-bg" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke="#eeeeee" />
+			<circle class="path" cx="24" cy="24" r="22" fill="none" stroke-width="4" stroke-miterlimit="10" stroke="#F96D00" /></svg>
+	</div>
+
+
+<script src="/shop/js/jquery.min.js"></script>
+	<script src="/shop/js/jquery-migrate-3.0.1.min.js"></script>
+	<script src="/shop/js/popper.min.js"></script>
+	<script src="/shop/js/bootstrap.min.js"></script>
+	<script src="/shop/js/jquery.easing.1.3.js"></script>
+	<script src="/shop/js/jquery.waypoints.min.js"></script>
+	<script src="/shop/js/jquery.stellar.min.js"></script>
+	<script src="/shop/js/owl.carousel.min.js"></script>
+	<script src="/shop/js/jquery.magnific-popup.min.js"></script>
+	<script src="/shop/js/aos.js"></script>
+	<script src="/shop/js/jquery.animateNumber.min.js"></script>
+	<script src="/shop/js/bootstrap-datepicker.js"></script>
+	<script src="/shop/js/scrollax.min.js"></script>
+	<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBVWaKrjvy3MaE7SQ74_uJiULgl1JY0H2s&sensor=false"></script>
+	<script src="/shop/js/google-map.js"></script>
+	<script src="/shop/js/main.js"></script>
+
+</body>
+<?php echo $this->inlineScript() ?>
+
+</body>
+
+</html>

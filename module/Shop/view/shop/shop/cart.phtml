@@ -1,0 +1,175 @@
+<?php
+
+?>
+
+<div class="hero-wrap hero-bread" style="background-image: url('images/bg_6.jpg');">
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-center justify-content-center">
+			<div class="col-md-9 ftco-animate text-center">
+				<p class="breadcrumbs"><span class="mr-2"><a href="index.html">Home</a></span> <span>Cart</span></p>
+				<h1 class="mb-0 bread">My Cart</h1>
+			</div>
+		</div>
+	</div>
+</div>
+
+
+<div id="carrt">
+	<section class="ftco-section ftco-cart">
+		<div class="container">
+			<div class="row">
+
+				<div class="col-md-12 ftco-animate">
+					<div class="cart-list">
+						<table class="table">
+							<thead class="thead-primary">
+								<tr class="text-center">
+									<th>&nbsp;</th>
+									<th>&nbsp;</th>
+									<th>Product</th>
+									<th>Price</th>
+									<th>Quantity</th>
+									<th>Total</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr v-if="cartItemsCount" v-for="item in cartItems" :key="item.id" class="text-center">
+									<td class="product-remove"><a @click="removeItem(item.cartItemId)"><span class="ion-ios-close"></span></a></td>
+
+									<td class="image-prod">
+										<div class="img" v-bind:style="{ backgroundImage: 'url(' + item.product_image + ')' }"></div>
+									</td>
+
+									<td class="product-name">
+										<h3>{{item.sku}}</h3>
+										<p>{{item.product_name}}</p>
+									</td>
+
+									<td class="price">&#8358;{{formatMoney(item.price)}}</td>
+
+									<td class="quantity">
+										<div class="input-group mb-3">
+											<input type="text" name="quantity" class="quantity form-control input-number" :value="item.quant" min="1" max="100">
+										</div>
+									</td>
+
+									<td class="total">&#8358;{{formatMoney(item.totalPrice)}}</td>
+								</tr><!-- END TR-->
+								<tr v-else>
+									<td class="product-name">
+
+									</td>
+									<td class="product-name">
+										No Product
+									</td>
+								</tr>
+
+
+							</tbody>
+						</table>
+					</div>
+				</div>
+
+
+			</div>
+			<div v-show="finalPrice" class="row justify-content-center">
+				<div class="col col-lg-5 col-md-6 mt-5 cart-wrap ftco-animate">
+					<div class="cart-total mb-3">
+						<h3>Cart Totals</h3>
+
+
+
+						<p class="d-flex total-price">
+							<span>Total</span>
+							<span>&#8358;{{formatMoney(finalPrice)}}</span>
+						</p>
+					</div>
+					<p class="text-center"><a href="<?php echo $this->url('checkout') ?>" class="btn btn-primary py-3 px-4">Proceed to Checkout</a></p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+</div>
+
+<script>
+	Vue.use(VueToast, {
+		// One of options
+		position: 'top'
+	});
+
+	let cartee = new Vue({
+		el: "#carrt",
+		data() {
+			return {
+				isGettingItems: false,
+				isRemovingItem: false,
+				cartItems: [],
+				finalPrice: 0,
+				cartItemsCount: 0,
+			}
+		},
+
+		mounted() {
+			this.getCartItems();
+		},
+
+		methods: {
+
+			formatMoney(n) {
+				return "" + (Math.round(n * 100) / 100).toLocaleString();
+			},
+
+			getCartItems() {
+				axios.get('/productajax/productdetails').then(res => {
+					if (res.status == 200) {
+						this.cartItems = res.data.data;
+						this.finalPrice = res.data.finalprice;
+
+					}
+				}).catch().finally(() => {
+					this.cartItemsCount = Object.keys(this.cartItems).length;
+				});
+
+			},
+
+			removeItem(itemid) {
+				swal({
+					title: "Are you Sure",
+					text: "You are about to remove an item from your cart",
+					icon: "warning",
+					button: "Continue!",
+				}).then(function(isConfirm) {
+					if (isConfirm) {
+						toast = this.$toast;
+						let formData = new FormData();
+						formData.append('itemid', itemid);
+						axios.post('/productajax/removefromcart', formData).then(res => {
+
+							if (res.status == 204) {
+								window.location.reload();
+							}
+
+						}).catch(err => {
+							swal({
+								title: "ERROR",
+								text: err.response.data.messages,
+								icon: "error",
+								button: "OK"
+							});
+						}).finally(() => {
+							this.getCartItems();
+							globalcart.getCartCount();
+						});
+					}
+				})
+
+
+			},
+
+			getTotalPrice() {
+
+			}
+		},
+	});
+</script>

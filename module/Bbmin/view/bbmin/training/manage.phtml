@@ -1,0 +1,1267 @@
+<?php
+echo $this->headtitle("Manage Training");
+
+echo $this->inlineScript()->appendFile($this->basePath('/admin/assets/plugins/ckeditor/ckeditor.js'));
+echo $this->inlineScript()->appendFile($this->basePath('/admin/assets/js/demo/form-wysiwyg.demo.js'));
+echo $this->headScript()->appendFile($this->basePath('/admin/assets1/plugins/dropzone/dist/min/dropzone.min.js'));
+echo $this->headLink()->prependStylesheet($this->basePath('/admin/assets1/plugins/dropzone/dist/min/dropzone.min.css'));
+
+$topic = $training->getTrainingTopic();
+
+?>
+<div id="wasabi"></div>
+<div class="row" id="manageTraining">
+
+
+	<div class="modal fade" id="modal-dialog">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div v-if="!isGetCourseVideo">
+					<div style="text-align: center;" class="fa-6x">
+
+						<i class="fas fa-spinner fa-pulse"></i>
+					</div>
+				</div>
+				<div v-else>
+					<div class="modal-header">
+						<h4 class="modal-title">{{viewCourseTitle}}</h4>
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+						<object :data='viewCourseVideo' width='100%' height='100%'> </object>
+					</div>
+					<div class="modal-footer">
+						<a href="javascript:;" class="btn btn-white" data-dismiss="modal">Edite</a>
+						<a href="javascript:;" class="btn btn-success">Action</a>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<div class="modal modal-message fade" id="viewmilestone">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div v-if="!isViewmilestone">
+					<div style="text-align: center;" class="fa-6x">
+
+						<i class="fas fa-spinner fa-pulse"></i>
+					</div>
+				</div>
+				<div v-else>
+					<div class="modal-header">
+						<h4 class="modal-title">{{viewTopicMilestone}}</h4>
+						<!-- <p class="modal-title">{{viewDescriptionMilestone}}</p> -->
+						<button type="button" class="close" data-dismiss="modal"
+							aria-hidden="true">×</button>
+					</div>
+					<div class="modal-body">
+						<div v-html="viewContentMilestone"></div>
+
+					</div>
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="viewresources">
+		<div class="modal-dialog">
+			<div class="modal-content">
+				<div v-if="isViewingResouces">
+					<div style="text-align: center;" class="fa-6x">
+
+						<i class="fas fa-spinner fa-pulse"></i>
+					</div>
+				</div>
+				<div v-else>
+					<div class="modal-body">
+						<div v-for="doc in uploadedImageResource"
+							class="col-xl-12 col-lg-6">
+							<!-- begin card -->
+
+
+							<!-- begin card -->
+							<div class="card border-0 bg-dark text-white mb-3">
+								<!-- begin card-body -->
+								<div class="card-body">
+
+									<!-- begin row -->
+									<div class="row align-items-center p-b-1">
+
+										<!-- end col-4 -->
+										<!-- begin col-8 -->
+										<div class="col-12">
+											<div class="m-b-2 text-truncate">{{doc.name}}</div>
+											<div class="text-grey m-b-2 f-s-11">{{doc.document.mimeType}}</div>
+
+											<div class="text-grey f-s-11 m-b-15 text-truncate">
+												<!-- 57.5% people click the email -->
+											</div>
+											<a
+												@click="removeResourceFromMilestone(doc.id, doc.milestone.id)"
+												class="btn btn-xs btn-danger f-s-10 pl-2 pr-2">Remove
+												Document</a> | <a :href="doc.document.imageUrl"
+												target="__blank"
+												class="btn btn-xs btn-indigo f-s-10 pl-2 pr-2">View Document</a>
+										</div>
+										<!-- end col-8 -->
+									</div>
+									<!-- end row -->
+
+									<!-- begin row -->
+
+								</div>
+								<!-- end card-body -->
+							</div>
+							<!-- end card -->
+
+							<!-- end card -->
+						</div>
+					</div>
+
+
+				</div>
+
+			</div>
+		</div>
+	</div>
+
+
+
+	<div class="modal fade" id="uploadresource">
+		<div class="modal-dialog">
+			<div class="modal-content">
+
+
+				<div class="modal-header">
+					<h4 class="modal-title">Upload Resource for
+						{{uploadActiveMilestoneTopic}}</h4>
+					<button type="button" class="close" data-dismiss="modal"
+						aria-hidden="true">×</button>
+				</div>
+				<div class="modal-body">
+					<div v-if="!isUploadingResources">
+						<div style="text-align: center;" class="fa-6x">
+
+							<i class="fas fa-spinner fa-pulse"></i>
+						</div>
+					</div>
+					<div v-else class="panel panel-inverse" data-sortable-id="index-2">
+						<div class="panel-heading">
+							<h4 class="panel-title">Uploaded Images</h4>
+						</div>
+						<div class="panel-body bg-silver">
+							<div class="panel-body">
+								<!-- begin table-responsive -->
+								<div v-if="isUploadingImage">
+									<div style="text-align: center;" class="fa-6x">
+										<i class="fas fa-circle-notch fa-spin"></i>
+									</div>
+								</div>
+								<div v-else class="table-responsive">
+
+									<table class="table table-striped m-b-0">
+
+										<tbody v-if="uploadedImageResource.length">
+											<tr v-for="(image, i) in uploadedImageResource">
+												<td class="with-img"><img :src="image.thumbnail"
+													class="img-rounded height-30" /></td>
+												<td>{{image.imageName}}</td>
+
+												<td class="with-btn" nowrap><a href="#"
+													class="btn btn-sm btn-primary width-60 m-r-2"><i
+														class="fa fa-eye"></i></a> <a href="#"
+													@click="removeImage(image.id)"
+													class="btn btn-sm btn-danger "><i class="fa fa-trash"></i></a></td>
+											</tr>
+
+
+										</tbody>
+									</table>
+								</div>
+								<!-- end table-responsive -->
+							</div>
+						</div>
+						<div class="panel-footer">
+							<div class="input-group">
+								<input type="text" ref="productName" class="form-control"
+									placeholder="Document Name">
+							</div>
+							<div class="input-group">
+								<input type="file" ref="productFile" class="form-control"
+									name="productFile">
+
+							</div>
+							<button @click="uploadImage()" class="btn btn-primary btn-block"
+								type="button">UPLOAD</button>
+						</div>
+					</div>
+				</div>
+
+
+
+			</div>
+		</div>
+	</div>
+
+
+
+
+	<div class="col-lg-7 col-md-7">
+		<div class="col-lg-12 col-md-12">
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="ui-media-object-4">
+				<!-- begin panel-heading -->
+				<div class="panel-heading">
+					<div class="panel-heading-btn">
+						<a href="javascript:;"
+							class="btn btn-xs btn-icon btn-circle btn-default"
+							data-click="panel-expand"><i class="fa fa-expand"></i></a> <a
+							href="javascript:;"
+							class="btn btn-xs btn-icon btn-circle btn-success"
+							data-click="panel-reload"><i class="fa fa-redo"></i></a> <a
+							href="javascript:;"
+							class="btn btn-xs btn-icon btn-circle btn-warning"
+							data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+					</div>
+					<h4 class="panel-title">Training Details</h4>
+				</div>
+				<!-- end panel-heading -->
+				<!-- begin panel-body -->
+				<div class="panel-body">
+					<ul class="media-list media-list-with-divider">
+						<li class="media media-sm"><a class="media-left"
+							href="javascript:;"> <img
+								src="<?php echo $this->imageHelper($training->getImage()) ?>"
+								alt="" class="media-object rounded-corner" />
+						</a>
+							<div class="media-body">
+								<h4 class="media-heading"><?php echo ($training->getTrainingTopic() != null ? $training->getTrainingTopic() : "") ?></h4>
+								<p><?php echo ($training->getTrainingDescription() != null ? $this->escapehtml($training->getTrainingDescription()) : "") ?></p>
+								<hr>
+								<p>
+									<a v-on:click="showTrainingForm()"
+										class="btn btn-sm btn-danger btn-block m-r-5">Edit</a> <a
+										v-on:click="showProgramForm()"
+										class="btn btn-sm btn-success btn-block m-r-5">Create Program</a>
+									<a v-on:click="destroyTraining()"
+										class="btn btn-sm btn-default btn-block">Destroy Training</a>
+								</p>
+							</div></li>
+
+					</ul>
+				</div>
+				<!-- end panel-body -->
+			</div>
+			<!-- end panel -->
+		</div>
+
+
+
+		<div v-if="isTrainingForm" class="col-lg-12 col-md-12">
+			<!-- begin panel -->
+			<div class="panel panel-primary" data-sortable-id="ui-media-object-4">
+				<!-- begin panel-heading -->
+				<div class="panel-heading">
+					<div class="panel-heading-btn"></div>
+					<h4 class="panel-title">Edit Training</h4>
+				</div>
+				<!-- end panel-heading -->
+				<!-- begin panel-body -->
+				<div class="panel-body ">
+					<div v-if="isTrainingSubmit">
+						<div style="text-align: center;" class="fa-6x">
+
+							<i class="fas fa-spinner fa-pulse"></i>
+						</div>
+					</div>
+					<form v-else id="trainingForm" enctype="multipart/form-data"
+						method="POST" class="form-horizontal" data-parsley-validate="true"
+						name="demo-form">
+						<fieldset>
+							<div class="form-group row m-b-15">
+								<label class="col-md-4 col-sm-4 col-form-label"
+									for="trainingTopic">Training Topic * :</label>
+								<div class="col-md-8 col-sm-8">
+									<input class="form-control" ref="trainingTopic"
+										value="<?php echo $training->getTrainingTopic() ?>"
+										v-on:change="handleTrainingTopic()" type="text"
+										id="trainingTopic" name="trainingTopic" placeholder="Required"
+										data-parsley-required="true" />
+								</div>
+							</div>
+
+
+							<div class="form-group row m-b-15">
+								<label class="col-md-4 col-sm-4 col-form-label"
+									for="trainingPoint">Training Points * :</label>
+								<div class="col-md-8 col-sm-8">
+									<input class="form-control" ref="trainingPoint"
+										value="<?php echo $training->getTrainingPoints() ?>"
+										type="number" id="trainingPoint" name="trainingPoint"
+										placeholder="Required" data-parsley-required="true" />
+								</div>
+							</div>
+
+
+							<div class="form-group row m-b-15">
+								<label class="col-md-4 col-sm-4 col-form-label" for="message">Training
+									Description</label>
+								<div class="col-md-8 col-sm-8">
+									<textarea class="form-control" ref="trainingDescription"
+										id="trainingDescription" name="trainingDescription" rows="4"
+										data-parsley-required="true"><?php echo $training->getTrainingDescription() ?></textarea>
+								</div>
+							</div>
+
+
+
+							<div class="form-group row m-b-0">
+								<label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
+								<div class="col-md-8 col-sm-8">
+									<button type="button" v-on:click="submitTraining()"
+										value="Create Training " class="btn btn-primary btn-block">Create
+										Training</button>
+								</div>
+							</div>
+						</fieldset>
+					</form>
+				</div>
+				<!-- end panel-body -->
+			</div>
+			<!-- end panel -->
+		</div>
+
+		<div v-if="isProgrammeForm" class="col-lg-12 col-md-12">
+			<!-- begin panel -->
+			<div class="panel panel-success" data-sortable-id="ui-media-object-4">
+				<!-- begin panel-heading -->
+				<div class="panel-heading">
+					<div class="panel-heading-btn"></div>
+					<h4 class="panel-title">Create Programmes</h4>
+				</div>
+				<!-- end panel-heading -->
+				<!-- begin panel-body -->
+				<div class="panel-body">
+					<div v-if="isProgrammingSubmit">
+						<div style="text-align: center;" class="fa-6x">
+
+							<i class="fas fa-spinner fa-pulse"></i>
+						</div>
+					</div>
+					<form v-else id="programmesForm" method="POST"
+						class="form-horizontal" data-parsley-validate="true"
+						name="demo-form">
+						<div class="form-group row m-b-15">
+							<label class="col-md-4 col-sm-4 col-form-label"
+								for="programmesTopic">Programmes Topic * :</label>
+							<div class="col-md-8 col-sm-8">
+								<input class="form-control" ref="programmesTopic" type="text"
+									id="programmesTopic" name="programmesTopic"
+									placeholder="required" data-parsley-required="true" />
+							</div>
+						</div>
+
+
+						<div class="form-group row m-b-15">
+							<label class="col-md-4 col-sm-4 col-form-label" for="message">Programmes
+								Description</label>
+							<div class="col-md-8 col-sm-8">
+								<textarea class="form-control" ref="programmesDescription"
+									id="programmesDescription" name="programmesDescription"
+									rows="4" placeholder="Range from 2 - 5"
+									data-parsley-required="true"></textarea>
+							</div>
+						</div>
+
+
+
+						<div class="form-group row m-b-0">
+							<label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
+							<div class="col-md-8 col-sm-8">
+								<input type="button" v-on:click="createProgramme()"
+									value="Create Program " class="btn btn-primary btn-block">
+							</div>
+						</div>
+					</form>
+
+				</div>
+				<!-- end panel-body -->
+			</div>
+			<!-- end panel -->
+		</div>
+
+		<!-- <div  class="col-lg-12 col-md-12"> -->
+
+		<!-- </div> -->
+
+		<div v-if="isSubmitCourseForm">
+			<div style="text-align: center;" class="fa-6x">
+
+				<i class="fas fa-spinner fa-pulse"></i>
+			</div>
+		</div>
+		<div v-else>
+			<div v-if="isCourseForm" class="col-lg-12 col-md-12">
+				<!-- begin panel -->
+				<div class="panel panel-success"
+					data-sortable-id="ui-media-object-4">
+					<!-- begin panel-heading -->
+					<div class="panel-heading">
+						<div class="panel-heading-btn"></div>
+						<h4 class="panel-title">Create Courses :</h4>
+					</div>
+					<!-- end panel-heading -->
+					<!-- begin panel-body -->
+					<div class="panel-body">
+						<div v-if="isProgrammingSubmit">
+							<div style="text-align: center;" class="fa-6x">
+
+								<i class="fas fa-spinner fa-pulse"></i>
+							</div>
+						</div>
+						<form v-else id="courseForm" method="POST" class="form-horizontal"
+							data-parsley-validate="true" name="demo-form">
+
+							<div class="form-group row m-b-15">
+								<label class="col-md-4 col-sm-4 col-form-label"
+									for="courseTitle">Course Title * :</label>
+								<div class="col-md-8 col-sm-8">
+									<input class="form-control" v-model="courseTitle"
+										ref="courseTitle" type="text" id="courseTitle"
+										name="courseTitle" placeholder="required"
+										data-parsley-required="true" />
+								</div>
+							</div>
+
+
+							<div class="form-group row m-b-15">
+								<label class="col-md-4 col-sm-4 col-form-label" for="message">Course
+									Code</label>
+								<div class="col-md-8 col-sm-8">
+									<input class="form-control" v-model="courseCode"
+										ref="courseCode" type="text" id="courseCode" name="courseCode"
+										placeholder="required" data-parsley-required="true" />
+								</div>
+							</div>
+
+							<div class="form-group row m-b-15">
+								<label class="col-md-4 col-sm-4 col-form-label" for="message">Course
+									URL</label>
+								<div class="col-md-8 col-sm-8">
+									<input class="form-control" v-model="courseUrl" ref="courseUrl"
+										type="url" id="courseUrl" name="courseUrl"
+										placeholder="required" data-parsley-required="true" />
+								</div>
+							</div>
+
+							<div class="form-group row m-b-0">
+								<label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
+								<div class="col-md-8 col-sm-8">
+									<input type="button" v-on:click="createCourse()"
+										value="Create Course " class="btn btn-primary btn-block">
+								</div>
+							</div>
+						</form>
+
+					</div>
+					<!-- end panel-body -->
+				</div>
+				<!-- end panel -->
+			</div>
+		</div>
+
+		<div v-if="isGetProgrammes" class="col-lg-12 col-md-12">
+			<div style="text-align: center;" class="fa-6x">
+				<i class="fas fa-circle-notch fa-spin"></i>
+			</div>
+		</div>
+		<div v-else class="col-lg-12 col-md-12">
+
+			<div v-if="programmes.length">
+
+				<div class="panel panel-inverse" data-sortable-id="ui-general-3">
+					<!-- begin panel-heading -->
+					<div class="panel-heading">
+						<div class="panel-heading-btn"></div>
+						<h4 class="panel-title">Programme</h4>
+					</div>
+					<!-- end panel-heading -->
+					<!-- begin panel-body -->
+
+					<div class="panel-body" v-for="programme in programmes">
+						<div class="note note-primary m-b-15">
+
+							<div class="note-icon">
+								<i class="fas fa-cubes"></i>
+							</div>
+							<div class="note-content">
+
+								<h4>
+									<b>{{programme.title}}</b>
+								</h4>
+								<p>{{programme.description}}</p>
+							</div>
+							<div class="note-content" v-if="programme.course.length">
+								<div class="col-lg-12">
+									<!-- begin panel -->
+									<div class="panel panel-inverse" data-sortable-id="index-3">
+										<div class="panel-heading">
+											<h4 class="panel-title">Courses</h4>
+										</div>
+										<div id="schedule-calendar" class="bootstrap-calendar"></div>
+										<div class="list-group">
+											<a v-for="course in programme.course" href="#modal-dialog"
+												@click="viewCourse(course.courseUid)" data-toggle="modal"
+												class="list-group-item d-flex justify-content-between align-items-center text-ellipsis">
+												{{course.title}} <span data-click="swal-warning"
+												class="btn badge f-w-500 bg-gradient-red f-s-10"><i
+													class="fa fa-eye"></i></span>
+
+											</a>
+
+										</div>
+									</div>
+									<!-- end panel -->
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+					<!-- end panel-body -->
+
+				</div>
+			</div>
+
+		</div>
+
+
+		<div class="col-lg-12 col-md-12">
+			<!-- begin widget-todolist -->
+			<div class="widget-todolist widget-todolist-rounded">
+				<!-- begin widget-todolist-header -->
+				<div class="widget-todolist-header">
+					<div class="widget-todolist-header-left">
+						<h4 class="widget-todolist-header-title">Milestones</h4>
+					</div>
+					<div class="widget-todolist-header-right">
+						<div class="widget-todolist-header-total">
+							<span class="text-inverse">{{trainingMilestones.length}}</span> <small>Done</small>
+						</div>
+					</div>
+				</div>
+				<!-- end widget-todolist-header -->
+
+				<!-- begin widget-todolist-body -->
+				<div v-if="trainingMilestones.length" class="widget-todolist-body">
+					<!-- begin widget-todolist-item -->
+					<div v-for="milestone in trainingMilestones"
+						class="widget-todolist-item">
+						<div class="widget-todolist-input">
+							<div class="checkbox checkbox-css pt-0">
+								<!-- <input type="checkbox" id="widget_todolist_1" /> -->
+								<!-- <label for="widget_todolist_1" class="p-l-15"> </label> -->
+							</div>
+						</div>
+						<div class="widget-todolist-content">
+							<a>
+								<h4 class="widget-todolist-title">{{milestone.topic}}</h4>
+							</a>
+							<p class="widget-todolist-desc">{{milestone.descriptions}}</p>
+						</div>
+						<div class="widget-todolist-icon">
+							<a href="#viewmilestone" @click="viewMilestone(milestone.id)"
+								data-toggle="modal"><i class="fa fa-eye"></i></a> <a
+								@click="initiatiateActiveUplaodMiletsoneRsource(milestone.id, milestone.topic)"
+								title="Upload Resources" href="#uploadresource"
+								data-toggle="modal"><i class="fa fa-upload"></i></a> <a href="#"
+								@click="editMilestone(milestone.id)"><i class="fa fa-edit"></i></a>
+							<a href="#viewresources" title="View Resources"
+								data-toggle="modal" @click="viewUploadedResources(milestone.id)"><i
+								class="fa fa-file"></i></a>
+						</div>
+
+					</div>
+					<!-- end widget-todolist-item -->
+
+				</div>
+				<!-- end widget-todolist-body -->
+			</div>
+			<!-- end widget-todolist -->
+		</div>
+
+		<br>
+		<div class="col-lg-12 col-md-12">
+			<div class="panel panel-inverse">
+				<div class="panel-heading">
+					<h4 class="panel-title">Milestone Generator</h4>
+
+				</div>
+				<div class="panel-body panel-form">
+					<form class="form-horizontal" action="/" name="wysihtml5"
+						method="POST">
+						<input v-model="topicEditor" t class="form-control" type="text"
+							placeholder="Topic" ref="milestoneTopic">
+						<textarea v-model="descriptionEditor" class="form-control"
+							ref="milestoneDesc" placeholder="description"></textarea>
+						<textarea v-model="milestoneCkeditor" class="ckeditor"
+							id="editor1" rows="20"></textarea>
+					</form>
+				</div>
+			</div>
+
+			<button @click="postMilestone()" :disabled="isCreatingMilestone"
+				class="btn btn-primary btn-block">
+				<div v-if="isCreatingMilestone">...Processing</div>
+				<div v-else>Post Milestone</div>
+			</button>
+		</div>
+	</div>
+	<div class="col-lg-5 col-md-5">
+		<div class="panel panel-inverse" data-sortable-id="table-basic-7">
+			<!-- begin panel-heading -->
+			<div class="panel-heading">
+
+				<h4 class="panel-title">Programmes</h4>
+			</div>
+			<!-- end panel-heading -->
+			<!-- begin panel-body -->
+			<div class="panel-body">
+				<!-- begin table-responsive -->
+				<div class="table-responsive">
+					<table class="table table-striped m-b-0">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Title</th>
+
+								<th width="1%"></th>
+
+							</tr>
+						</thead>
+						<tbody>
+							<tr v-for="program in programmes">
+								<td class="with-img">{{program.uid}}</td>
+								<td>{{program.title}}</td>
+
+								<td class="with-btn" nowrap><a
+									@click="showCourseForm(program.id, program.title)"
+									class="btn btn-sm btn-white width-60 m-r-2"><i
+										class="fa fa-plus"></i></a> <a @click="removeProgram()"
+									class="btn btn-sm btn-danger width-60"><i class="fa fa-trash"></i></a>
+								</td>
+							</tr>
+
+						</tbody>
+					</table>
+					<hr>
+					<div v-if="isTrainingPublished">
+						<button @click="publishTraining(0)"
+							:disabled="isPublisingTraining"
+							class="btn btn-block btn-xs btn-danger">
+							<div v-if="isPublisingTraining">...Processing</div>
+							<div v-else>UnPublish</div>
+						</button>
+					</div>
+
+					<div v-else>
+						<button @click="publishTraining(1)"
+							:disabled="isPublisingTraining"
+							class="btn btn-block btn-xs btn-success">
+							<div v-if="isPublisingTraining">...Processing</div>
+							<div v-else>Publish</div>
+						</button>
+					</div>
+				</div>
+				<!-- end table-responsive -->
+			</div>
+			<!-- end panel-body -->
+
+		</div>
+
+
+		<div class="panel panel-inverse" data-sortable-id="table-basic-7">
+			<!-- begin panel-heading -->
+			<div class="panel-heading">
+
+				<h4 class="panel-title">Training Activation</h4>
+			</div>
+			<!-- end panel-heading -->
+			<!-- begin panel-body -->
+			<div class="panel-body">
+
+				<!-- begin table-responsive -->
+				<div class="table-responsive">
+				<div class="chats" data-scrollbar="true" data-height="225px">
+				<?php if (count($activation)): ?>
+					<table class="table table-striped m-b-0">
+						<thead>
+							<tr>
+								<th>#</th>
+								<th>Maximum Award</th>
+								<th>Awardee</th>
+								<th>Start</th>
+								<th>End</th>
+								<th width="1%"></th>
+
+							</tr>
+						</thead>
+
+						<tbody>
+						<?php foreach ($activation as $act): ?>
+							<tr>
+								<td class="with-img"><?php echo $this->bbminTrainingActivationActivehelper($act->getIsActive()) ?></td>
+								<td><?php echo $act->getMaximumCount() ?? 0 ?></td>
+								<td><?php echo $act->getUsersAwardedCount() ?? 0 ?></td>
+								<td><?php echo $this->dateformat($act->getStartdate(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE) ?></td>
+
+								<td><?php echo $this->dateformat($act->getenddate(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE) ?></td>
+								<td class="with-btn" nowrap><button @click="deactivateActivation('<?php echo $act->getId() ?>')"
+									class="btn btn-sm btn-danger width-60"><i class="fa fa-ban"></i></button>
+								</td>
+							</tr>
+                 <?php endforeach;?>
+						</tbody>
+					</table>
+					<?php endif;?>
+					<hr>
+
+
+					<div>
+						<div class="form-group">
+							<input class="form-control" type="number" ref="maximumCount" placeholder="Maximum Awardee">
+						</div>
+						<div class=" row form-group">
+							<div class="col-4"><label>Start Date</label></div>
+							<div class="col-8">
+							<input class="form-control" type="date" ref="startdate" placeholder="Programme End Date">
+						</div>
+						</div>
+						<div class=" row form-group">
+							<div class="col-4"><label>End Date</label></div>
+							<div class="col-8">
+							<input class="form-control" type="date" ref="enddate" placeholder="Programme End Date">
+						</div>
+						</div>
+						<button @click="createActivation()" class="btn btn-block btn-xs btn-primary">
+							<div>Create</div>
+
+						</button>
+					</div>
+				</div>
+				</div>
+				<!-- end table-responsive -->
+			</div>
+			<!-- end panel-body -->
+
+		</div>
+	</div>
+
+</div>
+
+
+<script src="/admin/assets/plugins/gritter/js/jquery.gritter.js"></script>
+<script
+	src="/admin/assets/plugins/bootstrap-sweetalert/sweetalert.min.js"></script>
+<script src="/admin/assets/js/demo/ui-modal-notification.demo.min.js"></script>
+<script src="/js/base64_coder.js"></script>
+
+
+<script>
+	function ckeditorData() {
+		// return console.log(CKEDITOR.instances.editor1.getData());
+	};
+	// var myDropzone = new Dropzone("form#dmilestoneUpload", { url: "/bbmin/trainingjson/uploadmilestoneResources"});
+
+
+
+
+	let manageTraining = new Vue({
+		el: "#manageTraining",
+		data: {
+			isProgrammeForm: false,
+			isTrainingForm: false,
+			isPostTraining: true,
+			isError: false,
+			errorMessage: "",
+
+
+			// Training
+			trainingId: "<?php echo $training->getId() ?>",
+			isTrainingSubmit: false,
+			isTrainingPublished: "<?php echo $training->getIsPublished() ?>",
+
+			isPublisingTraining: false,
+
+			// Programming
+			isProgrammingSubmit: false,
+			isGetProgrammes: false,
+			programmes: [],
+
+
+			// courses
+			isSubmitCourseForm: false,
+			isCourseForm: false,
+			activeCourseProgrammId: "",
+			activeCourseProgrameTitle: "",
+			viewCourseVideo: "",
+			viewCourseTitle: "",
+			isGetCourseVideo: false,
+
+
+			//milestones
+			isMilestoneForm: false,
+			trainingMilestones: [],
+			trainingMilestone: "", // indicate only one milestone
+			isCreatingMilestone: false,
+			milestoneCkeditor: "",
+			topicEditor: "",
+			descriptionEditor: '',
+
+
+			uploadActiveMilestone: '',
+			uploadActiveMilestoneTopic: '',
+
+
+
+
+			// resources
+			isViewingResouces: false,
+			uploadedImageResource: [],
+			isUploadingImage: false,
+
+
+			isViewmilestone: false,
+			viewTopicMilestone: '',
+			viewDescriptionMilestone: '',
+			viewContentMilestone: '',
+			isUploadingResources: false,
+
+			courseTitle: "",
+			courseUrl: "",
+			courseCode: ""
+
+		},
+
+		mounted() {
+			this.getProgrammes();
+			this.getMilestones();
+		},
+		methods: {
+
+			getProgrammes() {
+				this.isGetProgrammes = true;
+				axios.get("/bbmin/trainingjson/getprogrammes").then(response => {
+					if (response.status == 200) {
+						this.programmes = response.data.programmes
+						this.isGetProgrammes = false;
+					}
+				});
+			},
+
+
+
+			createProgramme() {
+
+				if (this.$refs.programmesTopic.value == "" || this.$refs.programmesDescription.value == "") {
+					// show validation error
+
+				} else {
+					this.isProgrammingSubmit = true;
+					let formData = new FormData();
+					formData.append("title", this.$refs.programmesTopic.value);
+					formData.append("description", this.$refs.programmesDescription.value);
+					axios.post("/bbmin/trainingjson/createprogram", formData).then(response => {
+						if (response.status == 201) {
+							this.isProgrammingSubmit = false;
+							this.getProgrammes();
+
+						}
+
+					});
+				}
+
+			},
+
+			editProgrammes() {
+
+			},
+
+			showProgramForm() {
+
+				this.isProgrammeForm = !this.isProgrammeForm;
+				this.isCourseForm = false;
+				this.isTrainingForm = false;
+				this.isMilestoneForm = false;
+			},
+
+			/**
+			 * MilestoneForm visibility logic
+			 */
+			showMilestoneForm() {
+				this.isTrainingForm = false;
+				this.isCourseForm = false;
+				this.isProgrammeForm = false;
+				this.isMilestoneForm = !this.isMilestoneForm;
+			},
+
+			// Training Begins
+			showTrainingForm() {
+
+				this.isTrainingForm = !this.isTrainingForm;
+				this.isCourseForm = false;
+				this.isProgrammeForm = false;
+				this.isMilestoneForm = false
+			},
+
+			showCourseForm(programeId, programeTitle) {
+				this.isCourseForm = true;
+				this.activeCourseProgrammId = programeId;
+				this.activeCourseProgrameTitle = programeTitle;
+				this.isTrainingForm = false;
+				this.isProgrammeForm = false;
+				this.isMilestoneForm = false;
+			},
+
+			destroyTraining() {
+				// destroys the instance of the training
+			},
+			updateImage() {
+				// updates the training Image
+			},
+			viewTrainingImage() {
+				// gets the trainng Image
+			},
+
+			submitTraining() {
+				if (this.$refs.trainingTopic.value != "" && this.$refs.trainingDescription.value != "") {
+					this.isTrainingSubmit = true;
+					let formData = new FormData();
+					formData.append("topic", this.$refs.trainingTopic.value);
+					formData.append("desc", this.$refs.trainingDescription.value);
+					formData.append("points", this.$refs.trainingPoint.value);
+					axios.post("/bbmin/trainingjson/update-training", formData).then(response => {
+						if (response.status == 201) {
+							location.reload();
+						} else {
+
+						}
+
+					}).catch()
+				}
+			},
+
+			// Begin Course function
+
+			getCourses() {
+
+			},
+
+
+			createCourse() {
+				if (this.courseUrl == "" || this.courseTitle == "") {
+					this.errorMessage = "One of the form is required"
+				} else {
+					this.isSubmitCourseForm = true;
+					let formData = new FormData();
+					formData.append("code", this.$refs.courseCode.value);
+					formData.append("video", this.$refs.courseUrl.value);
+					formData.append("title", this.$refs.courseTitle.value);
+					formData.append("pid", this.activeCourseProgrammId);
+					axios.post("/bbmin/trainingjson/create-course", formData).then(response => {
+						if (response.status == 201) {
+							this.isCourseForm = false;
+							this.getProgrammes();
+							this.courseTitle = "";
+							this.courseCode = "";
+							this.courseUrl = "";
+
+							this.isSubmitCourseForm = false;
+
+						} else {
+
+						}
+
+					}).catch()
+				}
+			},
+
+
+			/**
+			 * Creates an activation functionality
+			 */
+			createActivation(){
+				if(this.$refs.startdate.value == "" || this.$refs.maximumCount.value == "" || this.$refs.enddate.value == ""){
+					swal({
+						title: "Error",
+						text: "One of the required fields is empty",
+						icon: "error",
+						button: "YES"
+					})
+				}else{
+					let formData = new FormData();
+					formData.append("maximumCount", this.$refs.maximumCount.value);
+					formData.append("trainingId", this.trainingId);
+					formData.append("startdate", this.$refs.startdate.value);
+					formData.append("enddate", this.$refs.enddate.value)
+					axios.post("/bbmin/trainingjson/create-training-activation", formData).then(res=>{
+						if(res.status == 201){
+							window.location.reload();
+						}
+					}).catch(err=>{
+
+					});
+				}
+			},
+
+			deactivateActivation(id){
+				let formData = new FormData();
+
+				formData.append("activationId", id);
+				axios.post("/bbmin/trainingjson/deactivate-activation", formData).then(res=>{
+					if(res.status == 204){
+						window.location.reload();
+					}
+				}).catch(err=>{
+
+				});
+			},
+
+			preremoveCourse() {
+
+			},
+			removeCourse() {
+
+			},
+			editCourse() {
+
+			},
+			viewCourse: function(uid) {
+				this.viewCourseVideo = "";
+				this.viewCourseTitle = "";
+				this.isGetCourseVideo = false;
+				axios.get("/bbmin/trainingjson/viewcourse/" + uid).then(response => {
+					if (response.status == 200) {
+						this.isGetCourseVideo = true;
+						this.viewCourseVideo = response.data.course;
+						this.viewCourseTitle = response.data.title;
+					}
+				});
+			},
+
+			publishTraining(pstate) {
+				this.isPublisingTraining = true;
+				let formData = new FormData();
+				formData.append("trainingId", this.trainingId);
+				formData.append("state", pstate);
+				axios.post("/bbmin/trainingjson/publishtraining", formData).then(res => {
+					if (res.status == 201) {
+						window.location.reload();
+					}
+				}).catch(err => {
+					swal({
+						title: "Error",
+						text: err.response.data.messages,
+						icon: "error",
+						button: "YES"
+					})
+				})
+
+			},
+
+			/**
+			 * This gets available Milestones
+			 */
+			getMilestones() {
+				axios.get("/bbmin/trainingjson/getmilestones/" + this.trainingId).then(res => {
+					if (res.status == 200) {
+						this.trainingMilestones = res.data.data;
+					}
+				}).catch();
+			},
+
+			postMilestone(id) {
+				// usedd to create new Milestone or edit old one
+				if (id) {
+					// call edit
+				} else {
+					this.milestoneCkeditor = Base64.encode(CKEDITOR.instances.editor1.getData());
+					console.log(this.milestoneCkeditor);
+					if (this.milestoneCkeditor == '' || this.$refs.milestoneTopic.value == '' || this.$refs.milestoneDesc.value == "" || this.trainingId == "") {
+
+						swal({
+							title: "Error",
+							text: "Incomplete form",
+							icon: "error",
+							button: "YES"
+						})
+					} else {
+						this.isCreatingMilestone = true;
+						let formData = new FormData();
+						formData.append("content", this.milestoneCkeditor);
+						formData.append("topic", this.$refs.milestoneTopic.value);
+						formData.append("desc", this.$refs.milestoneDesc.value);
+						formData.append("trainingid", this.trainingId);
+						axios.post("/bbmin/trainingjson/postmilestone", formData).then(res => {
+							if (res.status == 201) {
+								this.isCreatingMilestone = false;
+								window.location.reload();
+							}
+						}).catch(err => {
+
+						})
+					}
+				}
+			},
+
+
+			editMilestone(id) {
+				axios.get("/bbmin/trainingjson/getmilestonebyid/" + id).then(res => {
+					if (res.status == 200) {
+						this.milestoneCkeditor = CKEDITOR.instances.editor1.setData(Base64.decode(res.data.data.content));
+						this.descriptionEditor = res.data.data.descriptions;
+						this.topicEditor = res.data.data.topic;
+					}
+				}).catch()
+			},
+
+			viewMilestone(id) {
+
+				axios.get("/bbmin/trainingjson/getmilestonebyid/" + id).then(res => {
+					if (res.status == 200) {
+						// let data = res.data.data;
+						// console.log(this.trainingMilestone);
+						this.isViewmilestone = true;
+						this.viewContentMilestone = Base64.decode(res.data.data.content);
+						this.viewTopicMilestone = res.data.data.topic;
+						// this.viewDescriptionMilestone = data.descriptions;
+					}
+				}).catch()
+
+				// console.log(id);
+
+
+			},
+
+			getMilestone(id) {
+				axios.get("/bbmin/trainingjson/getmilestonebyid/" + id).then(res => {
+					if (res.status == 200) {
+						this.trainingMilestone = res.data.data;
+						// console.log(this.trainingMilestone);
+						return this.trainingMilestone;
+					}
+				}).catch()
+			},
+
+			uploadImage() {
+				if (this.$refs.productName.value == '' || this.$refs.productFile.files[0] == '') {
+					swal({
+						title: "ERROR",
+						text: "Missing input field",
+						icon: "error",
+						button: "OK!"
+					})
+
+				} else {
+					this.isUploadingImage = true;
+					let formData = new FormData();
+					formData.append("document", this.$refs.productFile.files[0]);
+					formData.append("name", this.$refs.productName.value);
+					axios.post("/bbmin/trainingjson/uploadmilestoneresources", formData, {
+						headers: {
+							"Content-Type": "multipart/form-data"
+						}
+					}).then(response => {
+						if (response.status == 201) {
+							this.isUploadingImage = false;
+							this.$refs.productFile.value = "";
+							this.$refs.productName.value = "";
+							// this.getImages();
+						}
+					}).catch(err => {
+
+						swal({
+							title: "ERROR",
+							text: err.response.data.message,
+							icon: "error",
+							button: "OK!"
+						}).then(res => {
+							this.getImages();
+							this.$refs.productFile.value = "";
+						});
+
+					});
+				}
+			},
+
+
+			getImages() {
+				this.uploadedImageResource;
+			},
+
+			initiatiateActiveUplaodMiletsoneRsource(id, topic) {
+				this.isUploadingResources = false;
+				let formData = new FormData();
+				// this.uploadActiveMilestone = id;
+				this.uploadActiveMilestoneTopic = topic;
+				formData.append("id", id);
+				formData.append("topic", topic);
+				axios.post("/bbmin/trainingjson/initiateuploadsession", formData).then(res => {
+					if (res.status == 202) {
+						this.isUploadingResources = true;
+						// this.uploadActiveMilestoneTopic = topic;
+					}
+				}).catch(err => {
+
+				});
+			},
+
+
+			viewUploadedResources(idf) {
+				this.isViewingResouces = true;
+				axios.get("/bbmin/trainingjson/get-milestone-resource/" + idf).then(res => {
+					if (res.status == 200) {
+
+						this.isViewingResouces = false;
+						this.uploadedImageResource = res.data.data;
+						// console.log(this.uploadedImageResource);
+					}
+				}).catch(err => {
+
+				});
+			},
+
+
+			removeResourceFromMilestone(idf, mile){
+				this.isViewingResouces = true;
+				let formData = new FormData();
+				formData.append("id", idf);
+				axios.post("/bbmin/trainingjson/remove-milestone-resouce/", formData).then(res=>{
+					if(res.status == 202){
+						this.viewUploadedResources(mile);
+					}
+				}).catch(err=>{
+
+				});
+			}
+
+
+		},
+
+
+
+
+
+
+	});
+</script>

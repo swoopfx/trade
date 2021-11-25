@@ -1,0 +1,58 @@
+<?php
+echo $this->headtitle("All Training");
+
+?>
+
+<div class="slim-mainpanel">
+	<div class="container">
+		<div class="slim-pageheader">
+			<ol class="breadcrumb slim-breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Home</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Training</li>
+			</ol>
+			<h6 class="slim-pagetitle">All Training</h6>
+		</div>
+		<!-- slim-pageheader -->
+<?php  if(count($trainings)> 0 ):?>
+		<div class="card-columns mg-t-20">
+		<?php foreach ($trainings as $training):?>
+
+			<div class="card card-blog">
+				<figure class="card-item-img bg-mantle">
+					<img class="img-fluid"
+						src="<?php echo $this->imageHelper($training["image"]);?>"
+						alt="Image">
+				</figure>
+				<div class="card-body">
+					<p class="blog-category"><?php  echo strtoupper($training["trainingUid"])?></p>
+					<h5 class="blog-title">
+						<a href=""><?php  echo ($training["trainingTopic"])?></a>
+					</h5>
+					<p class="blog-text"><?php echo ( $training["trainingDescription"] != NULL ? substr($this->escapehtml($training["trainingDescription"]), 0, 100)."..." : "") ?></p>
+					<p class="blog-links">
+						<a
+							href="<?php  echo $this->url("training/default", array("action"=>"view", "id"=>$training["trainingUid"]))?>"
+							class="btn btn-indigo btn-block">View</a>
+					</p>
+				</div>
+				<!-- card-body -->
+			</div>
+			<!-- card -->
+<?php endforeach; ?>
+
+
+		</div>
+		
+		<?php echo $this->paginationcontrol($trainings, "sliding", "training_footer_pagination_control")?>
+		
+		<?php  endif; ?>
+		
+
+				
+
+
+
+	</div>
+	<!-- container -->
+</div>
+<!-- slim-mainpanel -->

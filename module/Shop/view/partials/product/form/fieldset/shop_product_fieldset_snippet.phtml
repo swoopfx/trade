@@ -1,0 +1,16 @@
+<?php
+
+?>
+
+<div class="form-group row m-b-10">
+	<?php echo $this->formlabel($fieldset->get("sku"), "<span class='text-danger'>*</span>", "prepend"); ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormText($fieldset->get("sku")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($fieldset->get("sku")); ?>
+			<div v-if="skuError">SKU already exist</div>
+		</div>
+	</div>
+</div>
+
+<?php echo $this->partial("shop_product_description_fieldset", array("dfieldset" => $fieldset->get("productDescription"))) ?>

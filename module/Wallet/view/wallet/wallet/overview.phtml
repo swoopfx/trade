@@ -1,0 +1,163 @@
+<?php
+echo $this->headTitle("Wallet");
+
+?>
+<div id="wasabi"></div>
+
+<div class="row top_tiles">
+	<div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+		<div class="tile-stats">
+			<!--                   <div class="icon"><i class="fa fa-caret-square-o-right"></i></div> -->
+			<div class="count"><?php  echo $this->myCurrencyFormat($balance)?></div>
+			<h3>Available Balance</h3>
+			<!--                   <p>Lorem ipsum psdea itgum rixt.</p> -->
+		</div>
+	</div>
+	<div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+		<div class="tile-stats">
+			<!--                   <div class="icon"><i class="fa fa-comments-o"></i></div> -->
+			<div class="count"><?php  echo $this->myCurrencyFormat($bookBalance)?></div>
+			<h3>Book Balance</h3>
+			<!--                   <p>Lorem ipsum psdea itgum rixt.</p> -->
+		</div>
+	</div>
+	<div class="animated flipInY col-lg-4 col-md-4 col-sm-6 col-xs-12">
+		<div class="tile-stats">
+			<!--                   <div class="icon"><i class="fa fa-sort-amount-desc"></i></div> -->
+			<div class="count"><?php  echo $this->myCurrencyFormat($lastwithdrawal)?></div>
+			<h3>Last withrawal</h3>
+			<!--                   <p>Lorem ipsum psdea itgum rixt.</p> -->
+		</div>
+	</div>
+	<!--               <div class="animated flipInY col-lg-3 col-md-3 col-sm-6 col-xs-12"> -->
+	<!--                 <div class="tile-stats"> -->
+	<!--                   <div class="icon"><i class="fa fa-check-square-o"></i></div> -->
+	<!--                   <div class="count">179</div> -->
+	<!--                   <h3>New Sign ups</h3> -->
+	<!--                   <p>Lorem ipsum psdea itgum rixt.</p> -->
+	<!--                 </div> -->
+	<!--               </div> -->
+</div>
+
+
+
+
+<div class="row">
+	<div class="col-md-12">
+		<div class="x_panel">
+			<div class="x_title">
+				<h2>
+					Transaction Summary <small>Weekly progress</small>
+				</h2>
+				<div class="filter"></div>
+				<div class="clearfix"></div>
+			</div>
+			<div class="x_content">
+				<div class="col-md-9 col-sm-12 col-xs-12">
+					<div class="demo-container" style="height: 280px">
+						<div id="placeholder33x" class="demo-placeholder"></div>
+					</div>
+
+
+				</div>
+
+				<div class="col-md-3 col-sm-12 col-xs-12">
+					<div>
+						<div class="x_title">
+							<h2>Transaction History</h2>
+
+							<div class="clearfix"></div>
+						</div>
+						<div style='text-align: center;'>
+							<i id='loading' class='fa fa-lg'
+								style='display: none; text-align: center;'><img alt=''
+								src='<?php echo  $this->basePath('/processin.gif')  ?>'
+								height=30>
+								<hr></i>
+							<div id="spread"></div>
+						</div>
+						<div id="transaction"></div>
+					</div>
+				</div>
+
+			</div>
+		</div>
+	</div>
+</div>
+
+
+
+
+
+<div class="row">
+	<div style='text-align: center;'>
+		<i id='walletbutton' class='fa fa-lg'
+			style='display: none; text-align: center;'><img alt=''
+			src='<?php echo  $this->basePath('/processin.gif')  ?>' height=20>
+			<hr></i>
+	</div>
+	<div class="col-md-3 col-xs-12">
+		<a data-ajax-loader="walletbutton" class="btn btn-app ajax_element"
+			id="btn2"
+			data-href="<?php  echo $this->url("wallet/default", array("action"=>"withdrawfundsmodal"))?>"
+			style="width: 100%"><i class="fa fa-download"></i>Withdraw Funds</a>
+	</div>
+
+	<div class="col-md-3 col-xs-12">
+		<a data-ajax-loader="walletbutton" class="btn btn-app ajax_element" id="btn2"
+			data-href="<?php  echo $this->url("wallet/default", array("action"=>"addfundsmodal"))?>"
+			style="width: 100%"><i class="fa fa-upload"></i>Add Funds</a>
+	</div>
+
+	<div class="col-md-3 col-xs-12">
+		<a  data-ajax-loader="walletbutton" class="btn btn-app"
+			href="<?php  echo $this->url("wallet/default", array("action"=>"fulltransaction"));?>"
+			style="width: 100%"><i class="fa fa-google-wallet"></i>Wallet
+			Transaction</a>
+	</div>
+	<?php  if($passcode == NULL){?>
+	<div data-ajax-loader="walletbutton" class="col-md-3 col-xs-12">
+		<a class="btn btn-app ajax_element" id="btn2"
+			data-href="<?php  echo $this->url("wallet/default", array("action"=>"passcodecreate"))?>"
+			style="width: 100%"><i class="fa fa-key"></i>Create Wallet Passcode</a>
+	</div>
+	<?php }else{?>
+	<div class="col-md-3 col-xs-12">
+		<a data-ajax-loader="walletbutton" class="btn btn-app ajax_element" id="btn2"
+			data-href="<?php  echo $this->url("wallet/default", array("action"=>"changepasscode"))?>"
+			style="width: 100%"><i class="fa fa-key"></i> Change Wallet Passcode</a>
+	</div>
+	<?php }?>
+	
+</div>
+
+
+<script>
+              function getTransaction(){
+            	  $.ajax({
+            			 type:"POST",
+//             			 data:{
+//             				 "service":$("#country").val(),
+//             			 },
+            			 url:"/wallet/transactionajax",
+            			 dataType:"html",
+            			 beforeSend:function(){
+            				 $("#loading").show();
+            				 },
+            			 success: function(data, status){
+            				 $("#transaction").html(data);
+            				 },
+            			 error:function(){
+            				 alert("We could not reterieve transactions");
+            				 },
+            				 complete:function(){
+            					 $("#loading").hide();
+            					 }
+            				 
+            			 
+            			 });
+              }
+              $(document).ready(function(){
+            	  getTransaction()
+                  })
+              </script>

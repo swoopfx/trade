@@ -1,0 +1,265 @@
+<?php
+echo $this->headtitle("View Product");
+// var_dump($data['image']["imageUrl"]);
+?>
+
+<div id="viewp" class="slim-mainpanel">
+	<div class="container">
+
+		<!-- slim-pageheader -->
+
+		<div class="row row-sm">
+			<div class="col-lg-8">
+
+				<!-- card -->
+
+
+				<!-- nav -->
+
+				<div class="card card-latest-activity mg-t-20">
+					<div class="card-body">
+
+						<!-- media -->
+
+
+
+						<div class="row no-gutters">
+							<div class="col-md-4">
+								<a href=""><img src="<?php echo $data['image']["imageUrl"] ?>" class="img-fit-cover" alt=""></a>
+							</div>
+							<!-- col-4 -->
+							<div class="col-md-8">
+								<div class="post-wrapper">
+									<a href="" class="activity-title"><?php echo $data["name"] ?></a>
+
+									<p class="mg-b-0">
+										<a href="" class="d-block">Charmaine Montuya</a> <span> {{hey}}
+											&amp; Entrepreneur</span>
+									</p>
+								</div>
+								<!-- post-wrapper -->
+							</div>
+							<!-- col-8 -->
+						</div>
+						<!-- row -->
+
+					</div>
+					<!-- card-body -->
+					<div class="card-footer">
+						<a href="">Comment</a> <a href="">Likes</a> <a href="">Share</a>
+					</div>
+					<!-- card-footer -->
+				</div>
+				<!-- card -->
+
+				<div class="card card-experience mg-t-20">
+					<div class="card-body">
+						<div class="slim-card-title">Product Information</div>
+						<div class="media">
+							<div class="experience-logo">
+								<i class="icon ion-briefcase"></i>
+							</div>
+							<!-- experience-logo -->
+							<div class="media-body">
+								<h6 class="position-name"> Product Longitude: <?php echo $data["lon"] ?></h6>
+								<p class="position-company">Product Latitude <?php echo $data["lat"] ?></p>
+								<p class="position-year">
+									Product Address: <?php echo $data["address"] ?>
+								</p>
+							</div>
+							<!-- media-body -->
+						</div>
+						<!-- media -->
+					</div>
+					<!-- card-body -->
+					<div class="card-footer">
+						<a href="">Show more<span class="d-none d-sm-inline"> experiences
+								(4)</span> <i class="fa fa-angle-down"></i></a> <a href="">Add
+							new</a>
+					</div>
+					<!-- card-footer -->
+				</div>
+				<!-- card -->
+
+				<div class="card card-recommendation mg-t-20">
+					<div class="card-body pd-25">
+						<div class="slim-card-title">Comments</div>
+
+						<!-- media -->
+
+
+						<div class="section-wrapper">
+
+
+							<div class="row">
+
+								<div class="col-lg">
+									<textarea ref="comment" rows="3" class="form-control" placeholder="Enter a comments"></textarea>
+								</div>
+
+							</div>
+							<button @click="postComment()" class="btn btn-block"> Submit</button>
+							<!-- row -->
+
+
+							<!-- row -->
+						</div>
+						<!-- section-wrapper -->
+					</div>
+					<!-- card-body -->
+
+					<div v-if="comments.length" class="card-footer pd-y-12 pd-x-25 bd-t bd-gray-300">
+						<div v-for="item in comments" :key="item.id">
+							<b>{{ item.user.fullname  }} Said :</b> {{item.comment}}
+							<hr>
+						</div>
+					</div>
+					<!-- card-footer -->
+				</div>
+			</div>
+			<!-- col-8 -->
+
+			<div class="col-lg-4 mg-t-20 mg-lg-t-0">
+
+
+
+				<div class="card pd-25 mg-t-20">
+					<div class="slim-card-title">User &amp; Info</div>
+
+					<div class="media-list mg-t-25">
+						<div class="media">
+							<div>
+								<i class="icon ion-link tx-24 lh-0"></i>
+							</div>
+							<!-- 							<div class="media-body mg-l-15 mg-t-4"> -->
+							<!-- 								<h6 class="tx-14 tx-gray-700">Websites</h6> -->
+							<!-- 								<a href="" class="d-block">http://themepixels.me</a> <a href="" -->
+							<!-- 									class="d-block">http://themeforest.net</a> -->
+							<!-- 							</div> -->
+							<!-- media-body -->
+						</div>
+						<!-- media -->
+						<div class="media mg-t-25">
+							<div>
+								<i class="icon ion-ios-telephone-outline tx-24 lh-0"></i>
+							</div>
+							<div class="media-body mg-l-15 mg-t-4">
+								<h6 class="tx-14 tx-gray-700">Phone Number</h6>
+								<span class="d-block"><?php echo $data["user"]["username"] ?></span>
+							</div>
+							<!-- media-body -->
+						</div>
+						<!-- media -->
+						<div class="media mg-t-25">
+							<div>
+								<i class="icon ion-ios-email-outline tx-24 lh-0"></i>
+							</div>
+							<div class="media-body mg-l-15 mg-t-4">
+								<h6 class="tx-14 tx-gray-700">Email Address</h6>
+								<span class="d-block"><?php echo $data["user"]["email"] ?></span>
+							</div>
+							<!-- media-body -->
+						</div>
+						<!-- media -->
+						<div class="media mg-t-25">
+							<div>
+								<i class="icon ion-social-twitter tx-18 lh-0"></i>
+							</div>
+							<div class="media-body mg-l-15 mg-t-2">
+								<h6 class="tx-14 tx-gray-700">Address</h6>
+								<a href="#" class="d-block"><?php echo $data["user"]["address"] ?></a>
+							</div>
+
+							<!-- media-body -->
+						</div>
+
+						<div class="media mg-t-25">
+							<div>
+								<i class="icon ion-social-twitter tx-18 lh-0"></i>
+							</div>
+
+							<div class="media-body mg-l-15 mg-t-2">
+								<h6 class="tx-14 tx-gray-700">longitude</h6>
+								<a href="#" class="d-block"><?php echo $data["user"]["addresLongitude"] ?></a>
+							</div>
+
+							<!-- media-body -->
+						</div>
+
+						<div class="media mg-t-25">
+							<div>
+								<i class="icon ion-social-twitter tx-18 lh-0"></i>
+							</div>
+
+
+							<div class="media-body mg-l-15 mg-t-2">
+								<h6 class="tx-14 tx-gray-700">Latitude</h6>
+								<a href="#" class="d-block"><?php echo $data["user"]["addressLatitude"] ?></a>
+							</div>
+							<!-- media-body -->
+						</div>
+						<!-- media -->
+					</div>
+					<!-- media-list -->
+				</div>
+				<!-- card -->
+			</div>
+			<!-- col-4 -->
+		</div>
+		<!-- row -->
+
+	</div>
+	<!-- container -->
+</div>
+<!-- slim-mainpanel -->
+
+<script>
+	let viewp = new Vue({
+		el: "#viewp",
+		data() {
+			return {
+				hey: "LI",
+				product: '<?php echo $data["id"] ?>',
+				comments:[]
+			}
+		},
+		mounted () {
+			this.getComments();
+		},
+		methods: {
+			getComments() {
+				axios.get("/np/comment/"+this.product).then(res=>{
+					if(res.status == 200){
+						this.comments = res.data.data;
+					}
+				}).catch();
+			},
+			postComment() {
+				if (this.$refs.comment.value == "") {
+					swal({
+								title: "Errr",
+								text: "Comment Cannot be empty",
+								icon: "error",
+								button: "Back",
+							});
+				} else {
+					let formData = new FormData();
+					formData.append("comment", this.$refs.comment.value);
+					formData.append("product", this.product);
+					axios.post("/np/createcomment", formData).then(res => {
+						if (res.status = 201) {
+							this.getComments();
+							this.$refs.comment.value = "";
+							swal({
+								title: "Great",
+								text: "Comment Sent,",
+								icon: "success",
+								button: "Back",
+							});
+						}
+					}).catch();
+				}
+			}
+		},
+	});
+</script>

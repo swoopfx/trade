@@ -1,0 +1,267 @@
+<?php
+echo $this->headtitle("Training Information, ".$training->getTrainingTopic());
+echo $this->headmeta($training->getTrainingDescription());
+$uid = $training->getTrainingUid();
+?>
+
+<div id="wasabi"></div>
+
+<div class="slim-mainpanel" id="viewTraining">
+	<div class="container">
+		<div class="slim-pageheader">
+			<ol class="breadcrumb slim-breadcrumb">
+				<li class="breadcrumb-item"><a href="#">Home</a></li>
+				<li class="breadcrumb-item"><a href="#">Pages</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Training</li>
+			</ol>
+			<h6 class="slim-pagetitle"><?php echo ($training->getTrainingTopic() == NULL ?  "" : $this->escapehtml($training->getTrainingTopic())) ?></h6>
+		</div>
+		<!-- slim-pageheader -->
+
+		<div class="row row-sm">
+			<div class="col-lg-8">
+				<div class="card card-profile">
+					<div class="card-body">
+						<div class="media">
+							<img src="<?php echo  $training->getImage()->getThumbnail() ?>"
+								alt="">
+							<div class="media-body">
+								<h3 class="card-profile-name"><?php echo ($training->getTrainingTopic() == NULL ?  "" : $this->escapehtml($training->getTrainingTopic())) ?></h3>
+								<p class="card-profile-position">
+									Created at <a><?php echo $this->dateformat($training->getCreatedOn(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE) ?></a>
+								</p>
+								<!--                     <p>San Francisco, California</p> -->
+
+								<p class="mg-b-0"><?php // echo ($training->getTrainingDescription() != NULL ? $this->escapehtml(substr($training->getTrainingDescription(), 0, 200)) : "") ?></p>
+								<p class="mg-b-0"><?php echo ($training->getTrainingDescription() != NULL ? $this->escapehtml($training->getTrainingDescription()) : "") ?>...</p>
+
+								<hr>
+								<div class="row">
+									<div class="col-lg-12">
+
+										<div class="dash-content">
+											<label class="tx-purple">Reward Points</label>
+											<h2><?php echo $this->myCurrencyHelper($training->getTrainingPoints()) ?></h2>
+										</div>
+										<!-- dash-content -->
+									</div>
+									<!-- col-3 -->
+								</div>
+							</div>
+							<!-- media-body -->
+						</div>
+						<!-- media -->
+					</div>
+					<!-- card-body -->
+					<div class="card-footer">
+						<a href="" class="card-profile-direct"></a>
+						<div class="">
+							<a href=""></a>
+						</div>
+					</div>
+					<!-- card-footer -->
+				</div>
+				<!-- card -->
+
+				<ul class="nav nav-activity-profile mg-t-20">
+					<li class="nav-item"><a
+						href="https://www.facebook.com/sharer/sharer.php?u=<?php echo $this->url('training/default', ['action'=>"view", 'id'=>$training->getTrainingUid()], ['force_canonical' => true])?>&t=<?php  echo $training->getTrainingTopic()?>"
+						onclick="javascript:window.open(this.href, '', 'menubar=no,toolbar=no,resizable=yes,scrollbars=yes,height=300,width=600');return false;"
+						target="_blank" title="Share on Facebook"
+						class="nav-link btn btn-purple"><i
+							class="icon ion-ios-redo tx-purple"></i> Share on Facebook</a></li>
+					<li class="nav-item"><a href="<?php  echo $this->url("training/default", ['action'=>"all"])?>" class="nav-link btn btn-blue"><i
+							class="icon ion-document-text tx-success"></i> View All Training</a></li>
+					<?php if($user = $this->identity()):?>
+					<li class="nav-item" style="background-color: #FF0000;"><a
+						v-if="isUserTraining"
+						href="<?php echo $this->url("classroom", ["trainingUid" => $training->getTrainingUid()]) ?>"
+						class="btn btn-indigo active btn-block mg-b-10"> View Training</a>
+						<a
+						v-else @click="enroll('<?php echo $training->getTrainingUid(); ?>')"
+						class="btn btn-indigo active btn-block mg-b-10">
+
+							<div v-if="loadingEnrollment" class="sk-circle1 sk-child">...Enrolling</div>
+
+							<div v-else>ENROLL</div>
+
+					</a></li>
+					<?php endif;?>
+				</ul>
+				<!-- nav -->
+
+				<?php if (count($training->getProgrammes()) > 0) : ?>
+					<div class="section-wrapper mg-t-20">
+					<label class="section-title">Programmes</label>
+					<p class="mg-b-20 mg-sm-b-40">A list of programmes associated to
+						this training</p>
+					<div class="card-body">
+
+							<?php
+        
+        foreach ($training->getProgrammes() as $programme) :
+            $programmeId = $programme->getId();
+            $data = json_encode([
+                'data' => $programmeId
+            ]);
+            ?>
+
+								<div class="list-group">
+							<div class="list-group-item d-block pd-y-20">
+								<div
+									class="d-flex justify-content-between align-items-center tx-12 mg-b-10">
+									<a id="sending_data_button" data-json='<?php echo $data; ?>'
+										data-href="<?php echo $this->url("trainingjson/default", array("action" => "getcourse")) ?>"
+										class="btn ajax_element tx-info"><?php echo strtoupper($programme->getProgrammesUid()) ?></a>
+									<span><?php echo $this->dateFormat($programme->getCreatedOn(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE); ?></span>
+								</div>
+								<!-- d-flex -->
+								<h6 class="lh-3 mg-b-10">
+									<a id="sending_data_button" data-json='<?php echo $data; ?>'
+										data-href="<?php echo $this->url("trainingjson/default", array("action" => "getcourse")) ?>"
+										class="btn ajax_element  tx-inverse hover-primary"><?php echo ($programme->getTitle() != NULL ? $this->escapehtml($programme->getTitle()) : "") ?></a>
+								</h6>
+								<p class="tx-13 mg-b-0"><?php echo ($programme->getDescription() != NULL ? $this->escapehtml($programme->getDescription()) : "") ?></p>
+							</div>
+
+
+						</div>
+							<?php endforeach; ?>
+							<!-- list-group -->
+
+					</div>
+					<!-- card-body -->
+					<div class="card-footer">
+						<?php if ($user = $this->identity()):?>
+							<a v-if="isUserTraining"
+							href="<?php echo $this->url("classroom", ["trainingUid" => $training->getTrainingUid()]) ?>"
+							class="btn btn-indigo active btn-block mg-b-10"> View Training</a>
+						<a
+							v-else @click="enroll('<?php echo $training->getTrainingUid(); ?>')"
+							class="btn btn-indigo active btn-block mg-b-10">
+
+							<div v-if="loadingEnrollment" class="sk-circle1 sk-child">...Enrolling</div>
+
+							<div v-else>ENROLL</div>
+
+						</a>
+							<?php endif;?>
+						</div>
+					<!-- card-footer -->
+				</div>
+				<?php endif; ?>
+
+
+
+			</div>
+			<!-- col-8 -->
+
+			<div class="col-lg-4 mg-t-20 mg-lg-t-0">
+				<div class="card card-connection">
+					<div class="row row-xs" v-if="loadedTrainingCount">
+						<div class="col-4 tx-primary">{{trainingCount}}</div>
+						<div class="col-8">Total Training</div>
+					</div>
+					<div v-else>
+						<div class="sk-circle">
+							<div class="sk-circle1 sk-child"></div>
+							<div class="sk-circle2 sk-child"></div>
+							<div class="sk-circle3 sk-child"></div>
+							<div class="sk-circle4 sk-child"></div>
+							<div class="sk-circle5 sk-child"></div>
+							<div class="sk-circle6 sk-child"></div>
+							<div class="sk-circle7 sk-child"></div>
+							<div class="sk-circle8 sk-child"></div>
+							<div class="sk-circle9 sk-child"></div>
+							<div class="sk-circle10 sk-child"></div>
+							<div class="sk-circle11 sk-child"></div>
+							<div class="sk-circle12 sk-child"></div>
+						</div>
+					</div>
+					<!-- row -->
+					<hr>
+
+				</div>
+				<!-- card -->
+
+				<div style="background-image: url('/img/womentech.jpg');"
+					class="card card-people-list mg-t-20"></div>
+				<!-- card -->
+
+
+
+			</div>
+			<!-- col-4 -->
+		</div>
+		<!-- row -->
+
+	</div>
+	<!-- container -->
+</div>
+<!-- slim-mainpanel -->
+
+
+
+<script>
+	var viewTraining = new Vue({
+		el: "#viewTraining",
+		data() {
+			return {
+
+				trainingCount: 0,
+				loadedTrainingCount: false,
+
+				loadingEnrollment: false,
+
+				isUserTraining: false,
+
+				trainingUid: "<?= $uid ?>"
+			}
+		},
+		mounted() {
+			this.getTrainingCount();
+			this.getUserTraining();
+		},
+		computed: {
+			disabled() {
+				if (this.loadingEnrollment) {
+					return "disabled"
+				}
+			},
+
+
+
+
+		},
+		methods: {
+			getCourses: function() {
+
+			},
+			enroll: function(trainingId) {
+				this.loadingEnrollment = true;
+				axios.get("/classroom/" + trainingId + "/enroll").then(response => {
+					if (response.status == 201) {
+						// redirect to the url provided
+						window.location.href = "/classroom/" + trainingId;
+					}
+				});
+
+			},
+			getTrainingCount: function() {
+				axios.get("/trainingjson/count-total-training").then(response => {
+					this.trainingCount = response.data.count,
+						this.loadedTrainingCount = true
+				})
+			},
+
+			getUserTraining() {
+				axios.get("/trainingjson/usertraining/" + this.trainingUid).then(res => {
+					if (res.status == 200) {
+						this.isUserTraining = res.data.data;
+					}
+				});
+			}
+		},
+
+	});
+</script>

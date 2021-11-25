@@ -1,0 +1,16 @@
+<?php
+if($this->pageCount() > 1):
+?>
+
+<div>
+                                <ul class="pagination pagination-lg m-t-0 m-b-5">
+                                    <li class="page-item disabled"><a href="<?php  //echo $this->url("bbmincustomer/default", array("action"=>"all", "page"=>))?>" class="page-link">«</a></li>
+                                    <li class="page-item active"><a href="javascript:;" class="page-link">1</a></li>
+                                    <li class="page-item"><a href="javascript:;" class="page-link">2</a></li>
+                                    <li class="page-item"><a href="javascript:;" class="page-link">3</a></li>
+                                    <li class="page-item"><a href="javascript:;" class="page-link">4</a></li>
+                                    <li class="page-item"><a href="javascript:;" class="page-link">5</a></li>
+                                    <li class="page-item"><a href="javascript:;" class="page-link">»</a></li>
+                                </ul>
+                            </div>
+                            <?php endif;?>

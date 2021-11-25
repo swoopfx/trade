@@ -1,0 +1,33 @@
+<?php
+
+?>
+
+<div class="form-group">
+
+<?php echo $this->formLabel($form->get('passcode'))?>
+								
+								<div class="col-md-6 col-sm-6 col-xs-12">
+								<?php echo $this->formElement($form->get('passcode'));?>
+									
+								</div>
+	<i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top"
+		title="Wallet Passcode"></i>
+	<div style="font-size: 9px; color: red;">
+								<?php echo  $this->formElementErrors($form->get('passcode'));  // this defines the error?> 
+							</div>
+</div>
+
+<div class="form-group">
+
+<?php echo $this->formLabel($form->get('confirmpasscode'))?>
+								
+								<div class="col-md-6 col-sm-6 col-xs-12">
+								<?php echo $this->formElement($form->get('confirmpasscode'));?>
+									
+								</div>
+	<i class="fa fa-info-circle" data-toggle="tooltip" data-placement="top"
+		title="Confirm Wallet Passcode"></i>
+	<div style="font-size: 9px; color: red;">
+								<?php echo  $this->formElementErrors($form->get('confirmpasscode'));  // this defines the error?> 
+							</div>
+</div>

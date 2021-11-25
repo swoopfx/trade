@@ -1,0 +1,9 @@
+<?php
+$form->prepare();
+echo $this->form()->openTag($form);
+echo $this->partial("course_fieldset_snippet", array(
+    "fieldset"=>$form->get("courseFieldset")
+));
+?>
+
+<?php  echo $this->form()->closeTag();?>

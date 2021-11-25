@@ -1,0 +1,19 @@
+<?php
+if (count($training) == 0) :
+    ?>
+<div class="alert alert-warning fade show m-b-10">
+	<span class="close" data-dismiss="alert">&times;</span>No
+	<a href="#" class="alert-link">Training</a> Registered Yet
+</div>
+
+<?php else:?>
+<?php foreach ($training as $train):?>
+<li class="media media-lg"><a href="javascript:;" class="pull-left"> <img
+		class="media-object" src="<?php  echo $this->thumbnailImageHelper($train->getImage())?>" alt="" />
+</a>
+	<div class="media-body">
+		<h4 class="media-heading"><?php  echo ($train->getTrainingTopic()== NULL ? "" : $this->escapehtml($train->getTrainingTopic()))?></h4>
+		<?php echo ($train->getTrainingDescription() == NULL ?  "" : $this->escapehtml($train->getTrainingDescription()))?>
+	</div></li>
+<?php endforeach;?>
+<?php endif; ?>

@@ -1,0 +1,38 @@
+<?php
+
+?>
+<table class="table">
+							<thead>
+								<tr>
+									<th>Date</th>
+									<th class="hidden-sm text-center">STATUS</th>
+									<th>Detais</th>
+<!-- 									<th>Amount</th> -->
+									<th>User</th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php if(count($payments) > 0):
+							foreach ($payments as $payment):
+							?>
+								<tr>
+									<td class="f-w-600 text-muted"><?php  echo $this->dateformat($payment->getCreatedOn(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE)?></td>
+									<td class="hidden-sm text-center"><?php  echo strtoupper($payment->getPaymentUid())?></td>
+									<td class="text-nowrap">
+										<h6>
+											<?php //echo $transaction->getTransactionStatus()->getStatus();
+											?>
+										</h6>
+										<p><strong>Payee :</strong><?php //echo $payment-> ?></p>
+									</td>
+<!-- 									<td class="text-blue f-w-600">$349.00</td> -->
+									<td class="text-nowrap">
+									<a href="" class="btn btn-primary">Process</a>
+										</td>
+								</tr>
+								<?php endforeach;
+								endif;
+								?>
+								
+							</tbody>
+						</table>

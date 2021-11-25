@@ -1,0 +1,319 @@
+<?php
+?>
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("price"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+		<div class="input-group m-b-12">
+			<div class="input-group-prepend"><span class="input-group-text">&#8358;</span></div>
+			<?php echo $this->vueFormtext($dfieldset->get("price")); ?>
+
+		</div>
+		<!-- 											    <div class="input-group-append"><span class="input-group-text">&#8358;</span></div> -->
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("price")); ?></div>
+
+	</div>
+</div>
+
+
+
+
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($dfieldset->get("category"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormSelect($dfieldset->get("category")); ?>
+
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("category")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($dfieldset->get("garmentType"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+
+		<select :disabled="garmentTypeDisabled" required class="form-control" v-model="garmentType" ref="garmentTypes">
+			<option v-for="garment in garmentTypes" :key="garment.id" :value="garment.id"> {{garment.garmentType}}</option>
+		</select>
+		<div class="col-md-1 col-md-1">
+			<div v-if="garmentTypeLoading" class="fa-1x">
+				<i class="fas fa-spinner fa-spin"></i>
+			</div>
+		</div>
+
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("garmentType")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div v-if="garmentSize.length" class="form-group row m-b-10">
+
+	<label class="col-md-3 col-form-label text-md-right">Garment Sizes</label>
+	<?php //echo $this->formlabel($dfieldset->get("garmentType"), "<span class='text-danger'>*</span>", "prepend") 
+	?>
+	<div class="col-md-6">
+
+		<div v-for="size  in garmentSize" class="row">
+			<input type="checkbox" ref="garmentSiz" :key="size.id" v-model="checkedSizes" @change="changeSelectedSizeStatus()" :value="size.id" />
+			<label for="cssCheckbox1">{{size.size}}</label>
+			<div class="col-md-6"><input v-model="selectedSizeQuantity[size.id]" v-if="selectedSize(size.id)" v-on:input="createSizeQuantity(size.id, selectedSizeQuantity[size.id])" type="text" class="form-control" /> <br>
+				<hr>
+			</div>
+		</div>
+
+		<div class="col-md-1 col-md-1">
+			<div v-if="garmentTypeLoading" class="fa-1x">
+				<i class="fas fa-spinner fa-spin"></i>
+			</div>
+		</div>
+
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("garmentType")); ?>
+		</div>
+
+	</div>
+
+</div>
+
+
+<!-- <div class="form-group row m-b-10">
+
+	<?php //echo $this->formlabel($dfieldset->get("garmentSex"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+		<?php //echo $this->vueFormSelect($dfieldset->get("garmentSex")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php //echo $this->formElementErrors($dfieldset->get("garmentSex")); ?>
+		</div>
+
+	</div>
+</div> -->
+
+<!-- <div class="form-group row m-b-10">
+
+	<?php //echo $this->formlabel($dfieldset->get("quantity"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+		<?php //echo $this->vueFormNumber($dfieldset->get("quantity")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php// echo $this->formElementErrors($dfieldset->get("quantity")); ?>
+		</div>
+
+	</div>
+</div> -->
+
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($dfieldset->get("stockStatus"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormSelect($dfieldset->get("stockStatus")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("stockStatus")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+
+
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("isShipping"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormCheckbox($dfieldset->get("isShipping")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("isShipping")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("isDiscount")) ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormCheckBox($dfieldset->get("isDiscount")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("isDiscount")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div v-if="isDiscount">
+	<hr>
+	<?php echo $this->partial("shop_product_discount_fieldset", array("discountFieldset" => $dfieldset->get("discount"))); ?>
+	<hr>
+</div>
+
+
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("points")) ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormNumber($dfieldset->get("points")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("points")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("pointMinQuantity")) ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormNumber($dfieldset->get("pointMinQuantity")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("pointMinQuantity")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("tax")) ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormSelect($dfieldset->get("tax")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("tax")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("dateAvailable")) ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormDate($dfieldset->get("dateAvailable")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("dateAvailable")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("width")) ?>
+	<div class="col-md-6">
+		<div class="input-group m-b-12">
+			<?php echo $this->vueFormNumber($dfieldset->get("width")) ?>
+			<div class="input-group-append"><span class="input-group-text">inches</span></div>
+		</div>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("width")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("length")) ?>
+	<div class="col-md-6">
+		<div class="input-group m-b-12">
+			<?php echo $this->vueFormNumber($dfieldset->get("length")) ?>
+			<div class="input-group-append"><span class="input-group-text">inches</span></div>
+		</div>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("length")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("height")) ?>
+	<div class="col-md-6">
+		<div class="input-group m-b-12">
+			<?php echo $this->vueFormNumber($dfieldset->get("height")) ?>
+			<div class="input-group-append"><span class="input-group-text">inches</span></div>
+		</div>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("height")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("weight")) ?>
+	<div class="col-md-6">
+		<div class="input-group m-b-12">
+			<?php echo $this->vueFormNumber($dfieldset->get("weight")) ?>
+			<div class="input-group-append"><span class="input-group-text">KG</span></div>
+		</div>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("weight")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("subtract")) ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormCheckbox($dfieldset->get("subtract")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("subtract")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($dfieldset->get("minimum")) ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormNumber($dfieldset->get("minimum")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("minimum")); ?>
+		</div>
+
+	</div>
+</div>

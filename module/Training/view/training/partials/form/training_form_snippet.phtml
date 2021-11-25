@@ -1,0 +1,23 @@
+<?php
+?>
+<div id="create_training">
+
+</div>
+
+<script>
+ var traiing = new Vue({
+   el:"#create_training",
+   data:{
+     trainingTopic: "",
+     hasTraining: false,
+   },
+   methods:{
+     handleTrainingTopic:function(){
+       this.$refs.trainingTopic.value
+     },
+     createTrainingTopic:function(){
+        var formDate = new FormData();
+     },
+   }
+ });
+</script>

@@ -1,0 +1,243 @@
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+
+<head>
+	<meta charset="utf-8">
+	<?php echo $this->headTitle($this->translate('Tanim Retailer Admin'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+	<?php
+
+	echo $this->headMeta()
+		->appendName('viewport', 'width=device-width, initial-scale=1.0')
+		->appendHttpEquiv('X-UA-Compatible', 'IE=edge') ?>
+
+	<!-- Le styles -->
+	<!-- ================== BEGIN BASE CSS STYLE ================== -->
+	<link href="http://fonts.googleapis.com/css?family=Open+Sans:300,400,600,700" rel="stylesheet" />
+
+	<?php
+
+	echo $this->headLink(array(
+		'rel' => 'shortcut icon',
+		'type' => 'image/vnd.microsoft.icon',
+		'href' => $this->basePath() . '/img/favicon.ico'
+	))
+		->prependStylesheet($this->basePath('admin/assets/css/default/theme/default.css'))
+		->prependStylesheet($this->basePath('admin/assets/css/default/style-responsive.min.css'))
+		->prependStylesheet($this->basePath('admin/assets/css/default/style.min.css'))
+		->prependStylesheet($this->basePath('admin/assets/plugins/animate/animate.min.css'))
+		->prependStylesheet($this->basePath('admin/assets/plugins/font-awesome/5.0/css/fontawesome-all.min.css'))
+		->prependStylesheet($this->basePath('admin/assets/plugins/bootstrap/4.0.0/css/bootstrap.min.css'))
+		->prependStylesheet($this->basePath('admin/assets/plugins/jquery-ui/jquery-ui.min.css'))
+		->prependStylesheet($this->basePath('css/bootstrap.min.css')) ?>
+
+
+	<!-- ================== END BASE CSS STYLE ================== -->
+
+	<!-- Scripts -->
+
+	<?php
+
+	echo $this->headScript()
+
+		->prependFile("https://unpkg.com/vue-swal")
+		->prependFile($this->basePath('js/axios.min.js'))
+		->prependFile($this->basePath('js/vue.js'))
+		->prependFile($this->basePath('wasabi/js/wasabi.gritter.js'))
+		->prependFile($this->basePath('wasabi/js/wasabi.suggest.js'))
+		->prependFile($this->basePath('wasabi/js/wasabilib.min.js'))
+		->prependFile($this->basePath('lib/jquery/js/jquery.js'))
+		->prependFile($this->basePath('js/vue.min.js'))
+		->prependFile($this->basePath('admin/assets/plugins/pace/pace.min.js'))
+		->prependFile($this->basePath('js/respond.min.js'), 'text/javascript', array(
+			'conditional' => 'lt IE 9'
+		))
+		->prependFile($this->basePath('js/html5shiv.js'), 'text/javascript', array(
+			'conditional' => 'lt IE 9'
+		)); ?>
+
+
+
+
+
+</head>
+
+<body>
+	<!-- 		<div class="page-cover"></div> -->
+	<!-- end page-cover -->
+
+	<!-- begin #page-loader -->
+
+	<!-- 	<div id="page-loader" class="fade show"> -->
+	<!-- 		<span class="spinner"></span> -->
+	<!-- 	</div> -->
+
+	<!-- end #page-loader -->
+
+	<div id="page-container" class="fade page-sidebar-fixed page-header-fixed">
+
+
+		<div id="header" class="header navbar-default">
+			<!-- begin navbar-header -->
+			<div class="navbar-header">
+				<a href="<?php echo $this->url("bbmin") ?>" class="navbar-brand"><span class="navbar-logo"></span> <b>Retailer</b> Admin</a>
+				<button type="button" class="navbar-toggle" data-click="sidebar-toggled">
+					<span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span>
+				</button>
+			</div>
+			<!-- end navbar-header -->
+
+			<!-- begin header-nav -->
+			<ul class="navbar-nav navbar-right">
+
+				<!-- 				<li class="dropdown"><a href="javascript:;" data-toggle="dropdown" -->
+				<!-- 					class="dropdown-toggle f-s-14"> <i class="fa fa-bell"></i> <span -->
+				<!-- 						class="label">5</span> -->
+				<!-- 				</a> -->
+				<!-- 					<ul class="dropdown-menu media-list dropdown-menu-right"> -->
+				<!-- 						<li class="dropdown-header">NOTIFICATIONS (5)</li> -->
+				<!-- 						<li class="media"><a href="javascript:;"> -->
+				<!-- 								<div class="media-left"> -->
+				<!-- 									<i class="fa fa-bug media-object bg-silver-darker"></i> -->
+				<!-- 								</div> -->
+				<!-- 								<div class="media-body"> -->
+				<!-- 									<h6 class="media-heading"> -->
+				<!-- 										Server Error Reports <i -->
+				<!-- 											class="fa fa-exclamation-circle text-danger"></i> -->
+				<!-- 									</h6> -->
+				<!-- 									<div class="text-muted f-s-11">3 minutes ago</div> -->
+				<!-- 								</div> -->
+				<!-- 						</a></li> -->
+				<!-- 						<li class="media"><a href="javascript:;"> -->
+				<!-- 								<div class="media-left"> -->
+				<!-- 									<img src="../assets/img/user/user-1.jpg" class="media-object" -->
+				<!-- 										alt="" /> <i -->
+				<!-- 										class="fab fa-facebook-messenger text-primary media-object-icon"></i> -->
+				<!-- 								</div> -->
+				<!-- 								<div class="media-body"> -->
+				<!-- 									<h6 class="media-heading">John Smith</h6> -->
+				<!-- 									<p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p> -->
+				<!-- 									<div class="text-muted f-s-11">25 minutes ago</div> -->
+				<!-- 								</div> -->
+				<!-- 						</a></li> -->
+				<!-- 						<li class="media"><a href="javascript:;"> -->
+				<!-- 								<div class="media-left"> -->
+				<!-- 									<img src="../assets/img/user/user-2.jpg" class="media-object" -->
+				<!-- 										alt="" /> <i -->
+				<!-- 										class="fab fa-facebook-messenger text-primary media-object-icon"></i> -->
+				<!-- 								</div> -->
+				<!-- 								<div class="media-body"> -->
+				<!-- 									<h6 class="media-heading">Olivia</h6> -->
+				<!-- 									<p>Quisque pulvinar tellus sit amet sem scelerisque tincidunt.</p> -->
+				<!-- 									<div class="text-muted f-s-11">35 minutes ago</div> -->
+				<!-- 								</div> -->
+				<!-- 						</a></li> -->
+				<!-- 						<li class="media"><a href="javascript:;"> -->
+				<!-- 								<div class="media-left"> -->
+				<!-- 									<i class="fa fa-plus media-object bg-silver-darker"></i> -->
+				<!-- 								</div> -->
+				<!-- 								<div class="media-body"> -->
+				<!-- 									<h6 class="media-heading">New User Registered</h6> -->
+				<!-- 									<div class="text-muted f-s-11">1 hour ago</div> -->
+				<!-- 								</div> -->
+				<!-- 						</a></li> -->
+				<!-- 						<li class="media"><a href="javascript:;"> -->
+				<!-- 								<div class="media-left"> -->
+				<!-- 									<i class="fa fa-envelope media-object bg-silver-darker"></i> <i -->
+				<!-- 										class="fab fa-google text-warning media-object-icon f-s-14"></i> -->
+				<!-- 								</div> -->
+				<!-- 								<div class="media-body"> -->
+				<!-- 									<h6 class="media-heading">New Email From John</h6> -->
+				<!-- 									<div class="text-muted f-s-11">2 hour ago</div> -->
+				<!-- 								</div> -->
+				<!-- 						</a></li> -->
+				<!-- 						<li class="dropdown-footer text-center"><a href="javascript:;">View -->
+				<!-- 								more</a></li> -->
+				<!-- 					</ul></li> -->
+				<?php echo $this->bbmintopbarMenu() ?>
+				<li></li>
+				<li></li>
+				<li></li>
+			</ul>
+			<!-- end header navigation right -->
+		</div>
+		<!-- end #header -->
+
+
+
+
+
+		<div id="sidebar" class="sidebar">
+			<!-- begin sidebar scrollbar -->
+			<div data-scrollbar="true" data-height="100%">
+				<!-- begin sidebar user -->
+				<ul class="nav">
+					<li class="nav-profile"><a href="javascript:;" data-toggle="nav-profile">
+							<!-- 							<div class="info"> -->
+							<!-- 								<b class="caret pull-right"></b> Sean Ngu <small>Front end -->
+							<!-- 									developer</small> -->
+							<!-- 							</div> -->
+						</a></li>
+					<li>
+						<ul class="nav nav-profile">
+							<li><a href="javascript:;"><i class="fa fa-cog"></i> Settings</a></li>
+							<li><a href="javascript:;"><i class="fa fa-pencil-alt"></i> Send
+									Feedback</a></li>
+							<li><a href="javascript:;"><i class="fa fa-question-circle"></i>
+									Helps</a></li>
+						</ul>
+					</li>
+				</ul>
+				<!-- end sidebar user -->
+				<!-- begin sidebar nav -->
+
+
+
+
+				<?php echo $this->navigation("Laminas\Navigation\Admin")->menu()->setPartial("admin-navigation")->setOnlyActiveBranch(); ?>
+
+				<!-- end sidebar nav -->
+			</div>
+			<!-- end sidebar scrollbar -->
+		</div>
+		<div id="content" class="content">
+			<?php
+			$flashMessenger = $this->flashMessenger()
+				->setMessageOpenFormat('<div%s>
+     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+         &times;
+     </button>
+     <ul><li>')
+				->setMessageSeparatorString('</li><li>')
+				->setMessageCloseString('</li></ul></div>');
+			?>
+			<?php echo $flashMessenger->render('error',   array('alert', 'alert-dismissable', 'alert-danger')); ?>
+			<?php echo $flashMessenger->render('info',    array('alert', 'alert-dismissable', 'alert-info')); ?>
+			<?php echo $flashMessenger->render('default', array('alert', 'alert-dismissable', 'alert-warning')); ?>
+			<?php echo $flashMessenger->render('success', array('alert', 'alert-dismissable', 'alert-success')); ?>
+
+
+
+
+			<?php echo $this->content; ?>
+		</div>
+	</div>
+	<!-- /container -->
+	<!-- ================== BEGIN BASE JS ================== -->
+	<!-- 	<script src="/admin/assets/plugins/jquery/jquery-3.2.1.min.js"></script> -->
+	<script src="/admin/assets/plugins/jquery-ui/jquery-ui.min.js"></script>
+	<script src="/admin/assets/plugins/bootstrap/4.0.0/js/bootstrap.bundle.min.js"></script>
+	<!--[if lt IE 9]>
+		<script src="../assets/crossbrowserjs/html5shiv.js"></script>
+		<script src="../assets/crossbrowserjs/respond.min.js"></script>
+		<script src="../assets/crossbrowserjs/excanvas.min.js"></script>
+	<![endif]-->
+	<script src="/admin/assets/plugins/slimscroll/jquery.slimscroll.min.js"></script>
+	<script src="/admin/assets/plugins/js-cookie/js.cookie.js"></script>
+	<script src="/admin/assets/js/theme/default.min.js"></script>
+	<script src="/admin/assets/js/apps.min.js"></script>
+	<?php echo $this->inlineScript() ?>
+</body>
+
+</html>

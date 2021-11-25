@@ -1,0 +1,32 @@
+<?php
+if (count($courses) > 0) {
+    ?>
+<div class="col-md-12">
+<?php  foreach ($courses as $cou ){?>
+              <div class="list-group">
+		<div class="list-group-item pd-y-20">
+			<div class="media">
+				<div class="d-flex mg-r-10 wd-50">
+					<i class="fa fa-file-text-o tx-primary tx-40 tx"></i>
+				</div>
+				<!-- d-flex -->
+				<div class="media-body">
+					<h6 class="tx-inverse"><?php  echo $cou->getCourseCode()?></h6>
+					<p class="mg-b-0"><?php  echo $cou->getTitle()?></p>
+				</div>
+				<!-- media-body -->
+			</div>
+			<!-- media -->
+		</div>
+		<!-- list-group-item -->
+
+	</div>
+	<!-- list-group -->
+               <?php }?>
+            </div>
+<!-- col-md-6 -->
+<?php
+} else {
+    echo "<h6>No Course</h6>";
+}
+?>

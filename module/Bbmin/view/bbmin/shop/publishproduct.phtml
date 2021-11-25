@@ -1,0 +1,20 @@
+<?php
+echo $this->headtitle("Product Publish");
+?>
+
+
+<?php echo $this->partial("general_dropzone_form")?>
+
+
+
+
+<script src="/admin/assets/plugins/dropzone/min/dropzone.min.js"></script>
+<script src="/admin/assets/plugins/highlight/highlight.common.js"></script>
+<script src="/admin/assets/js/demo/render.highlight.js"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->
+<script>
+		$(document).ready(function() {
+			App.init();
+			Highlight.init();
+		});
+	</script>

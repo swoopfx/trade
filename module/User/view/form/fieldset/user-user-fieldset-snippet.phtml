@@ -1,0 +1,79 @@
+<?php
+?>
+
+
+<div class="row">
+				
+					<?php  echo $this->formlabel($fieldset->get("firstname"), '<span class="tx-danger">*</span>', "prepend")?>
+					
+				<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+					<?php  echo $this->forminput($fieldset->get("firstname"))?>
+	</div>
+</div>
+<!-- row -->
+<div class="row mg-t-20">
+				<?php  echo $this->formlabel($fieldset->get("lastname"), '<span class="tx-danger">*</span>', "prepend")?>
+
+	<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+					<?php  echo $this->forminput($fieldset->get("lastname"))?>
+				</div>
+</div>
+<div class="row mg-t-20">
+				<?php  echo $this->formlabel($fieldset->get("dob"), '<span class="tx-danger">*</span>', "prepend")?>
+
+	<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+		<?php echo $this->forminput($fieldset->get("dob"));?>
+	</div>
+</div>
+<div class="row mg-t-20">
+	<?php  // echo $this->formlabel($fieldset->get("bvn"), '<span class="tx-danger">*</span>', "prepend")?>
+
+		
+	<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+		<?php //echo $this->forminput($fieldset->get("bvn"));?>
+	</div>
+</div>
+
+<div class="row mg-t-20">
+	<?php  echo $this->formlabel($fieldset->get("identityType"), '<span class="tx-danger">*</span>', "prepend")?>
+
+	<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+		<?php  echo $this->formselect($fieldset->get("identityType"))?>
+	</div>
+</div>
+
+<div class="row mg-t-20">
+	<?php  echo $this->formlabel($fieldset->get("identity"), '<span class="tx-danger">*</span>', "prepend")?>
+
+	<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+		<?php  echo $this->forminput($fieldset->get("identity"))?>
+	</div>
+</div>
+<!-- row -->
+<hr>
+
+<div class="row mg-t-20">
+	<?php  echo $this->formlabel($fieldset->get("address1"), '<span class="tx-danger">*</span>', "prepend")?>
+
+	<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+		<?php  echo $this->forminput($fieldset->get("address1"))?>
+	</div>
+</div>
+
+<div class="row mg-t-20">
+	<?php  echo $this->formlabel($fieldset->get("country"), '<span class="tx-danger">*</span>', "prepend")?>
+
+	<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+		<?php  echo $this->formselect($fieldset->get("country"))?>
+	</div>
+
+</div>
+
+<div class="row mg-t-20">
+	<?php  echo $this->formlabel($fieldset->get("state"), '<span class="tx-danger">*</span>', "prepend")?>
+
+	<div class="col-sm-8 mg-t-10 mg-sm-t-0">
+		<?php  echo $this->formselect($fieldset->get("state"))?>
+	</div>
+</div>
+<script src="/js/popover.js"></script>

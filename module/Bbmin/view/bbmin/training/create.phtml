@@ -1,0 +1,337 @@
+<?php
+echo $this->headtitle("Create Training ");
+
+?>
+<div id="createTraining">
+	<div class="row">
+		<div v-if="hasTraining" class="col-lg-12">
+			<!-- begin result-container -->
+			<div class="result-container">
+				<ul class="result-list">
+
+					<li>
+						<!-- <a href="#" class="result-image" v-bind:style="background-image: url(trainingBanner)"></a> -->
+						<div class="result-image">
+							<img :src="trainingImage">
+						</div>
+						<div class="result-info">
+							<h4 class="title">
+								<a href="javascript:;">{{trainingTopic}}</a>
+							</h4>
+							<p class="location">{{trainingUid}}</p>
+							<p class="desc">{{trainingDesc}}</p>
+
+						</div>
+						<div class="result-price">
+							{{totalTime}} <small>mins</small> <a href="javascript:;" class="btn btn-yellow btn-block">View Details</a>
+						</div>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+
+	<div class="row">
+
+
+
+
+
+		<div v-if="hasTraining" class="col-lg-12">
+			<!-- begin panel -->
+
+			<!-- end panel -->
+
+
+			<!-- end panel -->
+		</div>
+		<!-- begin col-6 -->
+		<div class="col-lg-12">
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="form-validation-1">
+				<!-- begin panel-heading -->
+				<div class="panel-heading">
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+
+					</div>
+					<h4 class="panel-title">{{formTopic}}</h4>
+				</div>
+				<!-- end panel-heading -->
+				<!-- begin panel-body -->
+				<div class="panel-body">
+
+					<div v-if="validationError" class="alert alert-danger fade show">
+						<span class="close" data-dismiss="alert">×</span> <strong>Error</strong>
+						{{validationMessage}}
+
+					</div>
+					<!-- <div v-if="sendingTrainingData">
+						Processing
+					</div> -->
+					<div>
+						<form id="trainingForm" enctype="multipart/form-data" v-if="!hasTraining" method="POST" class="form-horizontal" data-parsley-validate="true" name="demo-form">
+							<fieldset :disabled="isPostTraining">
+								<div class="form-group row m-b-15">
+									<label class="col-md-4 col-sm-4 col-form-label" for="trainingTopic">Training Topic * :</label>
+									<div class="col-md-8 col-sm-8">
+										<input class="form-control" ref="trainingTopic" v-on:change="handleTrainingTopic()" type="text" id="trainingTopic" name="trainingTopic" placeholder="Required" data-parsley-required="true" />
+									</div>
+								</div>
+
+								<div class="form-group row m-b-15">
+									<label class="col-md-4 col-sm-4 col-form-label" for="trainingTopic">Training Points * :</label>
+									<div class="col-md-8 col-sm-8">
+										<input class="form-control" ref="trainingPoint" type="number" id="trainingPoint" name="trainingPoint" placeholder="Required" data-parsley-required="true" />
+									</div>
+								</div>
+
+
+								<div class="form-group row m-b-15">
+									<label class="col-md-4 col-sm-4 col-form-label" for="message">Training
+										Description</label>
+									<div class="col-md-8 col-sm-8">
+										<textarea class="form-control" v-on:change="handleTrainingDescription()" ref="trainingDescription" id="trainingDescription" name="trainingDescription" rows="4" data-parsley-required="true"></textarea>
+									</div>
+								</div>
+
+								<div class="form-group row m-b-15">
+									<label class="col-md-4 col-sm-4 col-form-label" for="website">Training
+										Banner :</label>
+									<div class="col-md-8 col-sm-8">
+										<input class="form-control" type="file" ref="trainingBanner" v-on:change="topicBanner()" id="website" name="website" data-parsley- placeholder="url" />
+									</div>
+								</div>
+
+								<div class="form-group row m-b-0">
+									<label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
+									<div class="col-md-8 col-sm-8">
+										<button type="button" v-on:click="submitTraining()" :disabled="sendingTrainingData" value="Create Training " class="btn btn-primary btn-block">
+											<div v-if="sendingTrainingData">...Processing</div>
+											<div v-else>Create Training</div>
+										</button>
+									</div>
+								</div>
+							</fieldset>
+						</form>
+					</div>
+
+					<div v-if="programmes.length">
+						<!-- display list of programes  -->
+					</div>
+					<form id="programmesForm" v-if="hasTraining" method="POST" class="form-horizontal" data-parsley-validate="true" name="demo-form">
+						<div class="form-group row m-b-15">
+							<label class="col-md-4 col-sm-4 col-form-label" for="programmesTopic">Programmes Topic * :</label>
+							<div class="col-md-8 col-sm-8">
+								<input class="form-control" ref="programmesTopic" v-on:change="handleProgrammesTopic()" type="text" id="programmesTopic" name="programmesTopic" placeholder="required" data-parsley-required="true" />
+							</div>
+						</div>
+
+
+						<div class="form-group row m-b-15">
+							<label class="col-md-4 col-sm-4 col-form-label" for="message">Programmes
+								Description</label>
+							<div class="col-md-8 col-sm-8">
+								<textarea class="form-control" v-on:change="handleProgrammesDescription()" ref="programmesDescription" id="programmesDescription" name="programmesDescription" rows="4" placeholder="Range from 2 - 5" data-parsley-required="true"></textarea>
+							</div>
+						</div>
+
+
+
+						<div class="form-group row m-b-0">
+							<label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
+							<div class="col-md-8 col-sm-8">
+								<input type="button" v-on:click="submitProgrammes()" value="Create Training " class="btn btn-primary btn-block">
+							</div>
+						</div>
+					</form>
+
+
+				</div>
+
+
+
+			</div>
+			<!-- end panel -->
+		</div>
+		<!-- end col-6 -->
+
+	</div>
+</div>
+<script src="/admin/assets/plugins/parsley/dist/parsley.js"></script>
+<script src="/admin/assets/plugins/highlight/highlight.common.js"></script>
+<script src="/admin/assets/js/demo/render.highlight.js"></script>
+
+<script>
+	
+
+
+	var training = new Vue({
+		el: "#createTraining",
+		data: {
+
+			hasTraining: false,
+			formTopic: "Create Training",
+			sendingTrainingData: false,
+
+			//programmes Data
+			isProgrammesForm: false, // defines if the
+			programmes: [{
+					id: "12",
+					uid: "1234",
+					title: "Welcome To NIgeria",
+					description: "I love to make internation",
+					courses: [
+
+					]
+				},
+				{
+					uid: "1234",
+					title: "Welcome To NIgeria",
+					description: "I love to make internation",
+					courses: [
+
+					]
+				},
+			],
+
+
+
+			// training data
+			trainingTopic: "",
+			trainngDescription: "",
+			trainingBanner: "",
+			totalTime: 0,
+			trainingName: "",
+			trainingUid: "",
+			trainingDesc: " ",
+			trainingImage: "http://localhost:2001/img/landing1.png",
+			isPostTraining: false,
+			validationError: false,
+			validationMessage: "",
+
+		},
+		methods: {
+			handleTrainingTopic: function() {
+				if (this.$refs.trainingTopic.value == "") {
+					this.validationError = true;
+					this.validationMessage = "Training Topic must not be empty"
+				}
+			},
+			topicBanner: function() {
+
+			},
+
+			handleTrainingDescription: function() {
+				if (this.$refs.trainingDescription.value == "") {
+					this.validationError = true;
+					this.validationMessage = "Training Topic must not be empty"
+				}
+			},
+
+
+			handleProgrammesTopic: function() {
+				if (this.$refs.programmesTopic.value == "") {
+					this.validationError = true;
+					this.validationMessage = "Programmes Topic must not be empty"
+				}
+			},
+
+			handleProgrammesDescription: function() {
+				if (this.$refs.programmesDescription.value == "") {
+					this.validationError = true;
+					this.validationMessage = "Programmes Description must not be empty"
+				}
+			},
+
+			addCourseForm: function() {
+
+			},
+
+
+			//Submission
+			submitTraining: function() {
+				// this.isPostTraining = true;
+				this.sendingTrainingData = true;
+				if (this.validationError == true) {
+					this.validationMessage = "The form is not valid";
+				} else {
+					let formData = new FormData();
+					formData.append("topic", this.$refs.trainingTopic.value);
+					formData.append("desc", this.$refs.trainingDescription.value);
+					formData.append("points", this.$refs.trainingPoint.value);
+					formData.append("file", this.$refs.trainingBanner.files[0]);
+
+					axios.post("/bbmin/training/create-training", formData, {
+						headers: {
+							"Content-Type": "multipart/form-data"
+						}
+					}).then(response => {
+						if (response.status == 201) {
+
+							this.trainingUid = response.data.uid;
+							window.location.href = "/bbmin/training/manage";
+							this.trainingTopic = response.data.topic;
+							this.trainingDesc = response.data.description;
+							this.trainingImage = response.data.banner;
+							this.hasTraining = true;
+							this.sendingTrainingData = false;
+							this.formTopic = "Create Programmes and Courses";
+							this.$refs.trainingTopic.value = this.$refs.trainingDescription.value = this.$refs.trainingBanner.files[0] = "";
+
+						} else {
+							// activate error mobule
+							this.sendingTrainingData = false;
+						}
+					}).catch(err=>{
+						this.sendingTrainingData = false;
+					});
+
+				}
+				this.isPostTraining = false;
+
+			},
+
+			submitProgrammes: function() {
+				if (this.$refs.programmesTopic.value == "") {
+					this.validationError = true;
+					this.validationMessage = "Topic cannot be empty";
+				} else if (this.$refs.programmesDescription.value == "") {
+					this.validationError = true;
+					this.validationMessage = "Description cannot be empty";
+				} else {
+
+					axios.post("/bbmin/training/create-programmes", {
+						"topic": this.$refs.programmesTopic.value,
+						"decription": this.$refs.programmesDescription.value
+					}).then(response => {
+
+						if (response.status == 201) {
+							this.programes.push = response.data.
+							this.$refs.programmesTopic.value = this.$refs.programmesDescription.value = "";
+						} else if (response.status == 200) {
+							this.validationError = true;
+							this.validationMessage = "Error occured";
+						} {
+
+						}
+					});
+				}
+			},
+
+			submitCourses: function() {
+
+			},
+
+			// Micro functions
+
+			removeProgram: function() {
+				// removes a program from the db
+			},
+
+			removeCourse: function() {
+				// removes a course from th db
+			}
+		}
+	});
+</script>

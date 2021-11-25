@@ -1,0 +1,294 @@
+<?php echo $this->headtitle("Support") ?>
+<br>
+
+<div class="slim-mainpanel">
+	<div id="support" class="container container-messages">
+		<div id="wasabi"></div>
+		<div class="messages-left">
+			<div class="slim-pageheader">
+				<h6 class="slim-pagetitle">Support Tickets</h6>
+				<a id="btn2" href="" data-href="<?php echo $this->url("supportmodal/default", array("action" => "openticket")) ?>" class="messages-compose ajax_element"><i class="icon ion-compose"></i></a>
+			</div>
+			<!-- slim-pageheader -->
+
+			<div v-if="ticketsLoaded" class="messages-list">
+				<div v-for="topic in tickets" v-on:click="getMessages(topic.id)">
+
+					<a class="media">
+						<div class="media-left">
+							<img src="http://via.placeholder.com/500x500" alt=""> <span class="square-10 bg-success"></span>
+						</div>
+						<!-- media-left -->
+						<div class="media-body">
+							<div>
+								<h6>{{topic.supportTitle}}</h6>
+								<p>{{topic.supportUid.toUpperCase()}}</p>
+							</div>
+							<div>
+								<span></span>
+							</div>
+						</div>
+						<!-- media-body -->
+					</a>
+					<!-- media -->
+				</div>
+
+
+			</div>
+			<div v-else>
+				<div class="col-md-12  mg-t-30 mg-xl-t-0">
+					<div class="d-flex bg-gray-200 ht-300 pos-relative align-items-center">
+						<div class="sk-wave">
+							<div class="sk-rect sk-rect1 bg-gray-800"></div>
+							<div class="sk-rect sk-rect2 bg-gray-800"></div>
+							<div class="sk-rect sk-rect3 bg-gray-800"></div>
+							<div class="sk-rect sk-rect4 bg-gray-800"></div>
+							<div class="sk-rect sk-rect5 bg-gray-800"></div>
+						</div>
+					</div>
+					<!-- d-flex -->
+				</div>
+			</div>
+			<!-- messages-list -->
+
+			<div class="messages-left-footer">
+				<!-- 				<button class="btn btn-slim btn-uppercase-sm btn-block">Load Older -->
+				<!-- 					Messages</button> -->
+			</div>
+			<!-- messages-left-footer -->
+		</div>
+		<!-- messages-left -->
+
+		<div class="messages-right">
+
+			<div class="message-header">
+				<a href="" class="message-back"><i class="fa fa-angle-left"></i></a>
+				<div class="media">
+
+					<div class="media-body">
+						<h6>{{title}}</h6>
+						<p></p>
+					</div>
+					<!-- media-body -->
+				</div>
+				<!-- media -->
+				<div class="message-option">
+
+					<div class="d-sm-none">
+						<a href=""><i class="icon ion-more"></i></a>
+					</div>
+				</div>
+			</div>
+			<!-- message-header -->
+			<div class="message-body">
+				<div class="media-list">
+					<div v-if="!messagesLoaded">
+						<div class="col-md-12  mg-t-30 mg-xl-t-0">
+							<div class="d-flex  ht-300 pos-relative align-items-center">
+								<div class="sk-wave">
+									<div class="sk-rect sk-rect1 bg-gray-800"></div>
+									<div class="sk-rect sk-rect2 bg-gray-800"></div>
+									<div class="sk-rect sk-rect3 bg-gray-800"></div>
+									<div class="sk-rect sk-rect4 bg-gray-800"></div>
+									<div class="sk-rect sk-rect5 bg-gray-800"></div>
+								</div>
+							</div>
+							<!-- d-flex -->
+						</div>
+					</div>
+					<div v-else>
+						<div class="media" v-for="message in messages">
+							<div :class="getMessageState(message.userState.id)">
+								<div class="media-body">
+									<div class="msg">
+										<p>{{message.messageText}}</p>
+									</div>
+								</div>
+								<!-- media-body -->
+							</div>
+						</div>
+						<br>
+					</div>
+
+
+
+				</div>
+				<!-- media-list -->
+			</div>
+			<!-- message-body -->
+			<div class="message-footer">
+				<div class="row row-sm">
+
+					<div class="col-9 col-sm-8 col-xl-9">
+						<div v-if="messageIsSending">
+							<div class="sk-three-bounce">
+								<div class="sk-child sk-bounce1 "></div>
+								<div class="sk-child sk-bounce2 "></div>
+								<div class="sk-child sk-bounce3 "></div>
+							</div>
+						</div>
+						<input v-else type="text" ref="inputMessage" placeholder="Write here ...." class="form-control">
+					</div>
+					<!-- col-8 -->
+					<div class="col-3 col-sm-4 col-xl-3 tx-right">
+						<div class="d-none d-sm-block">
+							<a @click="submitMessage()"><i class="icon ion-navigate"></i></a>
+						</div>
+						<div class="d-sm-none">
+							<a href=""><i class="icon ion-more"></i></a>
+						</div>
+					</div>
+					<!-- col-4 -->
+				</div>
+				<!-- row -->
+			</div>
+			<!-- message-footer -->
+		</div>
+		<!-- messages-right -->
+	</div>
+	<!-- container -->
+</div>
+<!-- slim-mainpanel -->
+<br>
+<br>
+<script src="/lib/perfect-scrollbar/js/perfect-scrollbar.jquery.js"></script>
+<script type="text/javascript">
+	var vue = new Vue({
+		el: "#support",
+		data: {
+			title: "",
+			user: "",
+			success: false,
+			lastseen: "",
+			messagesLoaded: false,
+			messageIsSending: false,
+			$messageIsSent: false,
+
+			messages: [
+
+			],
+			ticketsLoaded: true,
+			tickets: []
+
+		},
+		mounted: function() {
+			this.getTopics();
+			this.jquerywork();
+		},
+		methods: {
+			getMessages: function(eventId) {
+				this.messagesLoaded = false;
+				axios.get("/support/converse", {
+					params: {
+						id: eventId
+					}
+				}).then(response => {
+					this.messages = [];
+					if (response.status == 200) {
+						this.title = response.data.support[0].supportTitle
+						this.messages = response.data.messages;
+						this.messagesLoaded = true;
+					}
+				});
+			},
+
+			getTopics: function() {
+				this.ticketsLoaded = false;
+
+				axios.get("/support/tickets").then(response => {
+					if (response.status == 200) {
+						this.tickets = response.data.tickets;
+						this.ticketsLoaded = true;
+					}
+					this.messagesLoaded = true;
+				});
+			},
+
+			getMessageState: function(state) {
+				if (state == 50) {
+					return "media-body reverse";
+				} else {
+					return "media-body";
+				}
+			},
+
+			submitMessage: function() {
+				this.messageIsSending = true;
+				// console.log(this.$refs.inputMessage.value);
+
+				let formData = new FormData();
+				formData.append("message", this.$refs.inputMessage.value);
+				axios.post("/support/submit-message", formData).then(response => {
+					if (response.status == 201) {
+						this.messageIsSending = false;
+						this.messages.push = this.getMessages(response.data.msgId);
+
+					}
+				});
+
+			},
+
+			jquerywork: function() {
+				$(function() {
+					// 'use script';
+
+					$('.messages-list, .message-body').perfectScrollbar();
+
+					$('.messages-list .media').on('click', function(e) {
+						e.preventDefault();
+						if (window.matchMedia("(max-width: 991px)").matches) {
+							$('.messages-left').fadeOut();
+							$('.messages-right').fadeIn();
+						}
+					});
+
+					$('.message-back').on('click', function(e) {
+						e.preventDefault();
+						if (window.matchMedia("(max-width: 991px)").matches) {
+							$('.messages-right').fadeOut();
+							$('.messages-left').fadeIn();
+						}
+					});
+
+					$(window).resize(function() {
+						if (window.matchMedia("(min-width: 992px)").matches) {
+							$('.messages-right').show();
+							$('.messages-left').show();
+						}
+					});
+				});
+			}
+		}
+	});
+</script>
+
+<script>
+	$(function() {
+		'use script';
+
+		$('.messages-list, .message-body').perfectScrollbar();
+
+		$('.messages-list .media').on('click', function(e) {
+			e.preventDefault();
+			if (window.matchMedia("(max-width: 991px)").matches) {
+				$('.messages-left').fadeOut();
+				$('.messages-right').fadeIn();
+			}
+		});
+
+		$('.message-back').on('click', function(e) {
+			e.preventDefault();
+			if (window.matchMedia("(max-width: 991px)").matches) {
+				$('.messages-right').fadeOut();
+				$('.messages-left').fadeIn();
+			}
+		});
+
+		$(window).resize(function() {
+			if (window.matchMedia("(min-width: 992px)").matches) {
+				$('.messages-right').show();
+				$('.messages-left').show();
+			}
+		});
+	});
+</script>

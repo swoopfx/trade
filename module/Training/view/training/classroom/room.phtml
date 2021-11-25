@@ -1,0 +1,745 @@
+<?php
+echo $this->headtitle("Tanim fits Class room, " . $training->getTrainingTopic());
+
+?>
+<style>
+	.video_wrapper {
+		position: relative;
+		padding-bottom: 56.25%;
+		/* 16:9, for an aspect ratio of 1:1 change to this value to 100% */
+	}
+
+	object {
+		position: absolute;
+		top: 0;
+		left: 0;
+		width: 100%;
+		height: 100%;
+	}
+</style>
+<script src="https://cdn.tiny.cloud/1/4jv85s7jytn1usktg4s3umtqnnmsmhk9hhrprh8le6uqh8sb/tinymce/5/tinymce.min.js"></script>
+<script src="/js/base64_coder.js"></script>
+<div id="wasabi"></div>
+<div id="room" class="slim-mainpanel">
+	<div class="container">
+
+		<div class="alert alert-info" role="alert">
+			<button type="button" class="close" data-dismiss="alert" aria-label="Close">
+				<span aria-hidden="true">&times;</span>
+			</button>
+			<strong>Heads up!</strong> Your activities are monitored on this
+			course, this affects your qaulification for reward points
+		</div>
+		<!-- alert -->
+
+		<div class="slim-pageheader">
+
+			<ol class="breadcrumb slim-breadcrumb">
+				<li class="breadcrumb-item"><a href="<?php $this->url("training") ?>">Training</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Classroom</li>
+			</ol>
+			<h6 class="slim-pagetitle"><?php echo $training->getTrainingTopic() ?> :: <?php echo $this->myCurrencyHelper($training->getTrainingPoints()) ?> Reward Points</h6>
+		</div>
+		<!-- slim-pageheader -->
+		<div class="row row-sm mg-t-20">
+			<div class="col-lg-8">
+				<div class="card card-table">
+					<div class="card-header">
+						<!-- <h6 class="slim-card-title">{{training}}</h6> -->
+					</div>
+					<!-- card-header -->
+					<div class="video_wrapper">
+						<object :data='activeCourse' width='100%' height='100%'> </object>
+					</div>
+					<!-- table-responsive -->
+					<div class="card-footer tx-12 pd-y-15 bg-transparent">
+
+						<!-- col-sm-3 -->
+					</div>
+					<!-- card-footer -->
+				</div>
+				<!-- card -->
+				<hr>
+				<?php if (count($training->getTrainingMilestone()) > 0) : ?>
+					<div v-if="activationStatus()">
+						<div class="col-sm-12 col-md-12 mg-t-20 mg-sm-t-0">
+							<div class="btn-demo">
+								<button @click="submitAssignment()" :disabled="submitButtonState()" class="btn btn-success btn-block mg-b-10">
+									<div v-if="isSubmittingAssignment">...Processing</div>
+									<div v-else>{{submittedMiletsoneStatus}}</div>
+								</button>
+
+							</div>
+						</div>
+						<!-- btn-demo -->
+					</div>
+
+				<?php endif; ?>
+
+				<?php if (count($training->getTrainingMilestone()) > 0) : ?>
+					<hr>
+					<label class="section-title">Milestones & Assignments</label>
+					<p class="mg-b-20 mg-sm-b-40"></p>
+					<div id="accordion" class="accordion-one" role="tablist" aria-multiselectable="true">
+						<?php foreach ($training->getTrainingMilestone() as $milestone) : ?>
+							<div class="card">
+								<div class="card-header" role="tab" id="headingOne">
+									<a data-toggle="collapse" data-parent="#accordion" href="#collapseOne" aria-expanded="true" aria-controls="collapseOne" class="tx-gray-800 transition">
+										<?php
+										echo $milestone->getTopic() ?> <div v-if="hasMilestoneSubmitted">:: <span class="square-8 bg-success mg-r-5 rounded-circle"></span><small> Submitted</small></div>
+									</a>
+
+								</div>
+								<!-- card-header -->
+
+								<div id="collapseOne" class="collapse show" role="tabpanel" aria-labelledby="headingOne">
+									<div class="card-body">
+										<div  class="row">
+											<div v-if="trainingReward" class="col-sm-4 col-md-3">
+												<div class="btn-demo">
+													<a id="sending_data_button" data-json='<?php echo json_encode(['data' => $milestone->getId()]); ?>' data-href="<?php echo $this->url("trainingjson/default", array("action" => "show-assignment-response-view")) ?>" class="btn ajax_element btn-outline-primary btn-block mg-b-10"><i class="fa fa-file-text-o mg-r-5"></i> Submit Answer</a>
+
+												</div>
+
+												<!-- btn-demo -->
+											</div>
+											<!-- col-sm-3 -->
+
+											<div class="col-sm-6 col-md-3 mg-t-20 mg-sm-t-0">
+												<div class="btn-demo">
+
+													<a id="sending_data_button" data-json='<?php echo json_encode(['data' => $milestone->getId()]); ?>' data-href="<?php echo $this->url("trainingjson/default", array("action" => "view-milestone-resources")) ?>" class="btn ajax_element btn-outline-secondary btn-block mg-b-10">
+														<i class="fa fa-paper-plane mg-r-5"></i> View Resources
+													</a>
+												</div>
+												<!-- btn-demo -->
+											</div>
+											<!-- col-sm-3 -->
+										</div>
+										<!-- row -->
+										<hr>
+
+										<div class="responsive">
+											<?php echo base64_decode($milestone->getContent()) ?>
+										</div>
+									</div>
+								</div>
+							</div>
+						<?php endforeach; ?>
+
+
+					</div>
+					<!-- accordion -->
+
+
+				<?php endif; ?>
+
+
+				<div class="card card-latest-activity mg-t-20">
+					<div class="card-body">
+						<div class="slim-card-title">Training Information</div>
+
+
+						<!-- 						<p class="activity-text"></p> -->
+
+						<div class="row no-gutters">
+							<div class="col-md-4">
+								<img src="<?php echo $training->getImage()->getThumbnail() ?>" class="img-fit-cover" alt="">
+							</div>
+							<!-- col-4 -->
+							<div class="col-md-8">
+								<div class="post-wrapper">
+									<a href="" class="activity-title"><?php echo $training->getTrainingTopic() ?></a>
+									<div style="z-index: 1000;"><?php echo $training->getTrainingDescription() ?></div>
+
+								</div>
+								<!-- post-wrapper -->
+							</div>
+							<!-- col-8 -->
+						</div>
+						<!-- row -->
+
+					</div>
+					<!-- card-body -->
+
+				</div>
+				<!-- card -->
+			</div>
+			<!-- col-6 -->
+			<div class="col-lg-4 mg-t-20 mg-lg-t-0">
+				<div class="card card-table">
+
+					<!-- card-header -->
+					<div v-if="isLoadingProgrammes">
+						<div class="sk-cube-grid">
+							<div class="sk-cube sk-cube1"></div>
+							<div class="sk-cube sk-cube2"></div>
+							<div class="sk-cube sk-cube3"></div>
+							<div class="sk-cube sk-cube4"></div>
+							<div class="sk-cube sk-cube5"></div>
+							<div class="sk-cube sk-cube6"></div>
+							<div class="sk-cube sk-cube7"></div>
+							<div class="sk-cube sk-cube8"></div>
+							<div class="sk-cube sk-cube9"></div>
+						</div>
+					</div>
+					<div else>
+
+						<div v-if="programmes.length" id="accordion4" class="accordion-two accordion-two-primary" role="tablist" aria-multiselectable="true">
+							<div v-for="programme in programmes" :key="programme.id" class="card">
+								<div class="card-header" role="tab" id="headingOne4">
+									<a data-toggle="collapse" data-parent="#accordion4" :href="accordionHrefName(programme.id)" aria-expanded="true" aria-controls="collapseOne4" class="tx-gray-800 transition">
+										{{programme.title}} </a>
+								</div>
+								<!-- card-header -->
+
+								<div v-if="programme.course.length" :id="accordionId(programme.id)" class="collapse show" role="tabpanel" aria-labelledby="headingOne4">
+									<div class="card-body">
+										<ul class="list-group">
+											<li v-for="course in programme.course" :key="course.id" class="list-group-item">
+												<p class="mg-b-0">
+													<a href="#" :style="takenCourseStatus(course.id)" @click="setvideoLink(course.video, course.id)"> <span class="">{{course.courseCode}}</span> :: <strong>{{course.title}}</strong>
+
+													</a>
+												</p>
+											</li>
+
+										</ul>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+						<!-- accordion -->
+
+						<!-- accordion -->
+					</div>
+
+
+				</div>
+				<!-- card -->
+				<hr>
+				<?php if (count($training->getTrainingMilestone()) == 0) : ?>
+					<div v-if="activationStatus()">
+						<button :disabled="isActivatingReward" @click="activateCustomerReward()" class="btn btn-success btn-block">
+							<div v-if="isActivatingReward">..Evaluating</div>
+							<div v-else>Activate Reward</div>
+						</button>
+					</div>
+
+					<div v-else>
+						<!-- Show warining sign You need to complete the training-->
+					</div>
+				<?php else : ?>
+
+
+					<div class="col-md-12 mg-t-20 mg-md-t-0" v-if="activationStatus()">
+						<div class="card bd-0">
+							<div class="card-header tx-medium bd-0 tx-white bg-danger">
+								Milestone</div>
+							<!-- card-header -->
+							<div class="card-body bd bd-t-0">
+								<p class="mg-b-0">As you have successfully taken the courses,
+									please execute the assignments and milestones</p>
+							</div>
+							<!-- card-body -->
+						</div>
+						<!-- card -->
+					</div>
+					<!-- col -->
+
+					<hr>
+				<?php endif; ?>
+
+				<div class="card card-carousel">
+					.
+					<h3 class="tx-inverse">Similar Training</h3>
+					<div id="carousel2" class="carousel slide" data-ride="carousel">
+						<ol class="carousel-indicators">
+							<li v-for="(training, i) in similarTraining" data-target="#carousel2" :data-slide-to="i" :class="slideClass(i)"></li>
+							<li data-target="#carousel2" data-slide-to="1"></li>
+							<li data-target="#carousel2" data-slide-to="2"></li>
+						</ol>
+						<div v-if="similarTraining.length" class="carousel-inner" role="listbox">
+							<div v-for="(training, i) in similarTraining" :class="isActive(i)">
+								<!-- <div class="carousel-item-wrapper"> -->
+								<div class="card card-blog">
+									<figure class="card-item-img bg-mantle">
+										<img class="img-fluid" :src="training.image.thumbnail" alt="Image">
+									</figure>
+									<div class="card-body">
+										<p class="blog-category">REWARD POINT :
+											&#8358;{{formatPrice(training.trainingPoints)}}</p>
+										<h5 class="blog-title">
+											<a href="">{{training.trainingTopic}}</a>
+										</h5>
+										<!-- <p class="blog-text">It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout.</p> -->
+										<!-- <p class="blog-links">
+												<a href="">12 Likes</a>
+												<a href="">23 Comments</a>
+												<a href=""><i class="icon ion-more"></i></a>
+											</p> -->
+									</div>
+									<!-- card-body -->
+								</div>
+								<!-- card -->
+								<!-- </div>carousel-item-wrapper -->
+							</div>
+
+							<!-- <div class="carousel-item">
+								<div class="carousel-item-wrapper bg-purple">
+									<div class="carousel-item-option">
+										<a href=""><i class="icon ion-edit tx-16"></i></a>
+										<a href=""><i class="icon ion-stats-bars tx-20"></i></a>
+										<a href=""><i class="icon ion-gear-a tx-20"></i></a>
+										<a href=""><i class="icon ion-more tx-20"></i></a>
+									</div>
+									<div>
+										<p class="carousel-item-label">Recent Article</p>
+										<h5 class="carousel-item-title">10 Reasons Why Travel Makes You a Happier Person</h5>
+										<nav class="nav flex-row">
+											<a href="">Edit</a>
+											<a href="">Unpublish</a>
+											<a href="">Delete</a>
+										</nav>
+									</div>
+								</div>
+							</div> -->
+						</div>
+						<!-- carousel-inner -->
+					</div>
+					<!-- carousel -->
+				</div>
+				<!-- card -->
+			</div>
+			<!-- col-6 -->
+		</div>
+		<!-- row -->
+
+	</div>
+</div>
+
+
+
+
+
+<script type="text/javascript">
+	tinymce.init({
+		selector: 'textarea#editor',
+		height: 500,
+		menubar: false,
+		plugins: [
+			'advlist autolink lists link image charmap print preview anchor',
+			'searchreplace visualblocks code fullscreen',
+			'insertdatetime media table paste code help wordcount'
+		],
+		toolbar: 'undo redo | formatselect | ' +
+			'bold italic backcolor | alignleft aligncenter ' +
+			'alignright alignjustify | bullist numlist outdent indent | ' +
+			'removeformat | help',
+		content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }',
+		skin: false,
+		content_css: false
+	});
+	let room = new Vue({
+		el: "#room",
+		data: {
+			trainingUid: "<?php echo $training->getTrainingUid() ?>",
+			trainingId: "<?php echo $training->getId() ?>",
+			trainingReward: true, // meaning there is no training reward for this user on this training
+			courseCounter: 0,
+			activatedCourseCounter: 0, // this is the number of course the customer has clicked on for this training
+			takenCourses: [], // this is an array of courses taken by customer for this training
+			trainingVideo: "",
+			programmes: [],
+			isLoadingProgrammes: false,
+			activeCourse: "https://www.youtube.com/embed/655QpM09SEU",
+			isActivatingReward: false,
+
+
+			similarTraining: [],
+
+			isPostingAssignment: false,
+
+			isSubmittedMilestone: false,
+			isSubmittingAssignment: false,
+			submittedMiletsoneStatus: [],
+
+			isSubmitAnswerButtonVisible: false, // determines if the submit answer button should be visible
+			hasMilestoneSubmitted: false,
+
+		},
+		mounted() {
+			this.getProgrammes(this.trainingUid);
+			this.getActivatedCourseCount();
+			this.getTrainingReward();
+			this.getTakenCourses();
+			this.getSimilarTraining();
+			this.getIsSubmitAnswerisVisible();
+			this.getUserTrainingSubmitStatus();
+		},
+		methods: {
+
+			courseStatus() {
+				if (this.courseCounter === this.activatedCourseCounter) {
+					return true; // at this point the customer has gone through all  couses for this training
+				} else {
+					return false; // There are some courses outstanding for the customer
+				}
+			},
+
+			activationStatus() {
+				this.getActivatedCourseCount();
+				if (this.courseStatus() == true && this.trainingReward == true) {
+					return true; // show activate button 
+				} else if (this.courseStatus() == true && this.trainingReward == false) {
+					return false;
+				}
+			},
+
+
+			getIsSubmitAnswerisVisible() {
+				axios.get("/classroom/" + this.trainingId + "/submitassignmentstatus").then(res => {
+					if (res.status == 200) {
+						this.isSubmitAnswerButtonVisible = res.data.data;
+					}
+				}).catch();
+			},
+
+			getTrainingReward() {
+				axios.get("/classroom/" + this.trainingId + "/training-reward").then(res => {
+					if (res.status == 200) {
+						this.trainingReward = res.data.data;
+
+					}
+				}).catch();
+			},
+
+			getActivatedCourseCount() {
+				axios.get("/classroom/" + this.trainingId + "/activate-course-count").then(res => {
+					if (res.status == 200) {
+						this.activatedCourseCounter = res.data.count;
+
+					}
+				}).catch();
+			},
+			getTrainingVideo() {
+
+			},
+			setTrainingVideo() {
+
+			},
+
+			accordionHrefName(id) {
+				return "#collapseOne" + id;
+			},
+
+			accordionId(id) {
+				return "collapseOne" + id;
+			},
+
+			getProgrammes(trainingUid) {
+				this.isLoadingProgrammes = true;
+				axios.get("/classroom/" + trainingUid + "/getprogrammes").then(response => {
+					if (response.status == 200) {
+						this.programmes = response.data.programmes;
+						this.isLoadingProgrammes = false;
+
+						let counter = 0;
+						for (coou of this.programmes) {
+							counter += coou.course.length;
+						}
+
+						this.courseCounter = counter;
+
+					} else {
+
+					}
+				}).catch()
+			},
+
+			getTakenCourses() {
+				axios.get("/classroom/" + this.trainingId + "/taken-courses").then(res => {
+					if (res.status == 200) {
+						this.takenCourses = res.data.taken
+
+					}
+				}).catch();
+			},
+
+			takenCourseStatus(courseId) {
+				if (this.takenCourses.some(cou => cou.course.id == courseId)) {
+					return "color:red;";
+				} else {
+					return '';
+				}
+			},
+
+			/**
+			 * This sets video links and also monitors activity of taken courses
+			 */
+			setvideoLink(video, courseId) {
+				this.activeCourse = video;
+				let formData = new FormData();
+				this.getTrainingReward();
+				this.getActivatedCourseCount();
+				formData.append('courseId', courseId);
+				formData.append("trainingId", this.trainingId);
+				axios.post("/classroom/" + this.trainingUid + "/roomcourseactivity", formData).then(res => {
+					if (res.status == 201) {
+						this.getTakenCourses();
+
+						this.activationStatus();
+					}
+				}).catch(err => {
+
+				});
+			},
+
+			/**
+			 * This is used to activate reward for customer
+			 */
+			activateCustomerReward() {
+				this.isActivatingReward = true;
+				traininId = this.trainingId;
+				swal({
+
+					title: "Reward Activation",
+					text: "The system would evaluate your activity and credit your wallet with the equivalent reward points if you qualified",
+					icon: "info",
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'ACTIVATE NOW'
+				}).then(function(isConfirm) {
+
+					if (isConfirm) {
+						let formData = new FormData();
+
+						// formData.append();
+						axios.post("/classroom/" + traininId + "/activate-training-reward", formData).then(res => {
+							if (res.status == 201) {
+								window.location.href = "/wallet";
+							} else if (res.status == 200) {
+								this.isActivatingReward = false;
+								swal({
+									title: "Error",
+									text: err.response.data.messages,
+									icon: "error",
+									showCancelButton: true,
+									confirmButtonColor: '#3085d6',
+									cancelButtonColor: '#3085d6',
+									confirmButtonText: 'OK'
+								})
+							}
+						}).catch(err => {
+							this.isActivatingReward = false;
+							swal({
+								title: "Not Eligible",
+								text: err.response.data.messages,
+								icon: "error",
+								showCancelButton: true,
+								confirmButtonColor: '#3085d6',
+								cancelButtonColor: '#3085d6',
+								confirmButtonText: 'OK'
+							}).then(function() {
+								window.location.reload();
+							})
+						});
+
+					}
+
+
+				});
+			},
+
+			submitButtonState() {
+				if (this.isSubmittedMilestone || this.isSubmittingAssignment) {
+					return true;
+				} else {
+					return false
+				}
+			},
+
+			/** this is used to submit the final status of the assignment and milestones for evaluation by the neural network */
+			submitAssignment() {
+
+				traininId = this.trainingId;
+				this.isSubmittingAssignment = true;
+				swal({
+
+					title: "Process Milestones",
+					text: "The system would evaluate your activity and credit your wallet with the equivalent reward points if you qualified, please make sure you have processed all milestones and submmitted all assignments before you click OK ",
+					icon: "info",
+					showCancelButton: true,
+					timer: 10000, //timeOut for auto-close
+					buttons: {
+						confirm: {
+							text: "OK",
+							value: true,
+							visible: true,
+							className: "",
+							closeModal: true
+						},
+						cancel: {
+							text: "Cancel",
+							value: false,
+							visible: true,
+							className: "",
+							closeModal: true,
+						}
+					}
+
+				}).then(function(isConfirm) {
+
+					if (isConfirm) {
+						let formData = new FormData();
+						this.isSubmittingAssignment = true;
+						// formData.append();
+						axios.post("/classroom/" + traininId + "/submitmilestone", formData).then(res => {
+							if (res.status == 201) {
+								window.location.href = "/wallet";
+							} else if (res.status == 200) {
+								this.isSubmittingAssignment = true;
+								swal({
+									title: "HMMMM",
+									text: err.messages,
+									icon: "error",
+									showCancelButton: true,
+									confirmButtonColor: '#3085d6',
+									cancelButtonColor: '#3085d6',
+									confirmButtonText: 'OK'
+								})
+							}
+							this.isSubmittingAssignment = false;
+						}).catch(err => {
+							this.isSubmittingAssignment = false;
+							swal({
+								title: "Error",
+								text: err.response.data.messages ?? "Something has gone wrong, please try again later",
+								icon: "error",
+								showCancelButton: true,
+								confirmButtonColor: '#3085d6',
+								cancelButtonColor: '#3085d6',
+								confirmButtonText: 'OK'
+							}).then(
+								this.isSubmittingAssignment = false
+							)
+							
+						});
+					} else {
+						this.isSubmittingAssignment = false;
+					}
+
+
+				});
+
+			},
+
+			/** Used to post assignment to the backend  but notting is done until it has been submitted to the backend*/
+			postAssignment() {
+				this.isPostingAssignment = true;
+				var myContent = tinymce.activeEditor.getContent();
+				let formData = new FormData();
+				formData.append("milestone", this.$refs.milestone.value);
+				formData.append("content", Base64.encode(myContent));
+				axios.post("/trainingjson/similartraining/", formData).then(res => {
+					if (res.status == 201) {
+						window.location.reload();
+					}
+					this.isPostingAssignment = true
+				}).catch(err => {
+					swal({
+						title: "Error",
+						text: err.response.data.messages,
+						icon: "error",
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#3085d6',
+						confirmButtonText: 'OK'
+					}).then(
+						window.location.reload()
+					)
+				});
+
+			},
+
+			getSimilarTraining() {
+				// console.log(this.trainingMilestone);
+				axios.get("/trainingjson/similartraining/" + this.trainingId).then(res => {
+					if (res.status == 200) {
+						this.similarTraining = res.data.data;
+					}
+				}).catch(err => {
+					// swal({
+					// 	title: "Error",
+					// 	text: err.response.data.messages,
+					// 	icon: "error",
+					// 	showCancelButton: true,
+					// 	confirmButtonColor: '#3085d6',
+					// 	cancelButtonColor: '#3085d6',
+					// 	confirmButtonText: 'OK'
+					// })
+				})
+			},
+
+			formatPrice(value) {
+				let val = (value / 1).toFixed(2).replace('.', ',')
+				return val.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".")
+			},
+
+			slideClass(count) {
+				if (count == 0) {
+
+					return "active";
+				} else {
+					return "";
+				}
+			},
+
+
+
+			isActive: function(carousels) {
+
+				if (carousels == 0) {
+
+					return "carousel-item active";
+				} else {
+					return "carousel-item";
+				}
+
+			},
+
+			/** Checks if milestone has been submiited */
+			isMilestoneSubmitted(milestone) {
+				axios.get("/trainingjson/is-milestone-submitted", {
+					params: {
+						mid: milestone,
+						tid: this.trainingId
+					}
+				}).then(res => {
+					if (res.status == 200) {
+						this.hasMilestoneSubmitted = res.data.data;
+					}
+				}).catch();
+			},
+
+			// getUserTraining
+
+			/** Tghis gets the state */
+			getUserTrainingSubmitStatus() {
+				axios.get("/trainingjson/get-user-training-submitStatus/" + this.trainingId).then(res => {
+					if (res.status == 200) {
+						// console.log(res.data.data);
+						this.isSubmittedMilestone = res.data.data != false ?? true;
+						this.submittedMiletsoneStatus = this.isSubmittedMilestone == true ? data.data.status : "Submit Assignment";
+					}
+				}).catch();
+			}
+
+
+
+		},
+	});
+</script>

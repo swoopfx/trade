@@ -1,0 +1,80 @@
+<?php
+
+?>
+
+<p v-if="errors.length">
+
+
+	<div v-for="error in errors" class="alert alert-danger fade show">
+		<span class="close" data-dismiss="alert">x</span> <strong>Error!</strong>
+		<a href="#" class="alert-link">{{ error }}</a>.
+	</div>
+
+</p>
+<div v-if="isSubmitFeatureForm">
+	<div class="fa-3x">
+
+		<i class="fas fa-circle-notch fa-spin"></i>
+
+	</div>
+</div>
+
+<div v-if="productFeaturess" class="panel panel-inverse" data-sortable-id="table-basic-7">
+<div v-if="featureLoading">
+	<div style="text-align: center;" class="fa-6x">
+		<i class="fas fa-sync fa-spin"></i>
+	</div>
+</div>
+
+	<!-- begin panel-body -->
+	<div class="panel-body">
+		<!-- begin table-responsive -->
+		<div class="table-responsive">
+			<table class="table table-striped m-b-0">
+
+				<tbody>
+
+					<tr v-for="(feature, key) in productFeaturess">
+
+						<td>{{feature.typeName}}</td>
+						<td>{{feature.info}}</td>
+						<td class="with-btn" nowrap><a @click="removeFeature(key)" class="btn btn-sm btn-danger width-60 m-r-2"><i class="fa fa-trash"></i></a> </td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<!-- end table-responsive -->
+	</div>
+	<!-- end panel-body -->
+
+</div>
+
+<!-- 	<div class="inputArea" v-for="input in inputs" :key="input.id"> -->
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($featurCollectionfieldset->get("featureType")) ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormSelect($featurCollectionfieldset->get("featureType")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($featurCollectionfieldset->get("featureType")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($featurCollectionfieldset->get("featurInfo"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormTextArea($featurCollectionfieldset->get("featurInfo")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($featurCollectionfieldset->get("featurInfo")); ?>
+		</div>
+
+	</div>
+</div>
+<!-- 	</div> -->
+<a @click="addFeature()" class="btn btn-default btn-block">Add
+	Feature</a>

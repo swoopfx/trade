@@ -1,0 +1,62 @@
+<?php
+echo $this->headtitle("Submiited Assignments");
+// var_dump(count($trainings))
+ ?>
+
+<div class="row">
+	<div class="col-md-9">
+		<div class="panel panel-inverse">
+			<!-- begin panel-heading -->
+			<div class="panel-heading">
+				<div class="panel-heading-btn">
+					<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+				</div>
+				<h4 class="panel-title">Submmited Assignments</h4>
+			</div>
+			<!-- end panel-heading -->
+			<!-- begin panel-body -->
+			<div class="panel-body">
+				<?php
+//         var_dump($trainings);
+if (count($trainings) > 0): ?>
+					<table id="data-table-default " class="table table-striped table-bordered table-responsive">
+						<thead>
+							<tr>
+
+
+								<th class="text-nowrap">Status</th>
+								<th width="1%" data-orderable="false"></th>
+								<th class="text-nowrap">Training Details</th>
+								<th class="text-nowrap">Disbursedment </th>
+								<!-- 						<th class="text-nowrap">Platform(s)</th> -->
+								<!-- 						<th class="text-nowrap">Engine version</th> -->
+								<th class="text-nowrap"></th>
+							</tr>
+						</thead>
+
+						<tbody>
+							<?php foreach ($trainings as $training):
+    //                     var_dump($training);
+    // $json = json_encode(array(
+    //     "data" => $training["trainingUid"]
+    // ));
+    ?>
+									<tr class="gradeU">
+										<td><?php echo strtoupper($training->getStatus()->getStatus()) ?></td>
+										<td class="with-img"></td>
+										<td><?php echo $training->getUserTraining()->getTraining()->getTrainingTopic() ?></td>
+										<td><?php //echo $this->dateformat($training["createdOn"], IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE) ?></td>
+
+										<td><a  href="<?php echo $this->url("bbmintraining/default", array("action" => "manage-submitted-training", "id" => $training->getId())) ?>" class="btn btn-default btn-block ajax_element">MANAGE</a></td>
+									</tr>
+								<?php endforeach;?>
+						</tbody>
+
+					</table>
+					<?php echo $this->paginationControl($trainings, "Sliding", "general_pagination") ?>
+				<?php endif;?>
+			</div>
+			<!-- end panel-body -->
+		</div>
+	</div>
+</div>

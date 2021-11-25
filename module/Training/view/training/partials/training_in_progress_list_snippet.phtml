@@ -1,0 +1,52 @@
+<?php
+?>
+<div class="card card-table">
+	<div class="card-header">
+		<h6 class="slim-card-title">Training In Progress</h6>
+	</div>
+	<!-- card-header -->
+	<di class="table-responsive">
+		<?php if (count($training) >  0) : ?>
+			<table class="table mg-b-0 tx-13">
+				<thead>
+					<tr class="tx-10">
+						<th class="wd-10p pd-y-5">&nbsp;</th>
+						<th class="pd-y-5">Training Topic</th>
+						<!-- 									<th class="pd-y-5">Points</th> -->
+						<th class="pd-y-5">Status</th>
+						<th class="pd-y-5">Started On</th>
+					</tr>
+				</thead>
+				<tbody>
+
+					<?php //var_dump($training)
+					?>
+					<?php foreach ($training as $train) : ?>
+						<tr>
+							<td class="pd-l-20"><img src="<?php echo $this->imageHelper($train->getTraining()->getImage()) ?>" class="wd-36 rounded-circle" alt="Image"></td>
+							<td><a href="<?php echo $this->url("classroom/default", array("trainingUid"=>$train->getTraining()->getTrainingUid()))?>" class="tx-inverse tx-14 tx-medium d-block"><?php echo ($train->getTraining()->getTrainingTopic() == NULL ? "No Topic" : $train->getTraining()->getTrainingTopic()) ?></a>
+								<span class="tx-11 d-block">UID: <?php  echo  ($train->getTraining()->getTrainingUid() == NULL ? "No UId" : strtoupper($train->getTraining()->getTrainingUid())) ?></span></td>
+							<td class="tx-12"><?php echo ($train->getStatus() != NULL ? $this->trainingStatusHelper($train->getStatus()) : "") ?></td>
+							<td><?php echo $this->dateformat($train->getStartDate(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, "en_us") ?></td>
+						</tr>
+					<?php endforeach; ?>
+
+
+
+
+				</tbody>
+			</table>
+			<!-- table-responsive -->
+			<div class="card-footer tx-12 pd-y-15 bg-transparent">
+				<a href=""><i class="fa fa-angle-down mg-r-5"></i>View All Transaction
+				</a>
+			</div>
+		<?php else : ?>
+
+			<p>No Training
+				Subscribed to yet</p>
+		<?php endif; ?>
+</div>
+
+<!-- card-footer -->
+</div>

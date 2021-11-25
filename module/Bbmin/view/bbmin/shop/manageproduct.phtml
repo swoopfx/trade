@@ -1,0 +1,641 @@
+<?php
+
+use General\Service\GeneralService;
+
+echo $this->headtitle("Manage Product");
+?>
+<ol class="breadcrumb pull-right">
+	<li class="breadcrumb-item"><a href="javascript:;">Product </a></li>
+	<li class="breadcrumb-item active">Management</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">
+	Product <small>Tfits.online manage product </small>
+</h1>
+<hr>
+<div id="manageProduct">
+	<div class="row">
+
+		<div class="col-lg-8">
+
+
+			<!-- begin tabs -->
+			<ul class="nav nav-tabs nav-justified nav-justified-mobile" data-sortable-id="index-2">
+				<li class="nav-item"><a href="#latest-post" data-toggle="tab" class="nav-link active"><i class="fa fa-camera fa-lg m-r-5"></i> <span class="d-none d-md-inline">Product Meta Data</span></a></li>
+				<li class="nav-item"><a href="#purchase" data-toggle="tab" class="nav-link"><i class="fa fa-archive fa-lg m-r-5"></i> <span class="d-none d-md-inline">Product Information</span></a></li>
+				<li class="nav-item"><a href="#email" data-toggle="tab" class="nav-link"><i class="fa fa-envelope fa-lg m-r-5"></i> <span class="d-none d-md-inline">Recent Customer</span></a></li>
+			</ul>
+
+			<div class="tab-content" data-sortable-id="index-3">
+				<div class="tab-pane fade active show" id="latest-post">
+					<div class="height-md" data-scrollbar="true">
+						<table class="table">
+
+							<tbody>
+								<tr>
+									<td>Unique ID. / SKU</td>
+									<td><strong><?php echo GeneralService::noDataHelper($product->getSku()) ?></strong></td>
+								</tr>
+								<tr>
+									<td>Product Title</td>
+									<td><?php echo GeneralService::noDataHelper(($product->getProductDescription() == null ? "" : $product->getProductDescription()->getProductName())) ?></td>
+								</tr>
+								<tr>
+									<td>Product Description</td>
+									<td><?php echo GeneralService::noDataHelper(($product->getProductDescription() == null ?  null : $product->getProductDescription()->getDescription())) ?></td>
+								</tr>
+
+								<tr>
+									<td>Tag</td>
+									<td><?php echo GeneralService::noDataHelper(($product->getProductDescription() == null ?  null : $product->getProductDescription()->getTag())) ?></td>
+								</tr>
+
+								<tr>
+									<td>Meta Title</td>
+									<td><?php echo GeneralService::noDataHelper(($product->getProductDescription() == null ?  null : $product->getProductDescription()->getMetaTitle())) ?></td>
+								</tr>
+								<tr>
+									<td>Meta Description</td>
+									<td> <?php echo GeneralService::noDataHelper(($product->getProductDescription() == null ?  null : $product->getProductDescription()->getMetaDescription())) ?> </td>
+								</tr>
+								<tr>
+									<td>Meta Keyword</td>
+									<td><?php echo GeneralService::noDataHelper(($product->getProductDescription() == null ?  null : $product->getProductDescription()->getMetaKeyword())) ?></td>
+								</tr>
+
+							</tbody>
+						</table>
+						<a href="#edit-product-modal" class="btn btn-sm btn-primary btn-block" data-toggle="modal">EDIT
+							DESCRIPTION</a>
+
+						<!-- Edit modal form for -->
+						<div class="modal fade" id="edit-product-modal">
+							<div class="modal-dialog">
+								<div class="modal-content">
+									<div class="modal-header">
+										<h4 class="modal-title">Edit Description</h4>
+										<button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
+									</div>
+									<div class="modal-body">
+										<form action="/" method="POST">
+											<fieldset>
+
+												<div class="form-group">
+													<label for="">Product Title</label> <input type="text" required value="<?php echo ($product->getProductDescription() == null ? "" : $product->getProductDescription()->getProductName()) ?> " class="form-control" ref="productTitle" placeholder="Enter email" />
+												</div>
+												<div class="form-group">
+													<label for="">Product Description</label>
+
+													<textarea value="" class="form-control" required ref="productDesc"><?php echo ($product->getProductDescription() == null ?  null : $product->getProductDescription()->getDescription()) ?></textarea>
+												</div>
+
+												<div class="form-group">
+													<label for="exampleInputEmail1">Product Tags</label> <input type="email" value="<?php echo ($product->getProductDescription() == null ? "" :  $product->getProductDescription()->getTag()) ?> " class="form-control" ref="productTags" />
+												</div>
+
+												<div class="form-group">
+													<label for="exampleInputEmail1">Product Tags</label> <input type="text" value="<?php echo ($product->getProductDescription() == null ? "" :  $product->getProductDescription()->getMetaKeyword()) ?> " class="form-control" ref="productKeywards" />
+												</div>
+
+
+											</fieldset>
+										</form>
+									</div>
+									<div class="modal-footer">
+
+										<button @click="updateProductDesc()" class="btn btn-success">Update
+										</button>
+									</div>
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+
+
+				<div class="tab-pane fade" id="purchase">
+					<div class="height-md" data-scrollbar="true">
+
+						<table class="table">
+							<thead>
+								<tr>
+									<th>Product Category</th>
+									<th><?php echo GeneralService::noDataHelper($product->getCategory()->getCategory()) ?></th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td>Product Category</td>
+									<td><?php echo GeneralService::noDataHelper($product->getCategory()->getCategory()) ?></td>
+								</tr>
+								<tr>
+									<td>Garment Type</td>
+									<td><?php echo  GeneralService::noDataHelper(($product->getGarmentType() == null ? null : $product->getGarmentType()->getGarmentType())) ?></td>
+								</tr>
+								<tr>
+									<td>Availaible Sizes</td>
+									<td>
+										<ul><?php if (count($product->getAvailaibleSizes()) > 0) : ?>
+												<?php foreach ($product->getAvailaibleSizes() as $size) : ?>
+													<li><?php echo $size->getSizes()->getSize() ?> ( <?php echo $size->getAvalaibleQuantity() ?>)</li>
+												<?php endforeach; ?>
+											<?php
+
+											else :
+											?>
+												No Data
+											<?php endif; ?>
+										</ul>
+									</td>
+								</tr>
+								<tr>
+									<td>Product Features</td>
+									<td>
+										<?php if (count($product->getProductFeatures()) > 0) : ?>
+											<table>
+												<th>Product Feature Type</th>
+												<th>Feature information</th>
+												<?php foreach ($product->getProductFeatures() as $feat) : ?>
+
+													<tr>
+
+														<td><?php echo $feat->getFeatureType()->getType() ?></td>
+														<td><?php echo  $feat->getFeaturInfo() ?></td>
+													</tr>
+												<?php endforeach; ?>
+											</table>
+										<?php else : ?>
+
+										<?php endif; ?>
+									</td>
+								</tr>
+
+								<tr>
+									<td>Product Attributes</td>
+									<td>
+										<?php if (count($product->getProductAttributes()) > 0) : ?>
+											<table>
+												<th>Attributtes</th>
+												<th>Attribute Information</th>
+												<?php foreach ($product->getProductAttributes() as $feat) : ?>
+
+													<tr>
+
+														<td><?php echo $feat->getAttributeName() ?></td>
+														<td><?php echo  $feat->getAttributetext() ?></td>
+													</tr>
+												<?php endforeach; ?>
+											</table>
+										<?php else : ?>
+
+										<?php endif; ?>
+									</td>
+								</tr>
+								<tr>
+									<td>Availaible Quantity</td>
+									<td><?php echo $product->getQuantity() ?></td>
+								</tr>
+								<tr>
+									<td>Stock Available</td>
+									<td><?php echo $this->bbminProductBoolean($product->getIsShipping()) ?></td>
+								</tr>
+								<tr>
+									<td>Has active Discount</td>
+									<td><?php echo $this->bbminProductBoolean($product->getIsDiscount()) ?> <br></td>
+								</tr>
+								<tr>
+									<td>Product Points</td>
+									<td><?php echo $product->getPoints(); ?> Points</td>
+								</tr>
+								<tr>
+									<td>Weight</td>
+									<td><?php echo $product->getWeight(); ?> kg</td>
+								</tr>
+
+								<tr>
+									<td>Length</td>
+									<td><?php echo $product->getLength(); ?> cm</td>
+								</tr>
+
+								<tr>
+									<td>Width</td>
+									<td> <?php echo $product->getWidth(); ?> cm</td>
+								</tr>
+
+								<tr>
+									<td>Height</td>
+									<td><?php echo $product->getHeight(); ?> cm</td>
+								</tr>
+							</tbody>
+						</table>
+
+
+						<a href="#modal-message" class="btn btn-sm btn-primary btn-block" data-toggle="modal">EDIT INFO</a>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="email">
+					<div class="height-sm" data-scrollbar="true">
+						<?php
+						// echo $this->partial("bbmin_dashboard_recent_user", array("users"=>$recentUsers))
+						?>
+
+					</div>
+				</div>
+			</div>
+
+
+			<!-- end tabs -->
+
+
+		</div>
+
+		<div id="productSetting" class="col-lg-4">
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="index-2">
+				<div class="panel-heading">
+					<h4 class="panel-title">PRODUCT SETTINGS</h4>
+				</div>
+				<div class="panel-body bg-silver">
+					<div class="chats" data-scrollbar="true" data-height="225px">
+						<div class="list-group">
+							<a href="javascript:;" class="list-group-item d-flex justify-content-between align-items-center text-ellipsis">
+								Notify All Customer <span class="badge f-w-500 bg-gradient-green f-s-10"><input type="checkbox" ref="notifyCustomer" /></span>
+							</a> <a href="javascript:;" class="list-group-item d-flex justify-content-between align-items-center text-ellipsis">
+								Share On Social Media <span class="badge f-w-500 bg-gradient-blue f-s-10"><input type="checkbox" ref="shareMedia" /></span>
+							</a>
+						</div>
+
+
+
+					</div>
+				</div>
+				<div class="panel-footer">
+
+
+					<div v-if="isPublished">
+						<button :disabled="noAvialaibleImages" type="button" @click="unpublish()" class="btn btn-danger btn-block">UN PUBLISH</button>
+					</div>
+					<div v-else>
+						<button class="btn btn-success btn-block" :disabled="noAvialaibleImages" type="button" @click="publish()">PUBLISH</button>
+					</div>
+
+
+				</div>
+			</div>
+			<!-- end panel -->
+		</div>
+
+	</div>
+
+
+	<div class="row">
+
+		<!-- Insert action buttons here Add Discount -->
+
+	</div>
+
+
+
+	<div class="row">
+
+		<!-- begin col-4 -->
+		<div id="imageAction" class="col-lg-4 ">
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="index-2">
+				<div class="panel-heading">
+					<h4 class="panel-title">Uploaded Images</h4>
+				</div>
+				<div class="panel-body bg-silver">
+					<div class="panel-body">
+						<!-- begin table-responsive -->
+						<div v-if="isUploadingImage">
+							<div style="text-align: center;" class="fa-6x">
+								<i class="fas fa-circle-notch fa-spin"></i>
+							</div>
+						</div>
+						<div v-else class="table-responsive">
+
+							<table class="table table-striped m-b-0">
+
+								<tbody v-if="uploadedImages.length">
+									<tr v-for="(image, i) in uploadedImages">
+										<td class="with-img"><img :src="image.thumbnail" class="img-rounded height-30" /></td>
+										<td>{{image.imageName}}</td>
+
+										<td class="with-btn" nowrap><a href="#" class="btn btn-sm btn-primary width-60 m-r-2"><i class="fa fa-eye"></i></a> <a href="#" @click="removeImage(image.id)" class="btn btn-sm btn-danger "><i class="fa fa-trash"></i></a></td>
+									</tr>
+
+
+								</tbody>
+							</table>
+						</div>
+						<!-- end table-responsive -->
+					</div>
+				</div>
+				<div class="panel-footer">
+
+					<div class="input-group">
+						<input type="file" ref="productFile" class="form-control" name="productFile">
+						<hr>
+						<button @click="uploadImage()" class="btn btn-primary btn-block" type="button">UPLOAD</button>
+
+
+					</div>
+
+				</div>
+			</div>
+			<!-- end panel -->
+		</div>
+		<!-- end col-4 -->
+		<!-- begin col-4 -->
+		<div class="col-lg-4">
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="index-3">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						Related Products <span class=" btn pull-right label bg-gradient-green">Add Product</span>
+					</h4>
+				</div>
+				<div id="schedule-calendar" class="bootstrap-calendar"></div>
+				<div class="list-group">
+					<a href="javascript:;" class="list-group-item d-flex justify-content-between align-items-center text-ellipsis">
+						Sales Reporting <span class="badge f-w-500 bg-gradient-green f-s-10">9:00 am</span>
+					</a> <a href="javascript:;" class="list-group-item d-flex justify-content-between align-items-center text-ellipsis">
+						Have a meeting with sales team <span class="badge f-w-500 bg-gradient-blue f-s-10">2:45 pm</span>
+					</a>
+				</div>
+			</div>
+			<!-- end panel -->
+		</div>
+		<!-- end col-4 -->
+		<!-- begin col-4 -->
+		<div class="col-lg-4">
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="index-4">
+				<div class="panel-heading">
+					<h4 class="panel-title">
+						Comments<span class="pull-right label bg-gradient-green">24 new
+							users</span>
+					</h4>
+				</div>
+				<!-- <ul class="registered-users-list clearfix">
+					<li>
+						<a href="javascript:;"><img src="../assets/img/user/user-5.jpg" alt="" /></a>
+						<h4 class="username text-ellipsis">
+							Savory Posh
+							<small>Algerian</small>
+						</h4>
+					</li>
+					<li>
+						<a href="javascript:;"><img src="../assets/img/user/user-3.jpg" alt="" /></a>
+						<h4 class="username text-ellipsis">
+							Ancient Caviar
+							<small>Korean</small>
+						</h4>
+					</li>
+					<li>
+						<a href="javascript:;"><img src="../assets/img/user/user-1.jpg" alt="" /></a>
+						<h4 class="username text-ellipsis">
+							Marble Lungs
+							<small>Indian</small>
+						</h4>
+					</li>
+					<li>
+						<a href="javascript:;"><img src="../assets/img/user/user-8.jpg" alt="" /></a>
+						<h4 class="username text-ellipsis">
+							Blank Bloke
+							<small>Japanese</small>
+						</h4>
+					</li>
+					<li>
+						<a href="javascript:;"><img src="../assets/img/user/user-2.jpg" alt="" /></a>
+						<h4 class="username text-ellipsis">
+							Hip Sculling
+							<small>Cuban</small>
+						</h4>
+					</li>
+					<li>
+						<a href="javascript:;"><img src="../assets/img/user/user-6.jpg" alt="" /></a>
+						<h4 class="username text-ellipsis">
+							Flat Moon
+							<small>Nepalese</small>
+						</h4>
+					</li>
+					<li>
+						<a href="javascript:;"><img src="../assets/img/user/user-4.jpg" alt="" /></a>
+						<h4 class="username text-ellipsis">
+							Packed Puffs
+							<small>Malaysian></small>
+						</h4>
+					</li>
+					<li>
+						<a href="javascript:;"><img src="../assets/img/user/user-9.jpg" alt="" /></a>
+						<h4 class="username text-ellipsis">
+							Clay Hike
+							<small>Swedish</small>
+						</h4>
+					</li>
+				</ul> -->
+				<div class="panel-footer text-center">
+					<a href="javascript:;" class="text-inverse">View All</a>
+				</div>
+			</div>
+			<!-- end panel -->
+		</div>
+		<!-- end col-4 -->
+
+	</div>
+	<!-- end row -->
+
+</div>
+<script src="/admin/assets/js/demo/ui-modal-notification.demo.min.js"></script>
+<script �src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+<script>
+	// const Swal = SweetAlert;
+
+	let productInfo = new Vue({
+		el: "#manageProduct",
+		data() {
+			return {
+				productId: '<?php echo $product->getId() ?>',
+				isUpdatetingProductDesc: false,
+				products: [],
+				isUploadingImage: false,
+				isGettingImages: false,
+				isGettingImage: false,
+				image: "",
+				uploadedImages: [],
+				isPublished: false,
+				relatedProduct: [],
+				// publishedImages: []
+			}
+		},
+
+		computed: {
+			noAvialaibleImages() {
+				if (this.uploadedImages.length > 0) {
+					return false
+				} else {
+					return true;
+				}
+			},
+
+
+
+		},
+
+		mounted() {
+			this.getImages();
+			this.getProductState();
+		},
+
+		methods: {
+
+			getRelatedProducts() {
+				axios.get("/productajax/get-related-product" + this.productId).then(res => {
+					if (res.status == 200) {
+
+					}
+				}).catch();
+			},
+
+			getProductState() {
+
+				axios.get("/bbmin/productjson/get-product-state").then(res => {
+					if (res.status == 200) {
+						this.isPublished = res.data.state;
+					}
+				});
+			},
+			publish() {
+				if (this.uploadedImages.length > 7 || this.uploadedImages.length < 1) {
+
+					// throw error signifying that the the images cannot be more that 7
+				} else {
+					axios.put("/bbmin/productjson/publish", {
+						state: true
+
+					}).then(res => {
+
+						if (res.status == 201) {
+							this.getProductState();
+							swal({
+								title: "Published",
+								text: "Product is Successfully published",
+								icon: "success",
+								button: "Great!"
+							});
+						}
+					});
+				}
+			},
+
+			unpublish() {
+				axios.put("/bbmin/productjson/publish", {
+					state: false
+				}).then(res => {
+					if (res.status == 201) {
+						this.getProductState();
+						swal({
+							title: "UnPublished",
+							text: "Product is Successfully unpublished",
+							icon: "success",
+							button: "Great!"
+						});
+					}
+				});
+			},
+
+			updateProductDesc() {
+				if (this.$refs.productName.value == "" || this.$refs.productDesc.value == "") {
+					// show error message
+				} else {
+					this.isUpdatetingProductDesc = TRUE;
+					// axios.post("").then()
+				}
+			},
+
+			uploadImage() {
+				if (this.uploadedImages.length == 7) {
+
+				} else {
+
+					this.isUploadingImage = true;
+					let formData = new FormData();
+					formData.append("image", this.$refs.productFile.files[0]);
+					// formData.append("productid", this.productId);
+					axios.post("/bbmin/productjson/upload-product-image", formData, {
+						headers: {
+							"Content-Type": "multipart/form-data"
+						}
+					}).then(response => {
+						if (response.status == 201) {
+							this.isUploadingImage = false;
+							this.$refs.productFile.value = "";
+							this.getImages();
+						}
+					}).catch(err => {
+
+						swal({
+							title: "ERROR",
+							text: err.response.data.message,
+							icon: "error",
+							button: "OK!"
+						}).then(res => {
+							this.getImages();
+							this.$refs.productFile.value = "";
+						});
+
+					});
+				}
+			},
+
+			getImage(imageId) {
+				this.isGettingImage = true;
+				axios.get("/bbmin/productjson/get-image/" + imageId).then(res => {
+					if (res.status == 200) {
+						this.image = res.data.url;
+						this.isGettingImage = false;
+					}
+				});
+			},
+
+
+
+			getImages() {
+				axios.get("/bbmin/productjson/productimages/").then(res => {
+					if (res.status == 200) {
+						this.uploadedImages = res.data;
+						this.isUploadingImage = false;
+						// this.$refs.productFile.files[0] = "";
+					}
+				})
+			},
+
+			removeImage(id) {
+				axios.put("/bbmin/productjson/removeimage", {
+					imageId: id
+				}).then(res => {
+					if (res.status == 204) {
+						this.getImages();
+						console.log(this.uploadedImages.length);
+						if (this.uploadedImages.length == 1) {
+							this.unpublish()
+						}
+						swal({
+							title: "SUCCESS",
+							text: "Successfully Removed  Image",
+							icon: "success",
+							button: "OK!"
+						});
+
+
+					}
+				})
+			}
+		},
+	});
+</script>

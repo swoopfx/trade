@@ -1,0 +1,40 @@
+<script type="text/javascript">
+    tinymce.remove();
+</script>
+<?php
+$form = $this->form;
+$form->prepare();
+
+echo $this->form()->openTag($form);
+?>
+
+
+<!-- <div id="editor"></div> -->
+<?php echo $this->partial("training-user-wysiwyg-submit-answer-fieldset-snippet", ['fieldset' => $form->get('submitMilestoneAnswerFieldset')]) ?>
+<hr>
+<?php echo $this->formsubmit($form->get("submit")) ?>
+
+<?php echo $this->form()->closeTag() ?>
+<!-- <script>
+    $(document).ready(function() {
+        $("form#assignment").submit(function(event) {
+            var formData = {
+                milestone: $("#milestone").val(),
+                content: Base64.encode($("#editor").val()),
+                // superheroAlias: $("#superheroAlias").val(),
+            };
+
+            $.ajax({
+                type: "POST",
+                url: "/trainingjson/post-assignment",
+                data: formData,
+                // dataType: "json",
+                // encode: true,
+            }).done(function(data) {
+                console.log(data);
+            });
+
+            event.preventDefault();
+        });
+    });
+</script> -->

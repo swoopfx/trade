@@ -1,0 +1,50 @@
+<?php
+if($data == NULL){
+    echo "<h3>NO TICKET AVAILAIBLE</h3>";
+}else{
+?><div class="row">
+	<div class="col-lg-12 mg-t-20 mg-lg-t-0">
+		<div class="card card-table">
+			<div class="card-header">
+				<h6 class="slim-card-title">My Support Ticket</h6>
+			</div>
+			<!-- card-header -->
+			<div class="table-responsive">
+				<table class="table mg-b-0 tx-13">
+					<thead>
+						<tr class="tx-10">
+							
+							<th class="pd-y-5">Ticket</th>
+							<th class="pd-y-5">Status</th>
+							<th class="pd-y-5">Date Updated</th>
+						</tr>
+					</thead>
+					<tbody>
+					<?php  foreach ($data as $dat ){?>
+						<tr>
+							
+							<td><a href="<?php  echo $this->url("support/default", array("action"=>"view", "id"=>$dat->getSupportUid()))?>" class="tx-inverse tx-14 tx-medium d-block"><?php  echo ($dat->getSupportTitle() != NULL ? $dat->getSupportTitle() : "No Data")?></a> <span class="tx-11 d-block">SUPPORT ID: <?php echo ($dat->getSupportUid() != NULL ? $dat->getSupportUid() : "No Data")?></span>
+							</td>
+							<td class="tx-12"><?php echo $this->supportStatusHelper($dat->getStatus()->getId())?></td>
+							<td><?php echo $this->dateformat($dat->getUpdatedOn(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, "en_us")?></td>
+						</tr>
+						
+						
+						<?php }?>
+						
+					</tbody>
+				</table>
+			</div>
+			<!-- table-responsive -->
+			<div class="card-footer tx-12 pd-y-15 bg-transparent">
+				<a href="<?php  echo $this->url("support");?>"><i class="fa fa-angle-down mg-r-5"></i>View All
+					Support Tickets</a>
+			</div>
+			<!-- card-footer -->
+		</div>
+		<!-- card -->
+	</div>
+
+</div>
+
+<?php }?>

@@ -1,0 +1,19 @@
+<?php
+?>
+<div class="slim-navbar">
+	<div class="container">
+		<ul class="nav">
+		<?php foreach ($this->container as $page) :?>
+		<li class="nav-item <?php  echo ($page->isActive() ? "active" : "")?>"><a class="nav-link"
+				href="<?php  echo $page->getHref()?>"> <?php  echo $page->getLabel()?>
+			</a></li>
+		<?php  endforeach; ?>
+			
+			
+
+
+		</ul>
+	</div>
+	<!-- container -->
+</div>
+<!-- slim-navbar -->

@@ -1,0 +1,83 @@
+<?php  use Shop\Service\CartItemService;
+
+  foreach ($products as $product):?>
+
+<tr>
+	<td bgcolor="" align="center" style="padding: 0px 0px 40px 0px;">
+		<!--[if mso]>
+<table class="ghosttable" align="center" border="0" cellspacing="0" cellpadding="0" width="100%" role="presentation" style="padding: 0px; text-align:center; width:100%;">
+<tr>
+<td class="ghostcell" align="left" valign="top" width="320" style="width:320px; display: inline-block; padding:0px 0px 0px 10px;">
+<![endif]-->
+		<div class="ghostdiv"
+			style="width: 300px; border: none; display: inline-table; padding: 0px !important; font-size: 0px; vertical-align: top;">
+			<table class="container" align="center" width="100%"
+				bgcolor="#FFFFFF" valign="top" border="0" cellpadding="0"
+				cellspacing="0"
+				style="font-size: 16px; color: white; margin: 0px; padding: 0px; line-height: 1.5; border-collapse: collapse; text-align: center;"
+				role="presentation">
+				<tr>
+
+					<!--[if mso]>
+<td class="ghostcell" width="25" style="width:25px"></td>
+<![endif]-->
+					<td>
+						<table style="margin-bottom: 10px !important;">
+							<tr>
+								<td align="center" valign="top"
+									style="background-color: #F6F4F8; padding: 0px 10px; text-align: center;">
+									<img border="0" width="280" height="280"
+									style="width: 280px; height: 280px; border: none; border-collapse: collapse; -ms-interpolation-mode: bicubic; display: block; padding: 0px 0px 0px 0px; background-color: #F6F4F8;"
+									src="<?php  echo $product['product_image'] ?>"
+									alt="product image" />
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+			</table>
+		</div> <!--[if mso]>
+</td>
+<td class="ghostcell" align="left" valign="top" width="320" style="width:320px; display: inline-block; padding:0px; margin:0px; text-align:left">
+<![endif]-->
+		<div class="ghostdiv product-desc"
+			style="width: 280px; border: none; display: inline-table; padding: 0px !important; font-size: 0px; vertical-align: top;">
+			<table width="100%" bgcolor="#FFFFFF" align="left" valign="top"
+				cellpadding="0" cellspacing="0"
+				style="font-size: 16px; margin: 0px; padding: 0px; line-height: 1.5;"
+				role="presentation">
+				<tr>
+					<td style="padding: 0px 10px;">
+						<table width="100%" border="0" cellspacing="0" cellpadding="0"
+							role="presentation">
+							<tr>
+								<td valign="top" align="left"
+									style="color: #111111; font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px;"><?php echo $product['product_name'];?></td>
+								<td valign="top">
+									<table width="100%" border="0" cellspacing="0" cellpadding="0"
+										role="presentation">
+										<tr>
+											<td valign="top" align="right" width="75"
+												style="white-space: nowrap; word-break: break-all; color: #111111; font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 24px; text-align: right; border: none;"><?php  echo $this->myCurrencyHelper($product[CartItemService::ITEM_TOTAL_PRICE_NAME])?></td>
+										</tr>
+									</table>
+								</td>
+							</tr>
+						</table>
+					</td>
+				</tr>
+				<tr>
+					<td valign="top" align="left"
+						style="padding: 0px 10px; width: 200px; color: #6D6D6D; font-family: Helvetica, Arial, sans-serif; font-size: 14px; line-height: 22px;"><?php echo $product[CartItemService::ITEM_QUANTITY_NAME]?></td>
+				</tr>
+			</table>
+		</div> <!--[if mso]>
+</td>
+</tr>
+</table>
+<![endif]-->
+	</td>
+</tr>
+
+
+<?php endforeach;?>

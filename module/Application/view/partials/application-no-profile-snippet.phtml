@@ -1,0 +1,34 @@
+<?php
+?>
+
+<div class="col-sm-12">
+							<?php //echo $this->partial("application-pulsating-button") ;?>
+							<div class="alert alert-danger mg-b-0" role="alert">
+		<button type="button" class="close" data-dismiss="alert"
+			aria-label="Close">
+			<span aria-hidden="true">&times;</span>
+		</button>
+		<strong>Little Bit More !!!!</strong> Almost There
+	</div>
+	<!-- alert -->
+	<div class="card card-body pd-25 tx-center">
+		<div class="card-icon-wrapper" style="color: red;">
+			<i class="icon ion-android-warning" style="color: red;"></i>
+		</div>
+		<!-- icon-wrapper -->
+
+		<h4 class="tx-gray-800 mg-b-25">Incomplete Profile</h4>
+		<p class="mg-b-25">We need some basic information about you before you
+			continue on this journey</p>
+		<a id="btn2" data-ajax-loader="supportButto"
+			data-href="<?php  echo $this->url("appmodal/default", array("action"=>"completetprofilemodal"))?>"
+			class="btn btn-danger btn-block ajax_element">Complete Profile</a>
+	</div>
+
+	<div style="text-align: center;">
+		<i id="supportButto" class="fa  fa-lg" style="display: none;"><img
+			alt="" src="<?php echo $this->basepath("/pro.gif") ?>" height=37></i>
+	</div>
+	<!-- card -->
+</div>
+

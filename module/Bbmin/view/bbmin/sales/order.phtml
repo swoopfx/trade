@@ -1,0 +1,83 @@
+<?php
+echo $this->headtitle("Order");
+/**
+ * This diaplays all unprocessed order, processinges order, and processing order
+ */
+?>
+
+
+	
+	<div class="row">
+	<div class="col-md-9">
+		<div class="panel panel-inverse">
+		<?php
+				// 		var_dump($trainings);
+				if (count($orders) > 0) : ?>
+		<div class="table-responsive">
+						<!-- begin widget-table -->
+						<table class="table table-bordered widget-table widget-table-rounded" data-id="widget">
+							<thead>
+								<tr>
+									<th width="1%">Image</th>
+									<th>Product Info</th>
+<!-- 									<th>Price</th> -->
+									<th>Created On</th>
+<!-- 									<th>Total</th> -->
+									<th></th>
+								</tr>
+							</thead>
+							<tbody>
+							<?php foreach ($orders as $order) :
+// 							var_dump($order['cart']['cartItems']);
+								$json = json_encode(array(
+									"data" => $order["orderUid"]
+								));
+							?>
+								<tr>
+									<td>
+										<div class="widget-table-img" style="background-image: url(<?php echo $this->imageHelper($order['cart']['cartItems'][0]['product']["image"][0]) ?>);"></div>
+									</td>
+									<td>
+										<?php  foreach($order['cart']['cartItems'] as $item):?>
+										<?php //var_dump($item['product'])?>
+										<h4 class="widget-table-title"><?php  echo $item['product']['productDescription']['productName']?> (<?php echo strtoupper($item["product"]['sku']) ?>)</h4>
+										<p class="widget-table-desc m-b-15"><strong>Customer :</strong> <?php  echo $order['cart']['user']['profile']['firstname']?>  <?php  echo $order['cart']['user']['profile']['lastname']?></p>
+										<div class="progress progress-sm rounded-corner m-b-5">
+											<div class="progress-bar progress-bar-striped progress-bar-animated bg-orange f-s-10 f-w-600" style="width: 30%;">30%</div>
+										</div>
+										<hr>
+										<?php endforeach;?>
+										<div class="clearfix f-s-10">
+											status: 
+											<b class="text-inverse" data-id="widget-elm" data-light-class="text-inverse" data-dark-class="text-white"><?php echo $order['orderStatus']['status']?></b>
+										</div>
+									</td>
+									
+									<td>1 <?php echo $this->dateformat($order["createdOn"], IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE) ?></td>
+<!-- 									<td>999.00</td> -->
+									<td>
+										<a href="<?php  echo $this->url("bbminsales/default", ['action'=>'vieworder', 'id'=>$order['orderUid']])?>" class="btn btn-inverse btn-sm width-80 rounded-corner" data-id="widget-elm" data-light-class="btn btn-inverse btn-sm width-80 rounded-corner" data-dark-class="btn btn-default btn-sm width-80 rounded-corner">Manage</a>
+									</td>
+								</tr>
+								
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+						<!-- end widget-table -->
+					</div>
+				<?php endif; ?>	
+					
+			
+		</div>
+	</div>
+	
+	
+</div>
+<?php 
+echo $this->inlineScript()
+// ->appendFile($this->basePath('/lib/jquery/js/jquery.js'))
+->appendFile($this->basePath('/wasabi/js/wasabi.gritter.js'))
+	->appendFile($this->basePath('/wasabi/js/wasabi.suggest.js'))
+	->appendFile($this->basePath('/wasabi/js/wasabilib.min.js'))
+	;
+?>

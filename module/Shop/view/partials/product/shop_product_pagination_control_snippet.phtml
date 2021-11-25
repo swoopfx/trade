@@ -1,0 +1,26 @@
+<?php
+use General\Service\GeneralService;
+
+if ($this->pageCount > 1) :
+?>
+<div class="row mt-5">
+					<div class="col text-center">
+						<div class="block-27">
+							<ul>
+								<?php  if(isset($this->previous)):?>
+								<li><a href="<?php  echo $this->url("category/pagination", array("action"=>"category", "name"=>GeneralService::spine($product->getSlug()), "page"=>$this->previous))?>">&lt;</a></li>
+								<?php endif;?>
+								<li class="active"><span>1</span></li>
+								<li><a href="#">2</a></li>
+								<li><a href="#">3</a></li>
+								<li><a href="#">4</a></li>
+								<li><a href="#">5</a></li>
+								<?php if (isset($this->next)):?>
+								<li><a href="<?php  echo $this->url("category/pagination", array("action"=>"category", "name"=>GeneralService::spine($product->getSlug()), "page"=>$this->next))?>">&gt;</a></li>
+								<?php endif; ?>
+							</ul>
+						</div>
+					</div>
+				</div>
+				
+	<?php endif; ?>

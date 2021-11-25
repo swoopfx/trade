@@ -1,0 +1,19 @@
+<?php
+echo $this->headtitle("All Products");
+var_dump($products);
+// foreach($products as $prod){
+//     echo $prod->getProductUid();
+// }
+if(count($products)> 0 ){
+   foreach ($products as $prod){
+ echo $prod->getProductUid();
+   }
+}else{
+    echo "DEEEEE";
+}
+?>
+
+
+
+
+

@@ -1,0 +1,108 @@
+<?php
+use General\Service\GeneralService;
+use Shop\Service\CartItemService;
+
+?>
+
+<div class="invoice">
+	<!-- begin invoice-company -->
+	<div class="invoice-company">
+		<span class="pull-right hidden-print"> <a href=""
+			class="btn btn-sm btn-white m-b-10"><i
+				class="fa fa-file-pdf t-plus-1 text-danger fa-fw fa-lg"></i> Print Shipping</a> <a href="javascript:;" onclick="window.print()"
+			class="btn btn-sm btn-white m-b-10"><i
+				class="fa fa-print t-plus-1 fa-fw fa-lg"></i> Print invoice</a>
+		</span>
+					<?php  echo GeneralService::APP_COMPANY_NAME?>
+				</div>
+	<!-- end invoice-company -->
+	<!-- begin invoice-header -->
+	<div class="invoice-header">
+		<div class="invoice-from">
+			<small>from</small>
+			<address class="m-t-5 m-b-5">
+				<strong class="text-inverse"><?php  echo GeneralService::APP_NAME?></strong><br>
+							<?php  echo GeneralService::COMPANY_ADDRESS?><br> <br>
+							Phone: <?php  echo GeneralService::COMPANY_PHONE?><br>
+				<!-- 							Fax: (123) 456-7890 -->
+			</address>
+		</div>
+		<div class="invoice-to">
+			<small>to</small>
+			<address class="m-t-5 m-b-5">
+				<strong class="text-inverse"><?php  echo $order->getCart()->getUser()->getProfile()->getFirstname()?> <?php  echo $order->getCart()->getUser()->getProfile()->getLastname()?></strong><br>
+							<?php  echo $order->getCart()->getUser()->getProfile()->getFullAddress()?><br>
+				<!-- 							City, Zip Code<br> -->
+							Phone: <?php  echo $order->getCart()->getUser()->getUsername()?><br>
+				<!-- 							Fax: (123) 456-789 -->
+			</address>
+		</div>
+		<div class="invoice-date">
+									<h3><?php  echo $order->getInvoice()->getInvoiceStatus()->getStatus() ?></h3>
+			<div class="date text-inverse m-t-5"><?php  echo $this->dateformat($order->getInvoice()->getCreatedOn(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE)?></div>
+			<div class="invoice-detail">
+							#<?php echo strtoupper($order->getInvoice()->getInvoiceUid())?><br>
+
+			</div>
+		</div>
+	</div>
+	<!-- end invoice-header -->
+	<!-- begin invoice-content -->
+	<div class="invoice-content">
+		<!-- begin table-responsive -->
+		<div class="table-responsive">
+			<table class="table table-invoice">
+				<thead>
+					<tr>
+						<th>PRODUCT DESCRIPTION</th>
+						<th class="text-center" width="10%">UNIT PRICE</th>
+						<th class="text-center" width="10%">QTY</th>
+						<th class="text-right" width="20%">TOTAL</th>
+					</tr>
+				</thead>
+				<tbody>
+							<?php foreach ($cartDetails as $item):?>
+								
+								
+								<tr>
+						<td><span class="text-inverse"><?php echo $item['product_name']?> || <?php  echo strtoupper($item['sku'])?></span><br>
+							<!-- 										<small>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Sed id sagittis arcu.</small> -->
+						</td>
+						<td class="text-center"><?php echo $this->myCurrencyHelper($item[CartItemService::ITEM_PRICE_NAME])?></td>
+						<td class="text-center"><?php echo $item[CartItemService::ITEM_QUANTITY_NAME]?></td>
+						<td class="text-right"><?php echo $this->myCurrencyHelper($item[CartItemService::ITEM_TOTAL_PRICE_NAME])?></td>
+					</tr>
+								<?php endforeach;?>
+								
+							</tbody>
+			</table>
+		</div>
+		<!-- end table-responsive -->
+		<!-- begin invoice-price -->
+		<div class="invoice-price">
+			<div class="invoice-price-left">
+				<div class="invoice-price-row">
+					<div class="sub-price">
+						<small>SUBTOTAL</small> <span class="text-inverse"><?php echo $this->myCurrencyHelper($order->getTotal())?></span>
+					</div>
+					<div class="sub-price">
+						<i class="fa fa-plus text-muted"></i>
+					</div>
+					<div class="sub-price">
+						<small>LOGISTICS</small> <span class="text-inverse"><?php echo $this->myCurrencyHelper($order->getDeliveryPrice())?></span>
+					</div>
+				</div>
+			</div>
+			<div class="invoice-price-right">
+				<small>TOTAL</small> <span class="f-w-600"><?php echo $this->myCurrencyHelper($order->getInvoice()->getAmount())?></span>
+			</div>
+		</div>
+		<!-- end invoice-price -->
+	</div>
+	<!-- end invoice-content -->
+	<!-- begin invoice-note -->
+
+
+
+	<!-- end invoice-footer -->
+</div>

@@ -1,0 +1,75 @@
+<?php
+
+use Transaction\Service\TransactionService;
+?>
+<table id="tran" class="table">
+	<thead>
+		<tr>
+			<th>Date</th>
+			<th class="hidden-sm text-center">STATUS</th>
+			<th></th>
+			<!-- 									<th>Amount</th> -->
+			<th>User</th>
+		</tr>
+	</thead>
+	<tbody>
+		<?php if ($order->getPaymentMethod()->getId() == TransactionService::PAYMENT_METHOD_WALLET) : ?>
+			<tr v-for="item in transaction" :key="item.id">
+				<td class="f-w-600 text-muted"></td>
+				<td class="hidden-sm text-center">{{item.walletOrderUid}}</td>
+				<td class="text-nowrap">
+					<h6>
+						{{item.amount}}
+					</h6>
+				</td>
+				<!-- 									<td class="text-blue f-w-600">$349.00</td> -->
+				<td class="text-nowrap">
+					Wallet Payment</td>
+			</tr>
+
+		<?php
+		elseif ($order->getPaymentMethod()->getId() == TransactionService::PAYMENT_METHOD_CARD) : ?>
+			<tr v-for="item in transaction" :key="item.id">
+				<td class="f-w-600 text-muted"></td>
+				<td class="hidden-sm text-center">{{item.walletOrderUid}}</td>
+				<td class="text-nowrap">
+					<h6>
+						{{item.amount}}
+					</h6>
+				</td>
+				<!-- 									<td class="text-blue f-w-600">$349.00</td> -->
+				<td class="text-nowrap">
+					Wallet Payment</td>
+			</tr>
+
+		<?php
+
+		endif;
+		?>
+
+	</tbody>
+</table>
+
+<script>
+	let tran = new Vue({
+		el: "#tran",
+		data() {
+			return {
+				orderId: '<?php echo $order->getId() ?>',
+				transaction: []
+			}
+		},
+		mounted() {
+			this.getOrderTransactions();
+		},
+		methods: {
+			getOrderTransactions() {
+				axios.get("/bbmin/sales/order-transaction/" + this.orderId).then(res => {
+					if (res.status == 200) {
+						this.transaction = res.data.data;
+					}
+				}).catch();
+			}
+		},
+	});
+</script>

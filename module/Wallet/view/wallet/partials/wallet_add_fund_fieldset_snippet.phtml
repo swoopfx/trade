@@ -1,0 +1,30 @@
+<?php
+
+?>
+
+<div class="form-group">
+
+								 <?php echo $this->formLabel($field->get('amount'))?>
+								<div class="col-md-1 col-sm-1 col-xs-2"><strong>&#8358;</strong></div>
+								<div class="col-md-5 col-sm-5 col-xs-10">
+								<?php echo $this->formElement($field->get('amount'));?>
+									
+								</div>
+		<i class="fa fa-info-circle" data-toggle="tooltip"
+			data-placement="top" title="Transaction Amount"></i>
+		<div style="font-size: 9px; color: red;">
+								<?php echo  $this->formElementErrors($field->get('amount'));  // this defines the error?> 
+							</div>
+	</div>
+	<?php
+
+echo $this->headScript()
+
+    ->appendFile($this->basePath('js/jquery.maskMoney.js'));
+?>
+
+<script>
+  $(function() {
+    $('#amount').maskMoney();
+  })
+</script>

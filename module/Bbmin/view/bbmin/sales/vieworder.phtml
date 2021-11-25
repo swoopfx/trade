@@ -1,0 +1,218 @@
+<?php
+
+use Shop\Service\CartItemService;
+
+echo $this->headtitle("View Order");
+?>
+
+<div>
+	<!-- begin breadcrumb -->
+	<ol class="breadcrumb float-xl-right">
+		<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+		<li class="breadcrumb-item active">Order</li>
+	</ol>
+	<!-- end breadcrumb -->
+	<!-- begin page-header -->
+	<h1 class="page-header">View Order</h1>
+	<!-- end page-header -->
+
+	<!-- begin row -->
+
+	<!-- end row -->
+	<!-- begin row -->
+	<div class="row">
+		<!-- begin col-8 -->
+		<div class="col-xl-8">
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="index-1">
+				<div class="panel-heading">
+					<h4 class="panel-title">Order Details</h4>
+
+				</div>
+				<?php //var_dump($cartDetails)
+				?>
+				<div class="panel-body pr-1">
+					<!-- begin widget-table -->
+					<table class="table table-bordered widget-table widget-table-rounded">
+						<thead>
+							<tr>
+								<th width="1%">Image</th>
+								<th>Product Info</th>
+								<th>Price</th>
+								<th>Qty</th>
+								<th>Total</th>
+								<th></th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($cartDetails as $item) : ?>
+								<tr>
+									<td>
+										<div class="widget-table-img" style="background-image: url(../assets/img/product/product-6.png);"></div>
+									</td>
+									<td>
+										<h4 class="widget-table-title"><?php echo $item['product_name'] ?> || <?php echo strtoupper($item['sku']) ?></h4>
+
+										<?php foreach ($item['contentdetails'] as $detail) : ?><p class="widget-table-desc m-b-15">
+												<strong>Size:</strong> <?php echo $detail->sizename ?> <br> <strong>Quantity:</strong> <?php echo $detail->quant ?>
+											</p>
+										<?php endforeach; ?>
+
+										<div class="clearfix f-s-10">
+											status: <b class="text-inverse"><?php echo $order->getOrderStatus()->getStatus() ?></b>
+										</div>
+									</td>
+									<td class="text-nowrap"><b class="text-inverse"><?php echo $this->myCurrencyHelper($item[CartItemService::ITEM_PRICE_NAME]) ?></b><br />
+										<!-- 									<small class="text-inverse text-line-through">$1,202</small> -->
+									</td>
+									<td><?php echo $item[CartItemService::ITEM_QUANTITY_NAME] ?></td>
+									<td><?php echo $this->myCurrencyHelper($item[CartItemService::ITEM_TOTAL_PRICE_NAME]) ?></td>
+									<td>
+										<!-- 								<a href="#" class="btn btn-inverse btn-sm width-80 rounded-corner">Edit</a> -->
+									</td>
+								</tr>
+							<?php endforeach; ?>
+						</tbody>
+					</table>
+					<!-- end widget-table -->
+				</div>
+
+				<div class="panel-footer">
+					<a href="#" class="btn btn-primary btn-block">Process Order</a>
+				</div>
+			</div>
+			<!-- end panel -->
+
+			<!-- begin tabs -->
+			<ul class="nav nav-tabs nav-tabs-inverse nav-justified nav-justified-mobile" data-sortable-id="index-2">
+				<li class="nav-item"><a href="#latest-post" data-toggle="tab" class="nav-link active"><i class="fa fa-invoice fa-lg m-r-5"></i> <span class="d-none d-md-inline">Order Invoice</span></a></li>
+				<li class="nav-item"><a href="#purchase" data-toggle="tab" class="nav-link"><i class="fa fa-money fa-lg m-r-5"></i> <span class="d-none d-md-inline">Transactions</span></a></li>
+				<li class="nav-item"><a href="#email" data-toggle="tab" class="nav-link"><i class="fa fa-credit fa-lg m-r-5"></i> <span class="d-none d-md-inline">Card Error</span></a></li>
+				<li class="nav-item"><a href="#notify" data-toggle="tab" class="nav-link"> <span class="d-none d-md-inline"><i class="btn btn-xs btn-icon btn-circle btn-danger"></i>Payment
+							Notification </span></a></li>
+			</ul>
+			<div class="tab-content" data-sortable-id="index-3">
+				<div class="tab-pane fade active show" id="latest-post">
+					<div class="height-md" data-scrollbar="true">
+
+
+
+
+						<?php
+
+						echo $this->partial('bbmin-view-order-invoice-snippet', [
+							"order" => $order,
+							'cartDetails' => $cartDetails
+						]) ?>
+
+
+
+					</div>
+				</div>
+				<div class="tab-pane fade" id="purchase">
+					<div class="height-sm" data-scrollbar="true">
+
+
+						<?php echo $this->partial("bbmin-view-order-transaction-snippet", ["order" => $order]) ?>
+
+					</div>
+				</div>
+				<div class="tab-pane fade" id="email">
+					<div class="height-sm" data-scrollbar="true">
+						<!-- Put card error here  -->
+					</div>
+				</div>
+				<div class="tab-pane fade" id="notify">
+					<div class="height-sm" data-scrollbar="true">
+						<?php echo $this->partial('bbmin-view-order-notify-payment-snippet', ["payments" => $order->getNotifyPayment()]) ?>
+					</div>
+				</div>
+			</div>
+			<!-- end tabs -->
+
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="index-4">
+				<div class="panel-heading">
+					<h4 class="panel-title">Quick Post</h4>
+					<div class="panel-heading-btn"></div>
+				</div>
+				<div class="panel-toolbar">
+					<div class="btn-group m-r-5">
+						<a class="btn btn-white" href="javascript:;"><i class="fa fa-bold"></i></a>
+						<a class="btn btn-white active" href="javascript:;"><i class="fa fa-italic"></i></a> <a class="btn btn-white" href="javascript:;"><i class="fa fa-underline"></i></a>
+					</div>
+					<div class="btn-group">
+						<a class="btn btn-white" href="javascript:;"><i class="fa fa-align-left"></i></a> <a class="btn btn-white active" href="javascript:;"><i class="fa fa-align-center"></i></a> <a class="btn btn-white" href="javascript:;"><i class="fa fa-align-right"></i></a> <a class="btn btn-white" href="javascript:;"><i class="fa fa-align-justify"></i></a>
+					</div>
+				</div>
+				<textarea class="form-control rounded-0 bg-light p-15" rows="14">Enter some comment.</textarea>
+				<div class="panel-footer text-right">
+					<a href="javascript:;" class="btn btn-white btn-sm">Cancel</a> <a href="javascript:;" class="btn btn-primary btn-sm m-l-5">Action</a>
+				</div>
+			</div>
+			<!-- end panel -->
+
+			<!-- begin panel -->
+
+			<!-- end panel -->
+		</div>
+		<!-- end col-8 -->
+		<!-- begin col-4 -->
+		<div class="col-xl-4">
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="index-6">
+
+				<?php echo $this->partial('bbmin-view-order-customer-details-snippet', ['order' => $order]) ?>
+			</div>
+			<!-- end panel -->
+
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="index-7">
+				<div class="panel-heading">
+					<h4 class="panel-title">Visitors User Agent</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div id="donut-chart" class="height-sm"></div>
+				</div>
+			</div>
+			<!-- end panel -->
+
+
+
+			<!-- begin panel -->
+			<div class="panel panel-inverse bg-dark" data-sortable-id="index-9">
+				<div class="panel-heading">
+					<h4 class="panel-title">World Visitors</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<div class="panel-body p-0">
+					<div id="world-map" class="height-sm width-full"></div>
+				</div>
+			</div>
+			<!-- end panel -->
+
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="index-10">
+				<div class="panel-heading">
+					<h4 class="panel-title">Calendar</h4>
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+					</div>
+				</div>
+				<div class="panel-body">
+					<div id="datepicker-inline" class="datepicker-full-width overflow-y-scroll position-relative">
+						<div></div>
+					</div>
+				</div>
+			</div>
+			<!-- end panel -->
+		</div>
+		<!-- end col-4 -->
+	</div>
+	<!-- end row -->
+</div>

@@ -1,0 +1,65 @@
+<?php
+?>
+<div v-if="isDiscountError">
+	<div class="alert alert-danger fade show">
+		<span class="close" data-dismiss="alert">×</span>
+		<strong>Success!</strong>
+		{{discountError}}
+	</div>
+</div>
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($discountFieldset->get("quantity"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormNumber($discountFieldset->get("quantity")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($discountFieldset->get("quantity")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($discountFieldset->get("discountPrice"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormText($discountFieldset->get("discountPrice")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($discountFieldset->get("discountPrice")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($discountFieldset->get("dateStart"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormDate($discountFieldset->get("dateStart")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($discountFieldset->get("dateStart")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div class="form-group row m-b-10">
+
+
+	<?php echo $this->formlabel($discountFieldset->get("dateEnd"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+
+		<?php echo $this->vueFormDate($discountFieldset->get("dateEnd")) ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($discountFieldset->get("dateEnd")); ?>
+		</div>
+
+	</div>
+</div>

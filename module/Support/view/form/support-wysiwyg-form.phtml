@@ -1,0 +1,9 @@
+<?php
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->partial("support-wysiwyg-fieldset", array(
+    "wysFieldset"=>$form->get("wysiwygFieldset")
+));
+echo $this->formsubmit($form->get("submit"));
+echo $this->form()->closeTag();

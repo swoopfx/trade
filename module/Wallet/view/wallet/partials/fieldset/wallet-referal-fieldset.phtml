@@ -1,0 +1,21 @@
+<?php
+?>
+
+<div class="form-group">
+<?php  echo $this->forminput($fieldset->get("referalEmail"))?>
+	<div style="font-size: 9px; color: red;">
+<?php echo $this->formElementErrors($fieldset->get('referalEmail')); ?>
+</div>
+</div>
+<!-- form-group -->
+<div class="form-group">
+<?php  echo $this->forminput($fieldset->get("referalPhone"))?>
+<div style="font-size: 9px; color: red;">
+<?php echo $this->formElementErrors($fieldset->get('referalPhone')); ?>
+</div>
+
+</div>
+<!-- form-group -->
+
+<!-- form-group -->
+<script src="/lib/parsleyjs/js/parsley.js"></script>

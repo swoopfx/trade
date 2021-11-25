@@ -1,0 +1,95 @@
+<?php
+echo $this->headtitle("Category List");
+// echo "Product";
+?>
+
+<div id="content">
+
+
+
+	<!-- begin row -->
+	<div class="row">
+		<!-- begin col-6 -->
+		<div class="col-lg-6">
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="ui-widget-1">
+				<div class="panel-heading">
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+					</div>
+					<h4 class="panel-title">Category Form</h4>
+				</div>
+				<div class="panel-body">
+					<?php $form->prepare();
+					echo $this->form()->openTag($form);
+					echo $this->partial("shop_product_category_fieldset", array("fieldset" => $form->get("productCategoryFieldset")));
+					?>
+
+					<div class="form-group row m-b-0">
+						<label class="col-md-4 col-sm-4 col-form-label">&nbsp;</label>
+						<div class="col-md-8 col-sm-8">
+							<?php
+							echo $this->formRow($form->get('csrf'));
+							echo $this->formsubmit($form->get("submit")); ?>
+						</div>
+					</div>
+
+					<?php
+					echo $this->form()->closeTag()
+					?>
+				</div>
+
+			</div>
+			<!-- end panel -->
+
+			<!-- begin panel -->
+
+			<!-- end panel -->
+		</div>
+		<!-- end col-6 -->
+		<!-- begin col-6 -->
+		<div class="col-lg-6">
+			<!-- begin panel -->
+			<div class="panel panel-inverse panel-hover-icon" data-sortable-id="ui-widget-7">
+				<div class="panel-heading">
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+					</div>
+					<h4 class="panel-title">Registered Category</h4>
+				</div>
+				<div class="panel-body">
+					<?php if (count($category) > 0) : ?>
+						<table class="table table-responsive table-striped">
+							<tbody>
+
+
+								<?php foreach ($category as $cat) : ?>
+									<tr>
+										<td><?php echo $cat->getCategoryUid() ?></td>
+										<td><?php echo $cat->getCategory() ?></td>
+										<td><a href="<?php echo $this->url("bbminshop/default", ["action" => "managecategory", "id" => $cat->getCategoryUid()]) ?>"><i class="fa fa-eye"></i></a></td>
+									</tr>
+
+								<?php endforeach; ?>
+							</tbody>
+						</table>
+					<?php endif; ?>
+				</div>
+
+			</div>
+			<!-- end panel -->
+
+		</div>
+		<!-- end col-4 -->
+	</div>
+	<!-- end row -->
+
+
+
+</div>
+<!-- end #content -->
+
+<script src="/admin/assets/plugins/parsley/dist/parsley.js"></script>
+<script src="/admin/assets/plugins/highlight/highlight.common.js"></script>
+<script src="/admin/assets/js/demo/render.highlight.js"></script>
+

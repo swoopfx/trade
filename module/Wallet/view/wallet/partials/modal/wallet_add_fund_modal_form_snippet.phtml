@@ -1,0 +1,7 @@
+<?php
+$form->prepare();
+
+echo $this->form()->openTag($form);
+echo $this->partial("wallet_add_funds_fieldset_snippet", array("field"=>$form->get("walletAddFundFieldset")));
+echo $this->formsubmit($form->get("submit"));
+echo $this->form()->closeTag();

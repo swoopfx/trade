@@ -1,0 +1,310 @@
+<?php echo $this->headtitle($this->escapehtml($product->getProductDescription()->getProductName()) . " Product") ?>
+
+<div class="hero-wrap hero-bread" style="background-image: url('/shop/images/bg_6.jpg');">
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-center justify-content-center">
+			<div class="col-md-9 ftco-animate text-center"></div>
+		</div>
+	</div>
+</div>
+
+
+<div id="productDetail">
+	<section class="ftco-section">
+
+
+		<div class="container">
+			<div class="row">
+				<div class="col-lg-6 mb-5 ftco-animate">
+					<a href="<?php echo $product->getImage()[0]->getImageUrl() ?>" class="image-popup"><img src="<?php echo $product->getImage()[0]->getImageUrl() ?>" class="img-fluid" alt="<?php echo $product->getProductDescription()->getProductName() ?>"></a>
+
+				</div>
+				<div class="col-lg-6 product-details pl-md-5 ftco-animate">
+					<h3><?php echo strtoupper($this->escapehtml($product->getProductDescription()->getProductName())) ?></h3>
+					<div class="rating d-flex">
+
+
+						<p class="text-left">
+							<a href="#" class="mr-2" style="color: #000;"> <span style="color: #bbb;"><?php echo $product->getStockStatus()->getStatus() ?></span></a>
+						</p>
+					</div>
+					<p class="price"><span><?php echo $this->shopProductActivePrice($product) ?> / One</span></p>
+					<p><?php echo $this->escapehtml($product->getProductDescription()->getDescription()) ?></p>
+					<!-- <p>On her way she met a copy. The copy warned the Little Blind Text, that where it came from it would have been rewritten a thousand times and everything that was left from its origin would be the word "and" and the Little Blind Text should turn around and return to its own, safe country. But nothing the copy said could convince her and so it didn’t take long until a few insidious Copy Writers ambushed her, made her drunk with Longe and Parole and dragged her into their agency, where they abused her for their. -->
+					</p>
+					<hr>
+
+					<div class="row mt-4">
+						<div class="col-md-6">
+							<div class="form-group d-flex">
+								<div class="select-wrap">
+									<div class="icon"><span class="ion-ios-arrow-down"></span></div>
+									<select ref="selectedSize" v-on:change="getSizeQuantity()" name="" id="" class="form-control">
+										<option>Select Size</option>
+										<?php foreach ($product->getAvailaibleSizes()  as $size) : ?>
+											<option :value="<?php echo $size->getSizes()->getId() ?>"><?php echo $size->getSizes()->getSize() ?></option>
+										<?php endforeach; ?>
+									</select>
+								</div>
+							</div>
+						</div>
+						<div class="w-100"></div>
+						<div class="input-group col-md-6 d-flex mb-3">
+
+							<input v-model="quantiti" @input="validateSizeQuantity()" type="text" id="quantity" name="quantity" class="form-control input-number" value="1" min="1" max="100">
+
+							&nbsp; | &nbsp; <button class='btn btn-success' v-show='!qunatitierror' @click="addSizeAndQuantity()">Add Quantity</button>
+							<p v-if="qunatitierror" style="color: red; font-weight: bold;"> Exceeds available quantity</p>
+						</div>
+						<div class="w-100"></div>
+						<div v-if='quantityOfsize > 0' class="col-md-12">
+							<p style="color: green; font-weight: bold;">
+								{{quantityOfsize}} piece available
+							</p>
+						</div>
+					</div>
+
+
+					<div>
+						<hr>
+						<div class="row justify-content-center">
+							<div class="col col-lg-9 col-md-12  cart-wrap ftco-animate">
+								<div class="cart-total mb-3">
+									<p class="d-flex">
+										<span><strong>Selected size</strong></span>
+										<span><strong>Quantity</strong></span>
+									</p>
+									<p style="color: blue;" v-for="info in sizeAndQuantity" class="d-flex">
+										<span>{{info.sizename}}</span>
+										<span>{{info.quant}} picese </span>
+										<span><i @click="removeSizeAndQuality(info.sizename)" class="fa fa-close"></i></span>
+									</p>
+
+								</div>
+							</div>
+						</div>
+
+
+					</div>
+					<hr>
+
+					<p>
+					<div class="row">
+						<div class="col-md-6 col-xs-12"><a v-show="sizeAndQuantity.length" @click="addToCart()" :disabled="isProcessingCart" class="btn btn-black btn-block">Add to Cart <i v-if="isProcessingCart" class="fa fa-spinner fa-spin"></i></a></div>
+						<div class="col-md-6 col-xs-12"><a :disabled="isProcessingCart" @click="checkout()" href="<?php echo $this->url("cart") ?>" class="btn btn-success btn-block">Checkout</a></div>
+					</div>
+					</p>
+				</div>
+			</div>
+		</div>
+	</section>
+
+
+
+
+	<?php if (count($product->getRelatedProducts()) > 0) : ?>
+		<section class="ftco-section bg-light">
+			<div class="container">
+				<div class="row justify-content-center mb-3 pb-3">
+					<div class="col-md-12 heading-section text-center ftco-animate">
+						<h2 class="mb-4">Ralated Products</h2>
+						<p>Other products you may like</p>
+					</div>
+				</div>
+			</div>
+			<div class="container">
+				<div class="row">
+
+					<?php foreach ($product->getRelatedProducts() as $related) : ?>
+						<div class="col-sm col-md-6 col-lg ftco-animate">
+							<div class="product">
+								<a href="#" class="img-prod"><img class="img-fluid" src="images/product-1.jpg" alt="Colorlib Template"> <span class="status">30%</span>
+									<div class="overlay"></div>
+								</a>
+								<div class="text py-3 px-3">
+									<h3>
+										<a href="#">Floral Jackquard Pullover</a>
+									</h3>
+									<div class="d-flex">
+										<div class="pricing">
+											<p class="price">
+												<span class="mr-2 price-dc">$120.00</span><span class="price-sale">$80.00</span>
+											</p>
+										</div>
+										<div class="rating">
+											<p class="text-right">
+												<a href="#"><span class="ion-ios-star-outline"></span></a> <a href="#"><span class="ion-ios-star-outline"></span></a> <a href="#"><span class="ion-ios-star-outline"></span></a> <a href="#"><span class="ion-ios-star-outline"></span></a> <a href="#"><span class="ion-ios-star-outline"></span></a>
+											</p>
+										</div>
+									</div>
+									<p class="bottom-area d-flex px-3">
+										<a href="#" class="add-to-cart text-center py-2 mr-1"><span>Add
+												to cart <i class="ion-ios-add ml-1"></i>
+											</span></a> <a href="#" class="buy-now text-center py-2">Buy now<span><i class="ion-ios-cart ml-1"></i></span></a>
+									</p>
+								</div>
+							</div>
+						</div>
+					<?php endforeach; ?>
+
+
+				</div>
+			</div>
+		</section>
+	<?php endif; ?>
+</div>
+<script>
+	Vue.use(VueToast, {
+		// One of options
+		position: 'top'
+	});
+	let productDetail = new Vue({
+		el: "#productDetail",
+		data() {
+			return {
+				qunatitierror: false,
+				quantiti: 0,
+				sizename: '',
+				productId: '<?php echo $product->getId() ?>',
+				productUid: '<?php echo $product->getProductUid() ?>',
+				isProcessingCart: false,
+				relatedProducts: [],
+				sizeQuantity: [],
+				quantityOfsize: 0,
+
+				sizeAndQuantity: [],
+			}
+		},
+		methods: {
+			validateSizeQuantity() {
+
+				if (this.quantiti > parseInt(this.quantityOfsize)) {
+					this.qunatitierror = true;
+				} else {
+					this.qunatitierror = false;
+				}
+			},
+
+			getRelatedProducts(productId) {
+
+			},
+
+			checkout() {
+				this.addToCart();
+				window.location.replace("/cart");
+			},
+
+			addToCart() {
+				if (this.sizeAndQuantity.length) {
+					this.isProcessingCart = true;
+					let cartData = new FormData();
+					cartData.append("content", JSON.stringify(this.sizeAndQuantity));
+					cartData.append('productuid', this.productUid);
+					axios.post('/productajax/addtocart', cartData).then(res => {
+						if (res.status == 201) {
+							this.isProcessingCart = false;
+							this.quantiti = 0;
+							this.sizename = '';
+							this.$toast.open({
+								message: "Product added to cart",
+								type: "success",
+								duration: 5000,
+								dismissible: true
+							})
+						}
+					}).catch(err => {
+						this.$toast.open({
+							message: 'We could not add this product to your cart',
+							type: "error",
+							duration: 5000,
+							dismissible: true
+						})
+					}).finally(() => {
+						globalcart.getCartCount();
+						this.sizeAndQuantity = [];
+					});
+
+				}
+			},
+
+
+
+			sizeModel() {
+
+			},
+
+
+
+			getSizeQuantity() {
+				this.quantiti = 0;
+				this.sizename = '';
+				let formData = new FormData();
+				formData.append('size', this.$refs.selectedSize.value);
+				formData.append('product', this.productId);
+				axios.post("/productajax/size-quantity", formData).then(res => {
+					if (res.status == 200) {
+						this.quantityOfsize = res.data.data;
+					}
+				}).catch()
+			},
+
+			addSizeAndQuantity() {
+
+				if (this.quantiti == 0) {
+					this.$toast.open({
+						message: 'Quantity cannot be 0',
+						type: "error",
+						duration: 5000,
+						dismissible: true
+					})
+				} else {
+
+
+					axios.get("/productajax/getsizename/" + this.$refs.selectedSize.value).then(res => {
+						if (res.status == 200) {
+							this.sizename = res.data.data;
+						}
+
+					}).catch().finally(() => {
+						let saq = {
+							size: this.$refs.selectedSize.value,
+							sizename: this.sizename,
+							quant: this.quantiti
+						};
+
+						if (this.sizeAndQuantity.some(cou => cou.size == saq.size)) {
+							this.sizeAndQuantity = this.sizeAndQuantity.filter(function(obj) {
+								return obj.size !== saq.size;
+							});
+
+							this.sizeAndQuantity.push(saq);
+						} else {
+							// insert new one
+							this.sizeAndQuantity.push(saq);
+						}
+
+					})
+
+				}
+
+
+			},
+
+			// getsizename(id) {
+
+			// },
+
+			removeSizeAndQuality(ind) {
+
+				this.sizeAndQuantity = this.sizeAndQuantity.filter(function(obj) {
+					return obj.sizename !== ind;
+				});
+
+			},
+
+
+
+			checkoutcart() {}
+		}
+	});
+</script>

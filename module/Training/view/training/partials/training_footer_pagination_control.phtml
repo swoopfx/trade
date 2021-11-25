@@ -1,0 +1,33 @@
+<?php
+if ($this->pageCount > 1) :
+    ?>
+
+<div class="section-wrapper mg-t-20">
+
+	<div class="pagination-wrapper justify-content-between">
+
+		<ul class="pagination mg-b-0">
+			<?php  if(isset($this->previous)):?>
+			<li class="page-item"><a class="page-link" href="<?php  echo $this->url("training/pagination", array("action"=>"all", "page"=>$this->previous))?>" aria-label="Last">
+					<i class="fa fa-angle-double-left"></i>
+			</a></li>
+<?php endif;?>
+		</ul>
+
+
+
+
+		<ul class="pagination mg-b-0">
+<?php if (isset($this->next)):?>
+			<li class="page-item"><a class="page-link" href="<?php  echo $this->url("training/pagination", array("action"=>"all", "page"=>$this->next))?>" aria-label="Last">
+					<i class="fa fa-angle-double-right"></i>
+			</a></li>
+			<?php endif; ?>
+		</ul>
+
+	</div>
+	<!-- pagination-wrapper -->
+</div>
+<!-- section-wrapper -->
+
+<?php endif;?>

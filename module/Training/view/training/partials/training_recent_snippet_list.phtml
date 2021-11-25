@@ -1,0 +1,55 @@
+<?php
+?>
+<div class="card card-table">
+	<div class="card-header">
+		<h6 class="slim-card-title">Latest Training</h6>
+	</div>
+	<!-- card-header -->
+	<div class="table-responsive">
+	<?php  if(count($training) >  0):?>
+		<table class="table mg-b-0 tx-13">
+			<thead>
+				<tr class="tx-10">
+					<th class="wd-10p pd-y-5">&nbsp;</th>
+					<th class="pd-y-5">Training Topic</th>
+					<th class="pd-y-5">Created On</th>
+					<th></th>
+				</tr>
+			</thead>
+			<tbody>
+							
+							<?php //var_dump($training)?>
+							<?php foreach ($training as $train):?>
+							<?php $link = $this->url("training/default", array("action"=>"view", "id"=>$train->getTrainingUid()))?>
+								<tr>
+					<td class="pd-l-20"><img
+						src="<?php  echo $this->imageHelper($train->getImage())?>"
+						class="wd-36 rounded-circle" alt="Image"></td>
+					<td><a href="<?php  echo $link?>" class="tx-inverse tx-14 tx-medium d-block"><?php  echo ($train->getTrainingTopic() == NULL ? "No Topic" : $train->getTrainingTopic())?>
+						<span class="tx-11 d-block">CODE : <?php echo  ($train->getTrainingUid() == NULL ? "No UId" : strtoupper($train->getTrainingUid()))?></span></a></td>
+
+					<td><?php  echo $this->dateformat($train->getCreatedOn(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE, "en_us")?></td>
+					<td class="tx-12"><a class="btn btn-primary btn-xs" href="<?php echo $link?>">ENROLL</a></td>
+				</tr>
+								<?php endforeach;?>
+								
+			
+								
+								
+							</tbody>
+		</table>
+		<?php else:?>
+								<tr>
+			<div role="alert" class="alert alert-solid alert-warning">No Training
+				Subscribed to yet</div>
+		<?php endif;?>
+	
+	
+	</div>
+	<!-- table-responsive -->
+	<div class="card-footer tx-12 pd-y-15 bg-transparent">
+		<a href="<?php  echo $this->url("training/default", array("action"=>"all"))?>"><i class="fa fa-angle-down mg-r-5"></i>View All Training
+			History</a>
+	</div>
+	<!-- card-footer -->
+</div>

@@ -1,0 +1,53 @@
+
+<ul class="nav">
+<li class="nav-header">Navigation</li>
+<?php 
+function makeActive($page){
+    if($page->hasPages()){
+        foreach ($page as $pag){
+            if($pag->isActive()){
+                return "active";
+            }
+            break;
+        }
+    }else{
+        if($page->isActive()){
+            return "active";
+        }
+    }
+}
+
+?>
+					
+					
+					<?php foreach ($this->container as $page) :?>
+					<li class="<?php echo ($page->hasPages() ? "has-sub" : makeActive($page)); ?> 
+					<?php
+					echo makeActive($page);
+					?> ">
+					 <?php  if($page->hasPages()):?>
+						<a href="javascript:;">
+					        <b class="caret"></b>
+						   
+						    <?php echo $page->getLabel()?>
+					    </a>
+					    
+						<ul class="sub-menu">
+						<?php foreach ($page as $pag) :?>
+						    <li class="<?php  echo ($pag->isActive() ? "active" : "") ?>"><a href="<?php  echo $pag->getHref() ?>"><?php echo $pag->getLabel()?></a></li>
+						   
+						    <?php  endforeach; ?>
+						</ul>
+						<?php else:?>
+						<a href="<?php echo $page->getHref()?>"><?php echo $page->getLabel()?></a>
+						<?php endif;?>
+					</li>
+					<?php endforeach;?>
+					
+					
+					
+			        <!-- begin sidebar minify button -->
+					<li><a href="javascript:;" class="sidebar-minify-btn" data-click="sidebar-minify"><i class="fa fa-angle-double-left"></i></a></li>
+					
+			        <!-- end sidebar minify button -->
+				</ul>

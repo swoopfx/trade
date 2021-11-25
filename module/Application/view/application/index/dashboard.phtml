@@ -1,0 +1,298 @@
+<?php
+echo $this->headTitle("Dashboard");
+// $a = 1;
+// echo $a ?? "Hey" 
+?>
+
+
+<div id="wasabi">
+	<!-- <input type="text"  v-bind:value="hey"> -->
+
+</div>
+<div class="slim-mainpanel">
+	<div class="container pd-t-50">
+
+		<div id="row1" v-if="isName" class="row">
+			<?php if ($this->nameOfUserHelper() != NULL) { ?>
+				<div class="col-lg-6">
+
+					<h3 class="tx-inverse mg-b-15">Welcome back <?php echo $this->nameOfUserHelper() ?></h3>
+					<p class="mg-b-40">Welcome to the retailer portal, wehre you get
+						empowered to achieve your dreams</p>
+
+					<h6 class="slim-card-title mg-b-15">My Financial Status</h6>
+					<div class="row no-gutters">
+						<div class="col-sm-6">
+							<div class="card card-earning-summary">
+								<h6>My Wallet</h6>
+								<h1><?php echo $this->myCurrencyHelper($this->walletAvailableBalance()) ?></h1>
+								<!-- 							<span><a href="">Load Wallet</a></span> -->
+							</div>
+							<!-- card -->
+						</div>
+						<!-- col-6 -->
+						<div class="col-sm-6">
+							<div class="card card-earning-summary mg-sm-l--1 bd-t-0 bd-sm-t">
+								<h6>My Credit</h6>
+								<h1><?php echo $this->myCurrencyHelper($this->creditAvailaibleBalance()) ?></h1>
+								<!-- 							<span><a href="">load Wallet</a></span> -->
+							</div>
+							<!-- card -->
+						</div>
+						<!-- col-6 -->
+					</div>
+					<!-- row -->
+				</div>
+				<!-- col-6 -->
+				<div class="col-lg-6 mg-t-20 mg-sm-t-30 mg-lg-t-0">
+					<div class="card card-dash-headline">
+						<h4>Support</h4>
+						<p>In case you have any challenge please contact us at TANIM FITS</p>
+						<div class="row row-sm">
+							<div class="col-sm-6">
+								<a id="btn3" data-ajax-loader="supportButton" data-href="<?php echo $this->url("supportmodal/default", array("action" => "openticket")) ?>" class="btn btn-primary btn-block ajax_element" href="">Open
+									Ticket</a>
+							</div>
+							<!-- col-6 -->
+							<div class="col-sm-6 mg-t-10 mg-sm-t-0">
+								<a id="btn3" data-ajax-loader="supportButton" data-href="<?php echo $this->url("supportmodal/default", array("action" => "viewticketlist")) ?>" class="btn btn-success btn-block ajax_element" href="">View
+									Tickets</a>
+							</div>
+
+							<!-- col-6 -->
+
+						</div>
+						<div style="text-align: center;">
+							<i id="supportButton" class="fa  fa-lg" style="display: none;"><img alt="" src="<?php echo $this->basepath("/pro.gif") ?>" height=37></i>
+						</div>
+						<!-- row -->
+					</div>
+					<!-- card -->
+				</div>
+				<!-- col-6 -->
+			<?php
+			} else {
+				echo $this->partial("application-no-profile-snippet");
+			}
+			?>
+		</div>
+		<!-- row -->
+
+		<div id="productRow" class="card card-dash-chart-one mg-t-20 mg-sm-t-30">
+			<div class="row no-gutters">
+				<div class="col-lg-4">
+					<div class="left-panel">
+						<nav class="nav">
+							<a href="" class="nav-link active">Shopping Cart</a>
+						</nav>
+
+						<div class="active-visitor-wrapper">
+							<h1><?php echo $this->dashoboardCartCount() ?><span></span>
+							</h1>
+							<p>My Shopping cart count</p>
+						</div>
+						<!-- active-visitor-wrapper -->
+
+						<hr class="mg-t-30 mg-b-40">
+
+						<h6 class="visitor-operating-label">Cart Activity</h6>
+
+						<a href="<?php echo $this->url("cart") ?>" data-href="<?php //echo $this->url("appmodal/default", array("action" => "viewcart")) 
+																				?>" class="btn btn-xs btn-block btn-primary ajax_element">View Cart</a>
+						<div class="progress mg-b-15">
+							<!-- 							<div class="progress-bar bg-warning progress-bar-xs wd-30p" -->
+							<!-- 								role="progressbar" aria-valuenow="30" aria-valuemin="0" -->
+							<!-- 								aria-valuemax="100"></div> -->
+						</div>
+						<!-- progress -->
+
+						<a href="<?php echo $this->url("application/default", ["action" => "cart-orders"]) ?>" class="btn btn-xs btn-block btn btn-primary">All Orders</a>
+						<div class="progress mg-b-15">
+							<!-- 							<div class="progress-bar bg-success progress-bar-xs wd-50p" -->
+							<!-- 								role="progressbar" aria-valuenow="50" aria-valuemin="0" -->
+							<!-- 								aria-valuemax="100"></div> -->
+						</div>
+						<!-- progress -->
+
+
+
+					</div>
+					<!-- left-panel -->
+				</div>
+				<!-- col-4 -->
+				<div class="col-lg-8">
+					<div class="right-panel">
+						<h6 class="slim-card-title">Latest Products</h6>
+						<!--                 <div id="vmap" class="ht-250 ht-sm-350 ht-md-450 bg-gray-300"></div> -->
+
+
+						<!-- carousel -->
+						<div v-if="isCarouselEmpty">
+							<div class="col-md-12  mg-t-30 mg-xl-t-0">
+								<div class="d-flex bg-gray-200 ht-300 pos-relative align-items-center">
+									<div class="sk-wave">
+										<div class="sk-rect sk-rect1 bg-gray-800"></div>
+										<div class="sk-rect sk-rect2 bg-gray-800"></div>
+										<div class="sk-rect sk-rect3 bg-gray-800"></div>
+										<div class="sk-rect sk-rect4 bg-gray-800"></div>
+										<div class="sk-rect sk-rect5 bg-gray-800"></div>
+									</div>
+								</div>
+								<!-- d-flex -->
+							</div>
+							<!-- col-4 -->
+						</div>
+						<div v-else class="card card-carousel">
+
+							<div id="carousel11" class="carousel slide" data-ride="carousel">
+								<ol class="carousel-indicators indicators-bottom-left">
+									<li v-for="(carousel, i) in carousels" data-target="#carousel11" :data-slide-to="i" :class='slideClass(i)'></li>
+
+								</ol>
+								<div class="carousel-inner" role="listbox">
+									<div v-for="(carousel, i) in carousels" :class='isActive(i)'>
+										<img @click="createLatestLink(carousel.productUid, carousel.productDescription.productName)" class="d-block img-fluid" v-bind:src='carousel.image[0].imageUrl' :alt="carousel.image[0].imageName">
+									</div>
+									
+								</div>
+								<!-- carousel-inner -->
+								<a class="carousel-control-prev" href="#carousel11" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span>
+								</a> <a class="carousel-control-next" href="#carousel11" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span>
+								</a>
+							</div>
+
+							<!-- carousel -->
+						</div>
+						<!-- card -->
+					</div>
+					<!-- right-panel -->
+				</div>
+				<!-- col-8 -->
+			</div>
+			<!-- row -->
+		</div>
+		<!-- card -->
+
+		<?php //echo $this->partial("application-health-card")
+		?>
+		<div id="lowerRow">
+			<?php //echo $this->partial("application-dashboard-sales-report") 
+			?>
+
+			<?php echo $this->partial("application-dashboard-cart-order") ?>
+		</div>
+
+	</div>
+	<!-- container -->
+</div>
+<!-- slim-mainpanel -->
+
+<script type="text/javascript">
+	Vue.filter('currency', function(value) {
+		return '€' + parseFloat(value).toFixed(2);
+	});
+	v1 = new Vue({
+		el: "#wasabi",
+		data: {
+			hey: "<?php echo $this->nameOfUserHelper() ?>",
+
+
+		}
+	});
+
+	v2 = new Vue({
+		el: "#row1",
+		data: {
+			isName: true
+		}
+	});
+
+	let lowerRow = new Vue({
+		el: "#lowerRow",
+		data() {
+			return {
+				cartOrders: [],
+
+			}
+		},
+		mounted: function() {
+
+			this.getCartOrders();
+		},
+
+		methods: {
+			createoderLink(linkee) {
+				return "/app/cart-order/" + linkee;
+			},
+			getCartOrders() {
+				axios.get("/appmodal/cart-orders").then(res => {
+					if (res.status == 200) {
+						this.cartOrders = res.data.data;
+					}
+				});
+			},
+		},
+	});
+
+
+	let vProduct = new Vue({
+		el: "#productRow",
+		data: {
+			isCarouselEmpty: true,
+			carousels: [],
+
+		},
+
+		mounted: function() {
+			this.productCarousel();
+			// this.getCartOrders();
+		},
+		methods: {
+
+			createLatestLink(idd, name){
+				// alert();
+				return window.location.href = "/product/"+idd+"/"+name.replace(/\s+/g, '-').toLowerCase();
+			},
+			productCarousel: function() {
+				axios.get("/shopajax/dashboardproductcarousel").then(
+					response => {
+						// JSON responses are automatically parsed.
+						if (response.status == 200) {
+							this.carousels = response.data.product;
+							this.isCarouselEmpty = false;
+						}
+					}
+				)
+			},
+
+
+
+			slideClass(count) {
+				if (count == 0) {
+
+					return "active";
+				} else {
+					return "";
+				}
+			},
+
+
+
+			isActive: function(carousels) {
+
+				if (carousels == 0) {
+
+					return "carousel-item ht-400  active";
+				} else {
+					return "carousel-item ht-400 ";
+				}
+
+			}
+
+
+		},
+
+
+
+	});
+</script>

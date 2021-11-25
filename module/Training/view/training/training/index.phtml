@@ -1,0 +1,288 @@
+<?php echo $this->headtitle("Training School") ?>
+<div id="wasabi"></div>
+<div id="trainingStats" class="slim-mainpanel" v-cloak>
+	<div class="container">
+		<div class="slim-pageheader">
+			<ol class="breadcrumb slim-breadcrumb">
+				<li class="breadcrumb-item"><a href="<?php echo $this->url("training")?>">Training</a></li>
+				<li class="breadcrumb-item active" aria-current="page">Dashboard</li>
+			</ol>
+			<h6 class="slim-pagetitle">Training</h6>
+		</div>
+		<!-- slim-pageheader -->
+
+
+
+
+		<div  class="card card-dash-one mg-t-20">
+			<div class="row no-gutters">
+				<div class="col-lg-3">
+					<i class="icon ion-ios-book-outline"></i>
+					<div class="dash-content">
+						<label class="tx-primary">Total Training</label>
+
+						<h2 v-if="loadedTotalTraining">{{totalTraining}}</h2>
+						<h2 v-else>
+
+							<div class="sk-circle">
+								<div class="sk-circle1 sk-child"></div>
+								<div class="sk-circle2 sk-child"></div>
+								<div class="sk-circle3 sk-child"></div>
+								<div class="sk-circle4 sk-child"></div>
+								<div class="sk-circle5 sk-child"></div>
+								<div class="sk-circle6 sk-child"></div>
+								<div class="sk-circle7 sk-child"></div>
+								<div class="sk-circle8 sk-child"></div>
+								<div class="sk-circle9 sk-child"></div>
+								<div class="sk-circle10 sk-child"></div>
+								<div class="sk-circle11 sk-child"></div>
+								<div class="sk-circle12 sk-child"></div>
+							</div>
+
+						</h2>
+					</div>
+					<!-- dash-content -->
+				</div>
+				<!-- col-3 -->
+				<div class="col-lg-3">
+					<i class="icon ion-ios-analytics-outline"></i>
+					<div class="dash-content">
+						<label class="tx-success">Total Programmes</label>
+						<h2 v-if="loadedTotalProgrammes">{{totalProgrammes}}</h2>
+						<h2 v-else>
+
+							<div class="sk-circle">
+								<div class="sk-circle1 sk-child"></div>
+								<div class="sk-circle2 sk-child"></div>
+								<div class="sk-circle3 sk-child"></div>
+								<div class="sk-circle4 sk-child"></div>
+								<div class="sk-circle5 sk-child"></div>
+								<div class="sk-circle6 sk-child"></div>
+								<div class="sk-circle7 sk-child"></div>
+								<div class="sk-circle8 sk-child"></div>
+								<div class="sk-circle9 sk-child"></div>
+								<div class="sk-circle10 sk-child"></div>
+								<div class="sk-circle11 sk-child"></div>
+								<div class="sk-circle12 sk-child"></div>
+							</div>
+
+						</h2>
+					</div>
+					<!-- dash-content -->
+				</div>
+				<!-- col-3 -->
+				<div class="col-lg-3">
+					<i class="icon ion-ios-browsers-outline"></i>
+					<div class="dash-content">
+						<label class="tx-purple">Total Courses</label>
+						<h2 v-if="loadedTotalCourse">{{totalCourse}}</h2>
+						<h2 v-else>
+
+							<div class="sk-circle">
+								<div class="sk-circle1 sk-child"></div>
+								<div class="sk-circle2 sk-child"></div>
+								<div class="sk-circle3 sk-child"></div>
+								<div class="sk-circle4 sk-child"></div>
+								<div class="sk-circle5 sk-child"></div>
+								<div class="sk-circle6 sk-child"></div>
+								<div class="sk-circle7 sk-child"></div>
+								<div class="sk-circle8 sk-child"></div>
+								<div class="sk-circle9 sk-child"></div>
+								<div class="sk-circle10 sk-child"></div>
+								<div class="sk-circle11 sk-child"></div>
+								<div class="sk-circle12 sk-child"></div>
+							</div>
+
+						</h2>
+					</div>
+					<!-- dash-content -->
+				</div>
+				<!-- col-3 -->
+				<div class="col-lg-3">
+					<i class="icon ion-ios-world-outline"></i>
+					<div class="dash-content">
+						<label class="tx-danger">In Progress</label>
+						<h2 v-if="loadedTotalInProgress">{{totalInProgress}}</h2>
+						<h2 v-else>
+
+							<div class="sk-circle">
+								<div class="sk-circle1 sk-child"></div>
+								<div class="sk-circle2 sk-child"></div>
+								<div class="sk-circle3 sk-child"></div>
+								<div class="sk-circle4 sk-child"></div>
+								<div class="sk-circle5 sk-child"></div>
+								<div class="sk-circle6 sk-child"></div>
+								<div class="sk-circle7 sk-child"></div>
+								<div class="sk-circle8 sk-child"></div>
+								<div class="sk-circle9 sk-child"></div>
+								<div class="sk-circle10 sk-child"></div>
+								<div class="sk-circle11 sk-child"></div>
+								<div class="sk-circle12 sk-child"></div>
+							</div>
+
+						</h2>
+					</div>
+					<!-- dash-content -->
+				</div>
+				<!-- col-3 -->
+			</div>
+			<!-- row -->
+		</div>
+		<!-- card -->
+
+
+		<div id="trainingStats2" class="row row-sm mg-t-20">
+			<div class="col-lg-4 mg-t-20 mg-lg-t-0">
+				<div class="card card-info">
+					<div class="card-body pd-40">
+						<div class="d-flex justify-content-center mg-b-30">
+							<img src="/img/training.svg" class="wd-100" alt="">
+						</div>
+						<h5 class="tx-inverse mg-b-20">All Training</h5>
+						<p>Get access to all resources for training, complete the available training programmes and increase your reward point, reward points that are useful for acquisition on garments on our store  </p>
+						<a  href="<?php echo $this->url("training/default", array("action" => "all")); ?>" class="btn btn-primary btn-block" >Begin</a>
+					</div>
+					<!-- card-body -->
+				</div>
+				<!-- card -->
+			</div>
+			<!-- col-3 -->
+			<div class="col-lg-4 mg-t-20 mg-lg-t-0">
+				<div class="card card-info">
+					<div class="card-body pd-40">
+						<div class="d-flex justify-content-center mg-b-30">
+							<img src="/img/icon2.svg" class="wd-100" alt="">
+						</div>
+						<h5 class="tx-inverse mg-b-20">Reward Information</h5>
+						<p>Get information about the whole reward process</p>
+						<p>Understand how you could maximize this platform </p>
+						<a id="btn3" href="#"  data-href="<?php echo $this->url("training/default", array("action" => "rewardinfomodal")); ?>" class="ajax_element btn btn-primary btn-block" data-json='{"type":"standard"}'>Take a Tour</a>
+					</div>
+					<!-- card-body -->
+				</div>
+				<!-- card -->
+			</div>
+			<!-- col-4 -->
+			<div class="col-lg-4 mg-t-20 mg-lg-t-0">
+				
+				<!-- card -->
+
+				<div class="card card-impression mg-t-20">
+					<div class="card-body pd-b-0">
+						<h6 class="slim-card-title tx-primary">Achivable Rewards</h6>
+						<h2 class="tx-lato tx-inverse">{{achivableRewards}}</h2>
+						<p class="tx-12">
+							<!-- 							<span class="tx-primary">2.5%</span> change from yesterday -->
+						</p>
+					</div>
+					<!-- card-body -->
+					<div id="rs3" class="ht-50 ht-sm-70 mg-r--1"></div>
+				</div>
+				<!-- card -->
+			</div>
+			<!-- col-4 -->
+		</div>
+		<!-- row -->
+
+		<div class="row row-sm mg-t-20">
+
+		<div class="col-lg-6">
+				<!-- col-6 -->
+				<?php echo $this->partial("training_recent_list", array("training" => $recentTraining)) ?>
+				<!-- col-6 -->
+			</div>
+			
+			<div class="col-lg-6">
+
+				<?php echo $this->partial("training_in_progress_list", array("training" => $inProgress)) ?>
+
+				<!-- card -->
+			</div>
+
+			
+		</div>
+		<!-- row -->
+
+
+
+	</div>
+	<!-- container -->
+</div>
+<!-- slim-mainpanel -->
+
+
+<script src="/lib/d3/js/d3.js"></script>
+<script src="/lib/rickshaw/js/rickshaw.min.js"></script>
+<script src="/lib/jquery.sparkline.bower/js/jquery.sparkline.min.js"></script>
+
+<script src="/js/ResizeSensor.js"></script>
+<script src="/js/dashboard.js"></script>
+<script src="/js/slim.js"></script>
+
+<script>
+	let training = new Vue({
+
+		el: "#trainingStats",
+		data: {
+			totalTraining: 0,
+			totalCourse: 0,
+			totalProgrammes: 0,
+			totalInProgress: 0,
+
+			aggregateReward: 0,
+
+			loadedTotalTraining: false,
+			loadedTotalCourse: false,
+			loadedTotalProgrammes: false,
+			loadedTotalInProgress: false,
+
+			achivableRewards: 12
+		},
+		mounted: function() {
+			this.getTotalTraining();
+			this.getTotalProgrames();
+			this.getTotalCount();
+			this.getTotalInProgree();
+			this.getAggregateReward();
+		},
+
+		methods: {
+			getTotalTraining: function() {
+
+				axios.get("/trainingjson/count-total-training").then(response => {
+					this.totalTraining = response.data.count,
+						this.loadedTotalTraining = true
+				})
+			},
+			getTotalProgrames: function() {
+				axios.get("/trainingjson/count-total-programmes").then(response => {
+					this.totalProgrammes = response.data.count,
+						this.loadedTotalProgrammes = true
+				})
+			},
+			getTotalCount: function() {
+				axios.get("/trainingjson/count-total-course").then(response => {
+					this.totalCourse = response.data.count,
+						this.loadedTotalCourse = true
+				})
+			},
+
+			getTotalInProgree: function() {
+				axios.get("/trainingjson/count-in-progress").then(response => {
+					this.totalInProgress = response.data.count,
+						this.loadedTotalInProgress = true
+				})
+			},
+
+			getAggregateReward:function(){
+				axios.get("/trainingjson/aggregatereward").then(response=>{
+					if(response.status == 200){
+						this.achivableRewards = response.data.reward
+					}
+				});
+			}
+		}
+	});
+
+	
+</script>

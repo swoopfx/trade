@@ -1,0 +1,17 @@
+ <h6 class="slim-card-title mg-b-20">Quick Support Form</h6>
+<?php
+$form->prepare();
+echo $this->form()->openTag($form);
+echo $this->partial("support-messages-fieldset", array(
+    "fieldset" => $form->get("supportMessageFieldset")
+));
+?>
+<div class="card-footer">
+
+<?php  echo $this->formsubmit($form->get("submit"));?>
+            
+             
+            </div><!-- card-footer -->
+<?php 
+echo $this->form()->closeTag();
+?>

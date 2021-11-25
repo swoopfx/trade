@@ -1,0 +1,321 @@
+<?php
+echo $this->headtitle("Wallet");
+
+?>
+<div id="wasabi"></div>
+<?php if ($this->nameOfUserHelper() == NULL) {
+	echo $this->partial("application-no-profile-snippet");
+} else { ?>
+	<div class="slim-mainpanel">
+		<div class="container pd-t-30">
+			<div class="dash-headline-two">
+				<div>
+					<h4 class="tx-inverse mg-b-5">Good day, <?php echo $this->nameOfUserHelper() ?></h4>
+					<p class="mg-b-0">Today is <?php echo $this->dateformat(new DateTime(), IntlDateFormatter::LONG, IntlDateFormatter::NONE, "en_us") ?></p>
+				</div>
+				<div class="d-h-t-right">
+					<div class="summary-item">
+						<h1><?php echo $this->myCurrencyHelper($this->walletAvailableBalance()) ?></h1>
+						<span>Wallet <br>Balance
+						</span>
+					</div>
+					<div class="summary-item">
+						<h1><?php echo $this->myCurrencyHelper($this->creditAvailaibleBalance()) ?></h1>
+						<span>Credit<br> Balance
+						</span>
+					</div>
+				</div>
+			</div>
+			<!-- dash-headline-two -->
+
+			<div class="nav-statistics-wrapper">
+				<nav class="nav">
+					<a href="" class="nav-link active">Overview</a>
+				</nav>
+
+			</div>
+			<!-- nav-statistics-wrapper -->
+
+			<div class="row row-statistics mg-b-30">
+				<div class="col-md-5">
+					<h1 class="tx-inverse tx-56 tx-lato tx-bold"><?php echo $this->myCurrencyHelper($this->walletAggregateBookBalance()) ?></h1>
+					<h6 class="tx-15 tx-inverse tx-bold mg-b-20">My book balance</h6>
+					<p>This balance is a cummulation of all credits and bonuses
+						availaible at my disposal</p>
+					<p class="tx-12">
+						<a href="">View Details</a>
+					</p>
+				</div>
+				<!-- col-5 -->
+				<div id="chart" class="col-md-7 mg-t-20 mg-md-t-0">
+					<chartjs-bar :labels="labels" :data="dataset" :bind="true"></chartjs-bar>
+				</div>
+				<!-- col-7 -->
+			</div>
+			<!-- row -->
+
+			<hr>
+
+			<div class="report-summary-header">
+				<div>
+					<h4 class="tx-inverse mg-b-3">Overall Financial Summary</h4>
+					<p class="mg-b-0">
+						<i class="icon ion-calendar mg-r-3"></i> <?php echo $this->dateformat(new DateTime(), IntlDateFormatter::LONG, IntlDateFormatter::NONE, "en_us") ?>
+					</p>
+				</div>
+				<div>
+					<a id="btn2" href="" data-href="<?php echo $this->url("wallet/default", array("action" => "financiallogs")) ?>" class="btn btn-secondary ajax_element"><i class="icon ion-ios-clock-outline tx-22"></i> Financial Logs</a>
+					<!-- 					<a -->
+					<!-- 					href="" class="btn btn-secondary"><i -->
+					<!-- 					class="icon ion-ios-gear-outline tx-24"></i> Edit Settings</a> -->
+				</div>
+			</div>
+			<!-- d-flex -->
+
+			<div id="bonus" class="row no-gutters dashboard-chart-one">
+				<div class="col-md-4 col-lg">
+					<div class="card card-revenue">
+						<div>
+							<h1><?php echo $this->myCurrencyHelper($this->walletCreditBonus()) ?></h1>
+							<p>CREDIT BONUS</p>
+						</div>
+						<div>
+							<button class="btn btn-outline-primary btn-block mg-b-10" data-container="body" data-popover-color="head-primary" data-placement="top" title="Credit Bonus" data-content="Whenever extra credits  bonuses are issued, the values are found here">
+								<i class="fa fa-info mg-r-5"></i> Info
+							</button></div>
+					</div>
+					<!-- card -->
+				</div>
+				<!-- col -->
+				<div class="col-md-4 col-lg">
+					<div class="card card-revenue">
+						<div>
+							<h1><?php echo  $this->myCurrencyHelper($this->walletReferalBonus()) ?></h1>
+							<p>REFERAL BONUS</p>
+						</div>
+						<div>
+							<button class="btn btn-outline-primary btn-block mg-b-10" data-container="body" data-popover-color="head-primary" data-placement="top" title="Refferal Bonus" data-content="Refferal bonus is generated upon successfull refferal programs">
+								<i class="fa fa-info mg-r-5"></i> Info
+							</button>
+						</div>
+					</div>
+					<!-- card -->
+				</div>
+				<!-- col -->
+				<div class="col-md-4 col-lg">
+					<div class="card card-revenue">
+						<div>
+							<h1><?php echo $this->myCurrencyHelper($this->transactionBonusHelper()) ?></h1>
+							<p>TRANSACT BONUS</p>
+						</div>
+						<div>
+
+							<button class="btn btn-outline-primary btn-block mg-b-10" data-container="body" data-popover-color="head-primary" data-placement="top" title="Transact Bonus" data-content="Transact Bonus are all bonus accruied during transaction of some specific products">
+								<i class="fa fa-info mg-r-5"></i> Info
+							</button>
+
+						</div>
+					</div>
+					<!-- card -->
+				</div>
+				<!-- col -->
+				<div class="col-md col-lg-4">
+					<div class="card card-revenue">
+						<h6>Estimated Monthly Revenue</h6>
+						<p>Calculated every month end</p>
+						<h1>
+						&#8358;{{estimatedRevenue}} 
+							<!-- <span class="tx-success">1.4% up</span> -->
+						</h1>
+						<div id="rs3" class="ht-50 ht-sm-70 mg-r--1"><button class="btn btn-outline-primary btn-block mg-b-10" data-container="body" data-popover-color="head-primary" data-placement="top" title="Monthly Estimate" data-content="This is a estimation of possible monthly revenue achivable based on previous monthly activity, it gives a clear vision of increased/decreased activity ">
+								<i class="fa fa-info mg-r-5"></i> Details
+							</button></div>
+						<!-- <label>Last Estimate: <span><?php echo $this->myCurrencyHelper(700) ?></span></label> -->
+					</div>
+					<!-- card -->
+				</div>
+				<!-- col-4 -->
+			</div>
+			<!-- row -->
+
+			<hr>
+
+			<div class="report-summary-header">
+				<div>
+					<h4 class="tx-inverse mg-b-3">High Reward Products</h4>
+					<p class="mg-b-0">
+						<i class="icon ion-calendar mg-r-3"></i> <?php echo $this->dateformat(new DateTime(), IntlDateFormatter::LONG, IntlDateFormatter::NONE) ?>
+					</p>
+				</div>
+				<div>
+					<a id="btn2" href data-href="<?php echo $this->url("shopajax/default", array("action" => "topratedproductsajax")) ?>" class="btn btn-secondary ajax_element">Top Rated Products</a> <a href="<?php echo $this->url("shop") ?>" class="btn btn-secondary">Go Shopping</a>
+				</div>
+			</div>
+			<!-- d-flex -->
+
+			<div class="row row-sm">
+				<?php  //echo $this->shopWalletHighPointsProduct()
+				?>
+			</div>
+			<!-- row -->
+
+		</div>
+		<!-- container -->
+	</div>
+	<!-- slim-mainpanel -->
+<?php } ?>
+
+<script src='//unpkg.com/vue-chartjs@2.6.0/dist/vue-chartjs.full.min.js'></script>
+<script src='//cdnjs.cloudflare.com/ajax/libs/Chart.js/2.3.0/Chart.js'></script>
+<script src='//unpkg.com/hchs-vue-charts@1.2.8'></script>
+<script>
+	Vue.use(VueCharts);
+	let chart = new Vue({
+		el: "#chart",
+		// props: {
+		// 	datalabel: {
+		// 		default: "My FInacial Activity",
+		// 		type: String
+		// 	}
+		// },
+		data: function data() {
+			return {
+				
+				dataentry: null,
+				datalabel: "My FInacial Activity",
+				labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'],
+				dataset: [5, 10, 15, 25, 45, 70, 115, 185, 70, 75, 70, 60]
+			};
+		},
+		methods: {
+			addData: function addData() {
+				this.dataset.push(this.dataentry);
+				this.labels.push(this.datalabel);
+				this.datalabel = 'My FInacial Activity';
+				this.dataentry = '';
+			},
+
+			getCreditBonus(){
+				axios.get("/walletasync/creditbonus").then().catch();
+			},
+
+			getEstimatedRevenue(){
+
+			}
+		}
+	});
+
+	let bonus = new Vue({
+		el:"#bonus",
+		data:{
+			creditBonus:0,
+				referalBonus:0,
+				transactionBonus:0,
+				estimatedRevenue:0,
+		}
+	});
+	$(function() {
+		'use strict';
+
+		// Initialize popover
+		$('[data-toggle="popover"]').popover();
+
+		$('[data-popover-color="head-primary"]').popover({
+			template: '<div class="popover popover-head-primary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="head-success"]').popover({
+			template: '<div class="popover popover-head-success" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="head-warning"]').popover({
+			template: '<div class="popover popover-head-warning" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="head-danger"]').popover({
+			template: '<div class="popover popover-head-danger" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="head-info"]').popover({
+			template: '<div class="popover popover-head-info" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="head-teal"]').popover({
+			template: '<div class="popover popover-head-teal" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="head-indigo"]').popover({
+			template: '<div class="popover popover-head-indigo" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="head-purple"]').popover({
+			template: '<div class="popover popover-head-purple" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="head-pink"]').popover({
+			template: '<div class="popover popover-head-pink" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="head-orange"]').popover({
+			template: '<div class="popover popover-head-orange" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="head-dark"]').popover({
+			template: '<div class="popover popover-head-dark" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="primary"]').popover({
+			template: '<div class="popover popover-primary" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="success"]').popover({
+			template: '<div class="popover popover-success" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="warning"]').popover({
+			template: '<div class="popover popover-warning" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="danger"]').popover({
+			template: '<div class="popover popover-danger" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="info"]').popover({
+			template: '<div class="popover popover-info" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="teal"]').popover({
+			template: '<div class="popover popover-teal" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="indigo"]').popover({
+			template: '<div class="popover popover-indigo" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="purple"]').popover({
+			template: '<div class="popover popover-purple" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="orange"]').popover({
+			template: '<div class="popover popover-orange" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		$('[data-popover-color="pink"]').popover({
+			template: '<div class="popover popover-pink" role="tooltip"><div class="arrow"></div><h3 class="popover-header"></h3><div class="popover-body"></div></div>'
+		});
+
+		// By default, Bootstrap doesn't auto close popover after appearing in the page
+		// resulting other popover overlap each other. Doing this will auto dismiss a popover
+		// when clicking anywhere outside of it
+		$(document).on('click', function(e) {
+			$('[data-toggle="popover"],[data-original-title]').each(function() {
+				//the 'is' for buttons that trigger popups
+				//the 'has' for icons within a button that triggers a popup
+				if (!$(this).is(e.target) && $(this).has(e.target).length === 0 && $('.popover').has(e.target).length === 0) {
+					(($(this).popover('hide').data('bs.popover') || {}).inState || {}).click = false // fix for BS 3.3.6
+				}
+
+			});
+		});
+	});
+</script>

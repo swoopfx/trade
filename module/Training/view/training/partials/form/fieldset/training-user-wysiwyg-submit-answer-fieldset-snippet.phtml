@@ -1,0 +1,51 @@
+<?php
+?>
+
+
+<h4><?php  echo $this->formlabel($fieldset->get('answerss'))?></h4>
+<br>
+<div class="row">
+
+	<div class="col-sm-12 mg-t-12 mg-sm-t-0">
+		<?php  echo $this->formelement($fieldset->get('answerss'))?>
+	</div>
+
+	<div style="font-size: 9px; color: red;">
+              <?php
+            echo $this->formElementErrors($fieldset->get('answerss'));
+            ?>
+              </div>
+</div>
+
+<?php  echo $this->vueFormHidden($fieldset->get("milestone"))?>
+<?php  echo $this->vueFormHidden($fieldset->get("trainingId"))?>
+
+
+
+<script>
+
+$(document).ready(function () {
+	
+ tinymce.init({
+	  selector: 'textarea#editor',
+	  height: 500,
+	  menubar: false,
+	  plugins: [
+	    'advlist autolink lists link image media charmap print preview anchor',
+	    'searchreplace visualblocks code fullscreen',
+	    'insertdatetime media table paste code help wordcount'
+	  ],
+	  toolbar: 'undo redo | formatselect | ' +
+	  'bold italic backcolor | alignleft aligncenter ' +
+	  'alignright alignjustify | '+'| insertfile image media |'+' | bullist numlist outdent indent | ' +
+	  'removeformat | help',
+	  content_style: 'body { font-family:Helvetica,Arial,sans-serif; font-size:14px }'
+	});
+
+
+	
+});
+
+</script>
+
+

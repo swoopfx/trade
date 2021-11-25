@@ -1,0 +1,303 @@
+<?php
+
+use General\Service\GeneralService;
+use Shop\Service\CartItemService;
+use Shop\Service\ProductService;
+use Shop\Service\OrderService;
+
+echo $this->headtitle("Order");
+// var_dump($order->getDe);
+?>
+<div id="wasabi"></div>
+<div id="cartOrder" class="slim-mainpanel">
+	<div class="container">
+		<div class="slim-pageheader">
+			<!--           <ol class="breadcrumb slim-breadcrumb"> -->
+			<!--             <li class="breadcrumb-item"><a href="#">Home</a></li> -->
+			<!--             <li class="breadcrumb-item"><a href="#">Pages</a></li> -->
+			<!--             <li class="breadcrumb-item active" aria-current="page">Invoice Page</li> -->
+			<!--           </ol> -->
+			<h6 class="slim-pagetitle">Order Page</h6>
+		</div>
+		<!-- slim-pageheader -->
+
+		<div class="card card-invoice">
+			<div class="card-body">
+				<div class="invoice-header">
+					<h1 class="invoice-title">Order</h1>
+					<div class="billed-from">
+						<h6><?php echo GeneralService::APP_NAME ?></h6>
+						<p><?php echo GeneralService::COMPANY_ADDRESS ?><br>
+							Tel No: <?php echo GeneralService::COMPANY_PHONE ?><br>
+							Email: <?php echo GeneralService::COMPANY_SUPPORT_EMAIL ?></p>
+					</div>
+					<!-- billed-from -->
+				</div>
+				<!-- invoice-header -->
+
+				<div class="row mg-t-20">
+					<div class="col-md">
+						<label class="section-label-sm tx-gray-500">Billed To</label>
+						<div class="billed-to">
+							<h6 class="tx-gray-800"><?php echo  $fullname ?></h6>
+							<p><?php echo $address ?><br>
+								Tel No: <?php echo $phone ?><br>
+								Email: <?php $email ?></p>
+						</div>
+					</div>
+					<!-- col -->
+					<div class="col-md">
+						<label class="section-label-sm tx-gray-500">Invoice Information</label>
+						<p class="invoice-info-row">
+
+
+							<span>Invoice Status</span> <span><?php echo $this->transactionInvoiceStatusHelper($order->getInvoice()->getInvoiceStatus()->getId()) ?></span>
+						</p>
+						<p class="invoice-info-row">
+							<?php $invoice = $order->getInvoice() ?>
+							<span>Invoice No</span> <span><?php echo strtoupper($invoice->getInvoiceUid()) ?></span>
+						</p>
+						<p class="invoice-info-row">
+							<span>Order ID</span> <span><?php echo strtoupper($order->getOrderUid()) ?></span>
+						</p>
+						<p class="invoice-info-row">
+							<span>Created On:</span> <span><?php echo $this->dateformat($invoice->getCreatedOn(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE) ?></span>
+						</p>
+						<p class="invoice-info-row">
+							<span>Due Date:</span> <span><?php echo $this->dateformat($invoice->getDueDate(), IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE) ?></span>
+						</p>
+					</div>
+					<!-- col -->
+				</div>
+				<!-- row -->
+
+				<div class="table-responsive mg-t-40">
+					<table class="table table-invoice">
+						<thead>
+							<tr>
+								<th class="tx-center"></th>
+								<th class="wd-40p">Product</th>
+								<th class="tx-center wd-10p">Quantity</th>
+								<th class="tx-center">Price</th>
+								<!--                     <th class="tx-right">Unit Price</th> -->
+								<th class="tx-right">Total</th>
+							</tr>
+						</thead>
+						<tbody>
+							<?php foreach ($order->getCart()->getCartItems() as $item) : ?>
+								<tr>
+									<td><img src="<?php echo $item->getProduct()->getImage()[0]->getThumbnail() ?>" class="wd-55" alt="Image"></td>
+									<td class="tx-12"><?php echo $item->getProduct()->getProductDescription()->getProductName() ?></td>
+									<td class="tx-center"><?php echo CartItemService::itemTotalQuantity($item) ?></td>
+									<td class="tx-right"><?php echo $this->myCurrencyHelper(ProductService::getActivePrice($item->getProduct())) ?></td>
+									<td class="tx-right"><?php echo  $this->myCurrencyHelper(CartItemService::itemTotalQuantity($item) * ProductService::getActivePrice($item->getProduct())) ?></td>
+								</tr>
+							<?php endforeach; ?>
+
+							<tr>
+								<td colspan="2" rowspan="4" class="valign-middle">
+									<div class="invoice-notes">
+										<label class="section-label-sm tx-gray-500">Notes</label>
+										<p>
+
+										</p>
+									</div>
+									<!-- invoice-notes -->
+								</td>
+								<td class="tx-right">Sub-Total</td>
+								<td colspan="2" class="tx-right"><?php echo $this->myCurrencyHelper($order->getTotal()) ?></td>
+							</tr>
+							<?php
+
+							if ($order->getDeliveryType()->getId() == GeneralService::CART_PRODUCT_HOME_DELIVERY) :
+							?>
+								<tr>
+									<td class="tx-right">Delivery</td>
+									<td colspan="2" class="tx-right"> <?php echo $this->myCurrencyHelper($order->getDeliveryPrice()) ?></td>
+								</tr>
+							<?php endif; ?>
+							<?php if ($walletCart != NULL) : ?>
+								<tr>
+									<td class="tx-right">Wallet</td>
+									<td colspan="2" class="tx-right">- <?php echo $this->myCurrencyHelper($walletCart->getTransaction()->getInvoice()->getAmount()) ?></td>
+								</tr>
+							<?php endif; ?>
+							<?php if ($order->getIsDiscount()) : ?>
+								<tr>
+									<td class="tx-right">Discount</td>
+									<td colspan="2" class="tx-right"><?php echo $this->myCurrencyHelper($wallet->getDiscountValue()) ?></td>
+								</tr>
+							<?php endif; ?>
+							<tr>
+								<td class="tx-right tx-uppercase tx-bold tx-inverse">Total Due</td>
+								<td colspan="2" class="tx-right">
+									<h4 class="tx-primary tx-bold tx-lato"><?php echo $this->myCurrencyHelper($order->getInvoice()->getAmount()) ?></h4>
+								</td>
+							</tr>
+						</tbody>
+					</table>
+				</div>
+				<!-- tabl e-responsive -->
+
+				<hr class="mg-b-60">
+				<div v-if="paymentStatus()" class="row">
+					<div class="col-sm-6 col-md-6 mg-t-20 mg-sm-t-0">
+						<div class="btn-demo">
+
+							<button @click="cardpayment()" class="btn btn-primary btn-block">Pay With Card</button>
+						</div><!-- btn-demo -->
+					</div><!-- col-sm-6 -->
+
+					<div class="col-sm-6 col-md-6 mg-t-20 mg-sm-t-0">
+						<div class="btn-demo">
+
+							<a id="btn3" data-json='{"ddd":"<?php echo $order->getId() ?>"}' data-href="<?php echo $this->url("appmodal/default", ["action" => "notifypaymentmodal"]) ?>" class="ajax_element btn btn-success btn-block">Nofify Payment</a>
+						</div><!-- btn-demo -->
+					</div><!-- col-sm-6 -->
+				</div>
+			</div>
+			<!-- card-body -->
+		</div>
+		<!-- card -->
+
+	</div>
+	<!-- container -->
+</div>
+<!-- slim-mainpanel -->
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script>
+	function makeFlutterwavePayment() {
+
+		// if (subs.postPayment) {
+		FlutterwaveCheckout({
+			public_key: cartOrder.public_key,
+			tx_ref: cartOrder.tx_ref,
+			amount: cartOrder.amountPayable,
+			currency: "NGN",
+			country: "NG",
+			payment_options: "card,account",
+			customer: {
+				email: cartOrder.profileEmail,
+				name: cartOrder.profileName,
+			},
+
+			callback: function(response) { // specified callback function
+				if (response.status == "successful") {
+					cartOrder.tx_ref = response.tx_ref;
+					cartOrder.amountPayed = response.amount;
+					cartOrder.flw_ref = response.flw_ref;
+					cartOrder.transaction_id = response.transaction_id;
+					cartOrder.concludeCardayment();
+				} else {
+					// set error
+				}
+			},
+			customizations: {
+				title: "TANIM FITS",
+				description: "E-commerce online payment",
+				logo: cartOrder.companyLogo
+
+			},
+		})
+		// }?
+	}
+	Vue.use(VueToast, {
+		// One of options
+		position: 'top'
+	});
+	let cartOrder = new Vue({
+		el: "#cartOrder",
+		data() {
+			return {
+				paymentInvoiceStatus: '<?php echo $order->getInvoice()->getInvoiceStatus()->getId() ?>',
+				orderId: '<?php echo $order->getId() ?>',
+				orderUid: '<?php echo $order->getOrderUid() ?>',
+				public_key:'',
+				tx_ref:'',
+				amountPayable:'',
+				profileEmail:'',
+				profileName:'',
+				companyLogo:'',
+				isPayingWithCard:false,
+				
+				companyLogo:'',
+				amountPayed:0,
+
+				//Flutterwave response
+				transaction_id:'',
+				flw_ref:'',
+			}
+		},
+		mounted() {
+			// this.paymentStatus();
+		},
+
+
+		methods: {
+
+
+
+			paymentStatus() {
+				if (this.paymentInvoiceStatus == '100' || this.paymentInvoiceStatus == '1000') {
+					return false;
+				} else {
+					return true;
+				}
+			},
+			cardpayment() {
+				this.isPayingWithCard = true;
+				let formData = new FormData();
+				formData.append("orderuid", this.orderUid);
+				formData.append('orderid', this.orderId);
+				axios.post("/transaction/cardpayment", formData).then(res=>{
+					if(res.status == 201){
+						this.public_key = res.data.public_key
+						this.tx_ref = res.data.tx_ref;
+						this.companyLogo = res.data.logo;
+						this.amountPayable = res.data.amountPayable;
+						this.profileEmail = res.data.email;
+						this.profileName = res.data.name;
+						makeFlutterwavePayment();
+					}else if(res.status == 200){
+						swal({
+								title: "ERROR",
+								text: 'Something went wrong, please try again latter ', //err.response.data.messages,
+								icon: "error",
+								button: "OK"
+							});
+					}
+				}).catch();
+			},
+
+			concludeCardayment(){
+				let formData = new FormData();
+				formData.append("flw_ref", this.flw_ref);
+				formData.append('tx_ref', this.tx_ref);
+				formData.append('amountPaid', this.amountPayed);
+				formData.append('transaction_id', this.transaction_id);
+				formData.append("orderuid", this.orderUid);
+				formData.append('orderid', this.orderId);
+				axios.post("/transaction/concludecardpayment", formData).then(res=>{
+					if(res.status == 201){
+						window.location.replace(res.data.redirect) ;
+					}else if(res.status == 200){
+						swal({
+								title: "ERROR",
+								text: 'Something went wrong, please try again latter ', //err.response.data.messages,
+								icon: "error",
+								button: "OK"
+							});
+					}
+				}).catch(err=>{
+					swal({
+								title: "ERROR",
+								text: err.response.data.messages,
+								icon: "error",
+								button: "OK"
+							});
+				});
+			}
+		}
+
+	});
+</script>

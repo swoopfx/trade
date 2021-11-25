@@ -1,0 +1,308 @@
+<?php echo $this->headtitle("Admin Dashboard") ?>
+
+
+<!-- begin #sidebar -->
+
+<!-- 		<div class="sidebar-bg"></div> -->
+<!-- end #sidebar -->
+
+<!-- begin #content -->
+
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+	<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>
+	<li class="breadcrumb-item active">Dashboard</li>
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">
+	Dashboard <small>Tfits.online dashboard </small>
+</h1>
+<!-- end page-header -->
+<div id="statss">
+	<!-- begin row -->
+	<div class="row">
+		<!-- begin col-3 -->
+		<div class="col-lg-3 col-md-6">
+			<div class="widget widget-stats bg-grey-darker">
+				<div class="stats-icon">
+					<i class="fa fa-shopping-bag"></i>
+				</div>
+				<div class="stats-info">
+					<h4>TOTAL ORDER</h4>
+					<p v-if="order_loaded">{{unsettled_order}}</p>
+					<p v-else>
+						<i class="fas fa-spinner fa-spin"></i>
+					</p>
+				</div>
+				<div class="stats-link">
+					<a href="<?php echo $this->url("bbminsales/default", array("action" => "order")) ?>">View
+						Detail <i class="fa fa-arrow-alt-circle-right"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- end col-3 -->
+		<!-- begin col-3 -->
+		<div class="col-lg-3 col-md-6">
+			<div class="widget widget-stats bg-green">
+				<div class="stats-icon">
+					<i class="fa fa-support"></i>
+				</div>
+				<div class="stats-info">
+					<h4>OPEN TICKET</h4>
+					<p v-if="loaded">{{open_ticket}}</p>
+					<p v-else>
+						<i class="fas fa-spinner fa-spin"></i>
+					</p>
+				</div>
+				<div class="stats-link">
+					<a href="<?php echo $this->url("bbminsupport/default", array("action" => "open-ticket")) ?>">View
+						Detail <i class="fa fa-arrow-alt-circle-right"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- end col-3 -->
+		<!-- begin col-3 -->
+		<div class="col-lg-3 col-md-6">
+			<div class="widget widget-stats bg-orange">
+				<div class="stats-icon">
+					<i class="fa fa-frown"></i>
+				</div>
+				<div class="stats-info">
+					<h4>MONTHLY SALES</h4>
+					<p>{{monthly_sale}}</p>
+				</div>
+				<div class="stats-link">
+					<a href="javascript:;">View Detail <i class="fa fa-arrow-alt-circle-right"></i></a>
+				</div>
+			</div>
+		</div>
+		<!-- end col-3 -->
+		<!-- begin col-3 -->
+		<div class="col-lg-3 col-md-6">
+			<div class="widget widget-stats bg-red">
+				<div class="stats-icon">
+					<i class="fa fa-clock"></i>
+				</div>
+				<div class="stats-info">
+					<h4>TOTAL CUSTOMER</h4>
+					<p v-if="customer_loaded">{{total_customer}}</p>
+					<p v-else>
+						<i class="fas fa-spinner fa-spin"></i>
+					</p>
+				</div>
+				<div class="stats-link">
+					<a href="<?php echo $this->url("bbmincustomer/default", array("action" => "statistics")) ?>">View
+						Detail <i class="fa fa-arrow-alt-circle-right"></i>
+					</a>
+				</div>
+			</div>
+		</div>
+		<!-- end col-3 -->
+	</div>
+	<!-- end row -->
+	<!-- begin row -->
+	<div class="row">
+		<!-- begin col-8 -->
+		<div class="col-lg-8">
+
+
+			<!-- begin tabs -->
+			<ul class="nav nav-tabs nav-justified nav-justified-mobile" data-sortable-id="index-2">
+				<li class="nav-item"><a href="#latest-post" data-toggle="tab" class="nav-link active"><i class="fa fa-camera fa-lg m-r-5"></i> <span class="d-none d-md-inline">Latest Training</span></a></li>
+				<li class="nav-item"><a href="#purchase" data-toggle="tab" class="nav-link"><i class="fa fa-archive fa-lg m-r-5"></i> <span class="d-none d-md-inline">Purchase</span></a></li>
+				<li class="nav-item"><a href="#email" data-toggle="tab" class="nav-link"><i class="fa fa-envelope fa-lg m-r-5"></i> <span class="d-none d-md-inline">Recent Customer</span></a></li>
+			</ul>
+			<div class="tab-content" data-sortable-id="index-3">
+				<div class="tab-pane fade active show" id="latest-post">
+					<div class="height-md" data-scrollbar="true">
+						<ul class="media-list media-list-with-divider">
+
+							<?php echo $this->partial("bbmin_dashboard_recent_training", array("training" => $recentTraining)) ?>
+						</ul>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="purchase">
+					<div class="height-md" data-scrollbar="true">
+
+
+
+
+
+						<?php echo $this->partial("bbmin_unsettled_order", array("orders" => $unsettledOrder)) ?>
+					</div>
+				</div>
+				<div class="tab-pane fade" id="email">
+					<div class="height-md" data-scrollbar="true">
+						<?php echo $this->partial("bbmin_dashboard_recent_user", array("users" => $recentUsers)) ?>
+
+					</div>
+				</div>
+			</div>
+			<!-- end tabs -->
+
+
+		</div>
+		<!-- end col-8 -->
+		<!-- begin col-4 -->
+		<div id="stats" class="col-lg-4">
+			<!-- begin panel -->
+			<div class="panel panel-inverse" data-sortable-id="index-6">
+				<div class="panel-heading">
+					<div class="panel-heading-btn">
+						<a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a> <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-danger" data-click="panel-remove"><i class="fa fa-times"></i></a>
+					</div>
+					<h4 class="panel-title">Analytics Details</h4>
+				</div>
+				<div id="stats" class="panel-body p-t-0">
+					<div class="table-responsive">
+						<div v-if="!statsLoaded">
+							<div style="text-align: center;" class="fa-10x">
+								<!-- <i class="fas fa-spinner fa-pulse"></i> -->
+							</div>
+						</div>
+						<table v-else class="table table-valign-middle">
+							<thead>
+								<tr>
+									<th>Source</th>
+									<th>Total</th>
+									<th>Trend</th>
+								</tr>
+							</thead>
+							<tbody>
+								<tr>
+									<td><label class="label label-danger">Daily Unique Visitor</label></td>
+									<td>{{dailyUser}}<span class="text-success"><i class="fa fa-arrow-up"></i></span></td>
+									<td>
+										<div id="sparkline-unique-visitor"></div>
+									</td>
+								</tr>
+								<tr>
+									<td><label class="label label-warning">Daily Training Enrollment</label></td>
+									<td>{{dailyErolment}}</td>
+									<td>
+										<div id="sparkline-bounce-rate"></div>
+									</td>
+								</tr>
+								<tr>
+									<td><label class="label label-success">Purchase Order</label></td>
+									<td>{{dailyOrder}}</td>
+									<td>
+										<div id="sparkline-total-page-views"></div>
+									</td>
+								</tr>
+								<tr>
+									<td><label class="label label-primary">Returned User</label></td>
+									<td>{{dailyreturnedUser}}</td>
+									<td>
+										<div id="sparkline-avg-time-on-site"></div>
+									</td>
+								</tr>
+								<tr>
+									<td><label class="label label-default">Page Viewed</label></td>
+									<td>{{dailyPageViewed}}</td>
+									<td>
+										<div id="sparkline-new-visits"></div>
+									</td>
+								</tr>
+								<tr>
+									<td><label class="label label-inverse">Return Visitors</label></td>
+									<td>73.4%</td>
+									<td>
+										<div id="sparkline-return-visitors"></div>
+									</td>
+								</tr>
+							</tbody>
+						</table>
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<!-- end col-4 -->
+	</div>
+	<!-- end row -->
+
+</div>
+
+
+<!-- begin scroll to top btn -->
+<!-- <a href="javascript:;" class="btn btn-icon btn-circle btn-success btn-scroll-to-top fade" data-click="scroll-top"><i class="fa fa-angle-up"></i></a> -->
+<!-- end scroll to top btn -->
+
+
+
+<script>
+	var vue = new Vue({
+		el: "#statss",
+		data: {
+			loaded: false,
+			order_loaded: false,
+			customer_loaded: false,
+			unsettled_order: 0,
+			open_ticket: 4,
+			monthly_sale: 0,
+			monthly_customer: 0,
+			total_customer: 0,
+
+			// Statistics
+			dailyUser: 0,
+			dailyErolment: 0,
+			dailyOrder: 0,
+			dailyreturnedUser: 0,
+			dailyPageViewed: 0,
+
+			statsLoaded: false
+		},
+
+		mounted: function() {
+			this.countOpenTicket();
+			this.countOrderUnsettled();
+			this.countTotalCustomer();
+			// this.loadStatistics();
+		},
+
+		methods: {
+			countOpenTicket: function() {
+				axios.get("/bbmin/supportopenticketcount").then(
+					response => {
+						// JSON responses are automatically parsed.
+						this.open_ticket = response.data.count,
+							this.loaded = true
+
+					}
+				)
+
+			},
+
+			countOrderUnsettled: function() {
+				axios.get("/bbmin/orderunsettledcount").then(response => {
+					this.unsettled_order = response.data.count,
+						this.order_loaded = true
+				})
+			},
+
+			countTotalCustomer: function() {
+				axios.get("/bbmin/totalcustomer").then(response => {
+					this.total_customer = response.data.count,
+						this.customer_loaded = true
+				})
+			},
+
+			loadStatistics: function() {
+				axios.get("/bbmin/dashboard-analytics").then(response => {
+					this.dailyUser = response.data.dailyUser,
+						this.dailyOrder = response.data.dailyOrder,
+						this.dailyErolment = response.data.dailyErolment,
+						this.dailyPageViewed = response.data.dailyPageViewed,
+						this.dailyreturnedUser = response.data.dailyreturnedUser,
+
+						this.statsLoaded = true
+				})
+			}
+		}
+
+	});
+</script>

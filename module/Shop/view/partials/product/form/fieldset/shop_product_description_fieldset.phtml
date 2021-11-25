@@ -1,0 +1,68 @@
+<?php
+?>
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($dfieldset->get("productName"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormText($dfieldset->get("productName")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("productName")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($dfieldset->get("description"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormTextarea($dfieldset->get("description")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("description")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($dfieldset->get("metaTitle")) ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormText($dfieldset->get("metaTitle")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("metaTitle")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($dfieldset->get("metaDescription")) ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormTextarea($dfieldset->get("metaDescription")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("metaDescription")); ?>
+		</div>
+
+	</div>
+</div>
+
+
+
+
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($dfieldset->get("metaKeyword")) ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormText($dfieldset->get("metaKeyword")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($dfieldset->get("metaKeyword")); ?>
+		</div>
+
+	</div>
+</div>

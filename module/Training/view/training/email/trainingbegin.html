@@ -1,0 +1,257 @@
+<html>
+
+<head>
+<title></title>
+<link
+	href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;700&display=swap"
+	rel="stylesheet">
+<style>
+h1 {
+	margin: auto;
+	font-family: 'Manrope', -apple-system, helvetica, arial, sans-serif;
+	text-align: center;
+	font-size: 38px;
+	color: #232836;
+	font-weight: 700;
+}
+
+h2 {
+	margin: auto;
+	font-family: 'Manrope', -apple-system, helvetica, arial, sans-serif;
+	text-align: center;
+	font-size: 24px;
+	color: #232836;
+	font-weight: 700;
+}
+
+h3 {
+	margin: auto;
+	font-family: 'Manrope', -apple-system, helvetica, arial, sans-serif;
+	text-align: center;
+	font-size: 20px;
+	color: #232836;
+	font-weight: 500;
+}
+
+p, ul {
+	margin: auto;
+	font-family: 'Manrope', -apple-system, helvetica, arial, sans-serif;
+	text-align: left;
+	font-size:  16px;
+	color: #232836;
+	font-weight: 400;
+}
+
+a {
+	color: #0171D3;
+}
+
+img {
+	display: block;
+}
+
+.ellipsis {
+	text-overflow: ellipsis;
+}
+
+.background-email {
+	max-width: 512px;
+	background-color: #F0F9FF;
+	margin: auto;
+	padding: 40px 48px 64px 48px;
+	border-radius: 16px;
+}
+
+.background-button {
+	display: block;
+	margin: auto;
+	max-width: 320px;
+	background-color: #0171D3;
+	padding: 16px;
+	border-radius: 8px;
+	text-decoration: none;
+}
+
+.label-button {
+	display: block;
+	margin: auto;
+	font-family: 'Manrope', -apple-system, helvetica, arial, sans-serif;
+	text-align: center;
+	font-size: 16px;
+	color: #FFFFFF;
+	font-weight: 500;
+}
+
+.text-center {
+	text-align: center;
+}
+
+.flex-container-icon-left {
+	display: flex;
+	margin-bottom: 64px;
+	align-items: flex-start;
+	align-content: flex-start;
+}
+
+.icon-left {
+	width: 72px;
+	min-width: 72px;
+	max-width: 72px;
+}
+
+@media only screen and (max-width: 600px) {
+	.background-email {
+		max-width: 512px;
+		background-color: #F0F9FF;
+		margin: auto;
+		padding: 20px 24px 32px 24px;
+		border-radius: 16px;
+	}
+	.flex-container-icon-left {
+		display: flex;
+		flex-direction: column;
+		margin-bottom: 64px;
+		justify-content: center;
+		align-items: center;
+	}
+	.icon-left {
+		width: 72px;
+		min-width: 72px;
+		max-width: 72px;
+		padding-bottom: 24px;
+		align-self: baseline;
+	}
+	h1 {
+		margin: auto;
+		font-family: 'Manrope', -apple-system, helvetica, arial, sans-serif;
+		text-align: center;
+		font-size: 28px;
+		color: #232836;
+		font-weight: 700;
+	}
+	p {
+		margin: auto;
+		font-family: 'Manrope', -apple-system, helvetica, arial, sans-serif;
+		text-align: left;
+		font-size:  14px;
+		color: #232836;
+		font-weight: 400;
+	}
+}
+</style>
+</head>
+
+<body>
+	<div class="background-email" width="100%">
+		<img src="http://localhost:2003/img/logo.png"
+			style="max-width: 170px; margin: auto; margin-bottom: 88px;"
+			width="100%">
+		<h1 style="margin-bottom: 40px;" width="100%">Great Job !</h1>
+
+		<img
+			src="https://c4.wallpaperflare.com/wallpaper/805/538/482/sunset-4k-download-hd-wallpaper-preview.jpg"
+			class="text-center"
+			style="max-width: 490px; margin: auto; margin-bottom: 64px;"
+			width="100%">
+		<h2 style="margin-bottom: 40px;" width="100%">You just submitted
+			your assignments and milestones</h2>
+
+
+
+
+		<p class="text-center" style="margin-bottom: 64px;" width="100%">Next
+			step includes:</p>
+
+
+
+
+
+		<div class="flex-container-icon-left" width="100%">
+			<div>
+				<img
+					src="http://cdn.mcauto-images-production.sendgrid.net/acf8df57c31b4432/79edda7b-89af-4bd7-ae7d-d8ddc6975c67/144x188.png"
+					class="icon-left">
+			</div>
+			<p>
+			<ul>
+				<li>Wait for your assignment to be evaluated, and your
+					qualification submitted</li>
+				<br>
+				<li>If you qualify for the reward points, you wallet would be
+					credited with the associated points</li>
+				<br>
+				<li>Once you have your point, you can visit our online
+					distributor store and begine shopping</li>
+				<br>
+				<li>If you have any questions on your Data security - contact
+					us at <a href="mailto:<?php echo $email ?>" target="_blank">
+						<?php echo $email ?>
+				</a>
+				</li>
+			</ul>
+			</p>
+		</div>
+		<h3 style="margin-bottom: 40px;" width="100%">Terms of Use</h3>
+
+
+		<p class="text-center" style="margin-bottom: 64px;" width="100%">Ok,
+			now that's done. Let's continue through the checklist.</p>
+		<h2 style="margin-bottom: 64px;" width="100%">
+			So, how to make money with
+			<?php echo $company ?>
+		</h2>
+
+		<img
+			src="http://cdn.mcauto-images-production.sendgrid.net/acf8df57c31b4432/1f6b49fa-ce3a-4303-b5cb-83c8ee58c538/638x522.png"
+			class="text-center"
+			style="max-width: 320px; margin: auto; margin-bottom: 40px;"
+			width="100%">
+		<h3 style="margin-bottom: 40px;" width="100%">
+			First step to start earning - visit <a href="">
+				<?php echo $website  ?>
+			</a> or Install the App
+		</h3>
+
+		<p style="margin-bottom: 40px;" width="100%">
+			To start earning with
+			<?php echo $company  ?>
+			you need to take a course on the platform and qualif for the award
+			credit!
+		</p>
+
+		<img
+			src="http://cdn.mcauto-images-production.sendgrid.net/acf8df57c31b4432/0f282d3e-c0f6-45e7-be3b-1f8b40ff2c92/664x454.png"
+			class="text-center"
+			style="max-width: 332px; margin: auto; margin-bottom: 40px;"
+			width="100%">
+		<h3 style="margin-bottom: 40px;" width="100%">How will I get
+			paid?</h3>
+
+		<p style="margin-bottom: 64px;" width="100%">
+			You will get paid through your
+			<?php echo $company ?>
+			wallet account. Other options are on their way! <br> <br>The
+			only thing to note is that you must interact with the application to
+			qualify for a reward
+		</p>
+		<h2 style="margin-bottom: 40px;" width="100%">So, what are you
+			waiting for?</h2>
+
+		<p class="text-center" style="margin-bottom: 48px;" width="100%">
+			Sign in, turn on
+			<?php echo $company ?>
+			and watch the money flow! <br> <br>We're looking forward to
+			paying you!
+		</p>
+
+		<p class="text-center" style="margin-bottom: 24px;" width="100%">Don't
+			forget to follow us on social media:</p>
+		
+		<p class="text-center" width="100%">
+			With love️ <br> <?php echo $company ?> team
+		</p>
+	</div>
+
+</body>
+
+</html>

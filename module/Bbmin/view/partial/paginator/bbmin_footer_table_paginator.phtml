@@ -1,0 +1,12 @@
+<?php
+if($this->pageCount > 1):
+?>
+<ul class="pager">
+ <?php  if(isset($this->previous)):?>
+  <li><a href="<?php  echo $this->url("bbminshop/paginator", array("action"=>"product", "page"=>$this->previous))?>">Previous</a></li>
+  <?php endif;?>
+  <?php if (isset($this->next)):?>
+  <li><a href="<?php  echo $this->url("bbminshop/paginator", array("action"=>"product", "page"=>$this->next))?>">Next</a></li>
+  <?php endif;?>
+</ul>
+<?php endif;?>

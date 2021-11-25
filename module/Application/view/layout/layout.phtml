@@ -1,0 +1,162 @@
+<?php
+
+use General\Service\GeneralService;
+?>
+
+<?php echo $this->doctype(); ?>
+
+<html lang="en">
+
+<head>
+
+  <!-- Favicon-->
+  <!-- 		<link rel="shortcut icon" href="img/fav.png"> -->
+  <!-- Author Meta -->
+  <meta name="author" content="colorlib">
+  <!-- Meta Description -->
+  <meta name="description" content="">
+  <!-- Meta Keyword -->
+  <meta name="keywords" content="">
+  <!-- meta character set -->
+
+  <meta charset="utf-8">
+  <?php echo $this->headTitle(' Tanim Fits ' . $this->translate('Portal'))->setSeparator(' - ')->setAutoEscape(false) ?>
+
+  <?php
+
+  echo $this->headMeta()
+    ->appendName('viewport', 'width=device-width, initial-scale=1.0, shrink-to-fit=no')
+    ->appendHttpEquiv('X-UA-Compatible', 'IE=edge') ?>
+
+  <!-- Le styles -->
+  <?php
+
+  echo $this->headLink(array(
+    'rel' => 'shortcut icon',
+    'type' => 'image/vnd.microsoft.icon',
+    'href' => $this->basePath() . '/img/favicon.ico'
+  ))
+    ->prependStylesheet($this->basePath('wasabi/css/wasabi.gritter.css'))
+    ->prependStylesheet($this->basePath('wasabi/css/wasabi.modal.css'))
+    ->prependStylesheet($this->basePath('wasabi/css/wasabi.suggest.css'))
+    ->prependStylesheet($this->basePath('wasabi/css/wasabi.wizard.css'))
+    ->prependStylesheet($this->basePath('css/slim.css'))
+    ->prependStylesheet($this->basePath('lib/rickshaw/css/rickshaw.min.css'))
+    ->prependStylesheet($this->basePath('lib/SpinKit/css/spinkit.css'))
+    ->prependStylesheet($this->basePath('lib/Ionicons/css/ionicons.css'))
+    ->prependStylesheet($this->basePath('lib/font-awesome/css/font-awesome.css')) ?>
+
+
+
+  <?php
+
+  echo $this->headScript()
+    ->prependFile("https://unpkg.com/sweetalert/dist/sweetalert.min.js")
+    ->prependFile("https://cdn.jsdelivr.net/npm/vue-toast-notification@0.6.2/dist/index.min.js")
+    ->prependFile($this->basePath('js/axios.min.js'))
+    ->prependFile($this->basePath('js/vue.js'))
+    ->prependFile($this->basePath('wasabi/js/wasabi.gritter.js'))
+    ->prependFile($this->basePath('wasabi/js/wasabi.suggest.js'))
+    ->prependFile($this->basePath('wasabi/js/wasabilib.min.js'))
+    ->prependFile($this->basePath('lib/jquery/js/jquery.js')) ?>
+
+<script src="https://maps.googleapis.com/maps/api/js?key=AIzaSyBobkXMM-uzqQLM5pqs_n7prJKJJ4-JK5I&callback=initMap&libraries=places&v=weekly" defer></script>
+
+  <style>
+    [v-cloak] {
+      display: none;
+    }
+  </style>
+
+</head>
+
+<body>
+
+  <div class="slim-header">
+    <div class="container">
+      <div class="slim-header-left">
+        <img alt="tanim logo" src="<?php //echo $this->basePath("img/logo.png") ?>" height=30 class="slim-logo">
+
+
+      </div>
+      <!-- slim-header-left -->
+      <div class="slim-header-right">
+
+
+        <div class="dropdown dropdown-c">
+          <a href="#" class="logged-user" data-toggle="dropdown"> <img src=" " alt=""> <span><?php echo $this->nameOfUserHelper() ?></span>
+            <i class="fa fa-angle-down"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+            <nav class="nav">
+              <?php
+
+              if ($user = $this->identity()) :
+                if ($user->getIsProfiled()) :
+              ?>
+
+                  <!-- <a href="<?php echo $this->url("application/default", array("action" => "profile")) ?>" class="nav-link"><i class="icon ion-person"></i> View Profile</a> -->
+              <?php
+                endif;
+              endif;
+
+
+              ?>
+              <!--                 <a href="" class="nav-link"><i class="icon ion-compose"></i> Edit Profile</a> -->
+              <!--                 <a href="page-activity.html" class="nav-link"><i class="icon ion-ios-bolt"></i> Activity Log</a> -->
+              <!-- <a href="page-settings.html" class="nav-link"><i class="icon ion-ios-gear"></i> Change Password</a> -->
+              <a href="<?php echo $this->url("logout") ?>" class="nav-link"><i class="icon ion-forward"></i> Sign Out</a>
+            </nav>
+          </div>
+          <!-- dropdown-menu -->
+        </div>
+        <!-- dropdown -->
+      </div>
+      <!-- header-right -->
+    </div>
+    <!-- container -->
+  </div>
+  <!-- slim-header -->
+  <?php //echo $this->navigation("Laminas\Navigation\Default")->menu()->setPartial("navigation") ?>
+
+  <?php
+  $flashMessenger = $this->flashMessenger()
+    ->setMessageOpenFormat('<div%s>
+     <button type="button" class="close" data-dismiss="alert" aria-hidden="true">
+         &times;
+     </button>
+     <ul><li>')
+    ->setMessageSeparatorString('</li><li>')
+    ->setMessageCloseString('</li></ul></div>');
+  ?>
+  <?php echo $flashMessenger->render('error',   array('alert', 'alert-dismissable', 'alert-danger')); ?>
+  <?php echo $flashMessenger->render('info',    array('alert', 'alert-dismissable', 'alert-info')); ?>
+  <?php echo $flashMessenger->render('default', array('alert', 'alert-dismissable', 'alert-warning')); ?>
+  <?php echo $flashMessenger->render('success', array('alert', 'alert-dismissable', 'alert-success')); ?>
+  <?php echo $this->content ?>
+
+
+
+  <div class="slim-footer">
+    <div class="container">
+      <p>Copyright <?php echo date("Y"); ?> &copy; All Rights Reserved. <?php echo GeneralService::APP_COMPANY_NAME ?></p>
+      <p>
+        Designed by: <a href="http://tanimfits.com.ng"><?php echo GeneralService::APP_COMPANY_NAME ?></a>
+      </p>
+    </div>
+    <!-- container -->
+  </div>
+  <!-- slim-footer -->
+
+
+
+
+
+  <script src="/lib/popper.js/js/popper.js"></script>
+  <script src="/lib/bootstrap/js/bootstrap.js"></script>
+  <!-- <script src="/lib/jquery.cookie/js/jquery.cookie.js"></script> -->
+
+  <?php echo $this->inlineScript() ?>
+</body>
+
+</html>

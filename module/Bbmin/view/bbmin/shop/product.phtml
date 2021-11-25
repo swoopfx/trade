@@ -1,0 +1,126 @@
+<?php
+echo $this->headtitle("Product List");
+// echo "Product";
+?>
+
+
+
+
+
+
+
+<!-- begin breadcrumb -->
+<ol class="breadcrumb pull-right">
+    <!--				<li class="breadcrumb-item"><a href="javascript:;">Home</a></li>-->
+    <!--				<li class="breadcrumb-item"><a href="javascript:;">Tables</a></li>-->
+    <!--				<li class="breadcrumb-item"><a href="javascript:;">Managed Tables</a></li>-->
+    <!--				<li class="breadcrumb-item active">Responsive</li>-->
+</ol>
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">All Produnct <small> A list of all generated products</small></h1>
+<!-- end page-header -->
+
+<!-- begin row -->
+<div class="row">
+    <!-- begin col-2 -->
+    <div class="col-lg-2">
+        <h5>
+            Key features include:
+        </h5>
+        <ul class="p-l-25 m-b-15">
+            <li>Gives an overview of all products</li>
+            <li>Shares information about the status of a product</li>
+            <li>Share information about the count state of a status</li>
+            <li>indicate promo status of any product</li>
+
+        </ul>
+        <p class="m-b-20">
+            <a href="<?php echo $this->url("bbminshop/default", array("action" => "addproduct")) ?>" class="btn btn-inverse btn-sm btn-block">Add Product</a>
+        </p>
+    </div>
+    <!-- end col-2 -->
+    <!-- begin col-10 -->
+    <div class="col-lg-10">
+        <!-- begin panel -->
+        <div class="panel panel-inverse">
+            <!-- begin panel-heading -->
+            <div class="panel-heading">
+                <div class="panel-heading-btn">
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-default" data-click="panel-expand"><i class="fa fa-expand"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-success" data-click="panel-reload"><i class="fa fa-redo"></i></a>
+                    <a href="javascript:;" class="btn btn-xs btn-icon btn-circle btn-warning" data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+                </div>
+                <h4 class="panel-title">Product List</h4>
+            </div>
+            <!-- end panel-heading -->
+            <!-- begin alert -->
+            <div class="alert alert-secondary fade show">
+                <button type="button" class="close" data-dismiss="alert">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+                <!--                            In the modern world of responsive web design tables can often cause a particular problem for designers due to their row based layout. Responsive is an extension for DataTables that resolves that problem by optimising the table's layout for different screen sizes through the dynamic insertion and removal of columns from the table.-->
+            </div>
+            <!-- end alert -->
+            <!-- begin panel-body -->
+            <div class="panel-body">
+                <table class="table table-responsive table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th width="1%"></th>
+                            <th width="1%" data-orderable="false"></th>
+                            <th class="text-nowrap">Product Name</th>
+                            <th class="text-nowrap">Product Prices</th>
+                            <th class="text-nowrap">Date Uploaded</th>
+                            <th class="text-nowrap">Quantity</th>
+                            <th class="text-nowrap">Action</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <?php if (count($products) > 0) : ?>
+                            <?php foreach ($products as $product) : ?>
+                                <tr class="odd gradeX">
+                                    <td width="1%" class="f-s-600"><?php echo ($product["sku"] == NULL ? "" : strtoupper($product["sku"])) ?><br>
+                                        <?php echo ($product["isPublished"] == TRUE ? "<span class='label label-success'>Active</span>" : "<span class='label label-danger'>In-Active</span>") ?>
+                                    </td>
+                                    <td width="1%" class="with-img"><img src="<?php // $image 
+                                                                                ?>" class="img-rounded height-30" /></td>
+                                    <td><?php echo ($product["productDescription"] != NULL ? $product["productDescription"]["productName"] : "No Name") ?></td>
+                                    <td><?php echo ($product["price"] != NULL ? $this->myCurrencyHelper($product["price"]) : " ") ?></td>
+                                    <td><?php echo $this->dateformat($product["createdOn"], IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE) ?></td>
+                                    <td><?php echo ($product["quantity"] != NULL ? $product["quantity"] : "0") ?></td>
+                                    <td><a href="<?php echo $this->url("bbminshop/default", array("action" => "manageproduct", "id" => $this->escapehtml($product["productUid"]))) ?>" class="btn btn-success btn-xs">Manage</a></td>
+                                </tr>
+                            <?php endforeach; ?>
+                        <?php else : ?>
+                            <h5>No product Uploaded</h5>
+                        <?php endif; ?>
+
+
+                    </tbody>
+
+                </table>
+
+            </div>
+            <!-- end panel-body -->
+            <div class="panel-footer text-right">
+                <p>
+                    <?php echo $this->paginationcontrol($products, "sliding", "bbmin_footer_table_paginator") ?>
+                </p>
+            </div>
+        </div>
+        <!-- end panel -->
+    </div>
+    <!-- end col-10 -->
+</div>
+<!-- end row -->
+
+
+<?php  echo $this->headLink()->appendStylesheet('/assets/plugins/gritter/css/jquery.gritter.css'); ?>
+
+
+
+<script src="/assets/plugins/gritter/js/jquery.gritter.js"></script>
+	<script src="/assets/plugins/sweetalert/dist/sweetalert.min.js"></script>
+	<script src="/assets/js/demo/ui-modal-notification.demo.js"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->

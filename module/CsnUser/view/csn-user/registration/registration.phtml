@@ -1,0 +1,282 @@
+<?php
+echo $this->headtitle('Registration');
+/**
+ * CsnUser - Coolcsn Zend Framework 2 User Module
+ *
+ * @link https://github.com/coolcsn/CsnUser for the canonical source repository
+ * @copyright Copyright (c) 2005-2013 LightSoft 2005 Ltd. Bulgaria
+ * @license https://github.com/coolcsn/CsnUser/blob/master/LICENSE BSDLicense
+ * @author Stoyan Cheresharov <stoyan@coolcsn.com>
+ * @author Svetoslav Chonkov <svetoslav.chonkov@gmail.com>
+ * @author Nikola Vasilev <niko7vasilev@gmail.com>
+ * @author Stoyan Revov <st.revov@gmail.com>
+ * @author Martin Briglia <martin@mgscreativa.com>
+ */
+
+// echo $this->partial('csn-user/layout/nav-menu', array('navMenu' => $this->navMenu, 'user' => $this->identity()));
+$form = $this->form;
+
+/**
+ * Set form fields classes and placeholders here
+ */
+
+$form->setAttributes(array(
+    'class' => 'form'
+));
+
+$form->get('username')->setAttributes(array(
+    'class' => 'form-control inpt-form phone',
+
+    'aria-describedby' => 'basic-addon1',
+    'placeholder' => $this->translate('Phone Number')
+));
+
+$form->get('email')->setAttributes(array(
+    'class' => 'form-control',
+
+    'aria-describedby' => 'basic-addon1',
+    'placeholder' => $this->translate('Email')
+));
+
+$form->get('password')->setAttributes(array(
+
+    'class' => 'form-control',
+
+    'aria-describedby' => 'basic-addon1',
+    'placeholder' => $this->translate('Password')
+));
+
+$form->get('passwordVerify')->setAttributes(array(
+    'class' => 'form-control',
+
+    'aria-describedby' => 'basic-addon1',
+    'placeholder' => $this->translate('Confirm Password')
+));
+
+$form->get('question')->setAttributes(array(
+    'class' => 'form-control'
+));
+
+
+
+$form->get('submit')->setAttributes(array(
+    'class' => 'btn btn-primary btn-block btn-signin',
+    'value' => $this->translate('Sign Up'),
+    //     'style' => "width: 80%"
+));
+
+
+
+?>
+
+
+<div id="signup">
+
+
+    <div class="group material-input">
+        <span class="bar"></span> <label>Full Name</label>
+        <input class="form-control" type="text" v-model='fullname' ref="fullname" required> <span class="highlight"></span>
+    </div>
+    <br>
+
+    <div class="group material-input">
+        <span class="bar"></span> <label>Address</label>
+        <input id="autocomplete" class="form-control" type="text" ref="address" required> <span class="highlight"></span>
+    </div>
+    <br>
+
+    <div class="group material-input">
+        <span class="bar"></span> <label>Phone Number</label>
+        <input class="form-control" type="text" v-model="phoneNumber" @input="acceptNumber" ref="phoneNumber" required> <span class="highlight"></span>
+    </div>
+
+    <br>
+    <div class="group material-input">
+        <span class="bar"></span> <label>Email</label>
+        <input class="form-control" type="text" v-model="email" ref="email" required> <span class="highlight"></span>
+    </div>
+
+
+    <br>
+    <div class="group material-input">
+        <span class="bar"></span> <label>Password</label>
+        <input class="form-control" type="password" v-model="password" required> <span class="highlight"></span>
+
+    </div>
+    <br>
+    <div class="group material-input">
+        <span class="bar"></span> <label>Confirm Password</label>
+        <input class="form-control" type="password" v-model="confirm_parrword" ref="confirm_parrword" required> <span class="highlight"></span>
+
+    </div>
+    <br>
+    <button class="btn btn-block btn-primary" @click="register()">Register</button>
+
+</div>
+
+<?php
+
+
+
+echo $this->headScript()->prependFile($this->basePath('js/jquery.mask.min.js')) ?>
+
+
+<script type="text/javascript">
+    $(document).ready(function() {
+        $('.phone').mask('00000000000');
+    });
+
+    // for the type of customer
+</script>
+
+<script>
+    Vue.use(VueToast, {
+        // One of options
+        position: 'top'
+    });
+
+
+    function initMap() {
+        // const map = new google.maps.Map(document.getElementById("map"), {
+        // 	zoom: 4,
+        // 	center: {
+        // 		lat: -33,
+        // 		lng: 151
+        // 	},
+        // 	zoom: 8,
+        // 	zoomControl: false
+        // });
+
+        // Create the autocomplete object, restricting the search predictions to
+        // geographical location types.
+        autocomplete = new google.maps.places.Autocomplete(
+            document.getElementById("autocomplete"), {
+                // types: ["geocode"],
+                componentRestrictions: {
+                    'country': ['ng']
+                },
+                fields: ['place_id', 'geometry', 'formatted_address']
+            }
+        );
+
+
+        autocomplete.addListener("place_changed", addCustomerLocation);
+
+    }
+
+    function addCustomerLocation() {
+        // Get the place details from the autocomplete object.
+        place = autocomplete.getPlace();
+        // console.log(place);
+
+
+        var lat = place.geometry.location.lat();
+        var lon = place.geometry.location.lng();
+
+
+
+        sert.address = place.formatted_address;
+        sert.addressLatitude = lat;
+        sert.addressLongitude = lon;
+        sert.addressPlaceId = place.place_id;
+
+
+        // cutomerboard.pickUpTime:
+
+    }
+
+
+
+    let sert = new Vue({
+        el: "#signup",
+        data() {
+            return {
+                phoneNumber: "",
+                email: "",
+                reg: /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,24}))$/,
+                fullname: "",
+                confirm_parrword: "",
+                isterms: false,
+                password: "",
+                address: "",
+                addressLongitude: "",
+                addressLatitude: "",
+                addressPlaceId: "",
+
+            }
+        },
+
+        computed: {
+            submitStatus() {
+                if (this.phoneNumber == "" || this.email == "" || this.fullname == "" || this.password == '' || this.confirm_parrword == '' || !this.isEmailValid || !this.isterms) {
+                    return true;
+                } else {
+                    return false;
+                }
+
+
+            },
+
+            isEmailValid() {
+                return this.reg.test(this.email);
+            }
+        },
+
+
+        methods: {
+            register() {
+                if (this.password !== this.confirm_parrword) {
+                    swal({
+                        title: "Errr!",
+                        text: "Your password dont match",
+                        icon: "error",
+                        button: "Back",
+                    });
+                } else {
+                    let formData = new FormData();
+                    formData.append("phoneNumber", this.$refs.phoneNumber.value);
+                    formData.append("email", this.$refs.email.value);
+                    formData.append("fullname", this.fullname);
+                    formData.append("password", this.password);
+                    formData.append("isterms", this.isterms);
+                    formData.append("address", this.address);
+                    formData.append("lon", this.addressLongitude);
+                    formData.append("lat", this.addressLatitude);
+                    formData.append("placeid", this.addressPlaceId);
+                    axios.post("/register/registerjson", formData).then(res => {
+                        if (res.status == 201) {
+                            swal({
+                                title: "Great job!",
+                                text: "Please verify your email, a mail has been sent to you!",
+                                icon: "success",
+                                button: "Continue!",
+                            }).then(res => {
+                                location.reload();
+                            });
+                        }
+                    }).catch(err => {
+
+                        swal({
+                        title: "Error!",
+                        text: err.response.data.messages,
+                        icon: "error",
+                        button: "Back",
+                    });
+
+                        this.$toast.open({
+                            message: err.response.data.messages,
+                            type: "error",
+                            duration: 5000,
+                            dismissible: true
+                        })
+                    });
+                }
+            },
+
+            acceptNumber() {
+                var x = this.phoneNumber.replace(/\D/g, '').match(/(\d{0,4})(\d{0,3})(\d{0,4})/);
+                this.phoneNumber = !x[2] ? x[1] : '' + x[1] + '-' + x[2] + (x[3] ? '-' + x[3] : '');
+            }
+        },
+    });
+</script>

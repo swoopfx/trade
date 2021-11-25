@@ -1,0 +1,25 @@
+<?php
+?>
+
+<ul class="list-unstyled top_profiles scroll-view">
+							<?php
+
+if (count($transactions) > 0) {
+        foreach ($transactions as $transaction) {
+            ?>
+							<li class="media event"><a
+		class="pull-left border-green profile_thumb"> <i
+			class="fa fa-user green"></i>
+	</a>
+		<div class="media-body">
+			<a class="title" href="#">Ms. Mary Jane</a>
+			<p>
+				<strong>$2300. </strong> Agent Avarage Sales
+			</p>
+			<p>
+				<small>12 Sales Today</small>
+			</p>
+		</div></li>
+								
+								<?php }}else{echo "No transaction availaible";}?>
+						</ul>

@@ -1,0 +1,12 @@
+
+<h6 class="slim-card-title mg-b-20">Referal Request</h6>
+<?php
+$form->prepare();
+echo $this->form()->openTag($form);
+
+?>
+
+ <?php  echo $this->partial("wallet_referal_fieldset_snippet", array("fieldset"=>$form->get("walletReferalFieldset")))?>
+<button class="btn btn-primary btn-block">Send Message</button>
+
+<?php  echo $this->form()->closeTag()?>

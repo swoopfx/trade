@@ -1,0 +1,35 @@
+<?php
+if(count($users) == 0):
+?>
+<div class="alert alert-danger fade show">Thereare no users registered</div>
+<?php else:?>
+<div class="panel-body">
+                        	<!-- begin table-responsive -->
+                        	<div class="table-responsive">
+								<table class="table table-striped m-b-0">
+									<thead>
+										<tr>
+											<th>UID</th>
+											<th>Username</th>
+											<th>Status</th>
+											<th></th>
+										</tr>
+									</thead>
+									<tbody>
+									<?php foreach ($users as $user):?>
+										<tr>
+											<td><?php echo ($user->getUserUid() != NULL ? $user->getUserUid() : "")?></td>
+											<td><?php echo ($user->getUsername() != NULL ? $user->getUsername() : "")?></td>
+											<td>nicky@hotmail.com</td>
+											<td></td>
+										</tr>
+										<?php  endforeach;
+										?>
+										
+									</tbody>
+								</table>
+							</div>
+							<!-- end table-responsive -->
+                        </div>
+					<?php endif;?>
+					

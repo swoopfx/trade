@@ -1,0 +1,86 @@
+<?php
+
+?>
+
+
+
+<p v-if="aerrors.length">
+	<div v-for="error in aerrors" class="alert alert-danger fade show">
+		<span class="close" data-dismiss="alert">x</span> <strong>Error!</strong>
+		<a href="#" class="alert-link">{{ error }}</a>.
+	</div>
+
+</p>
+<div v-if="isSubmitAttributeForm">
+	<div class="fa-3x">
+
+		<i class="fas fa-circle-notch fa-spin"></i>
+
+	</div>
+</div>
+
+
+
+
+
+
+<div v-if="productAttributes.length" class="panel panel-inverse" data-sortable-id="table-basic-7">
+	<div v-if="loadingAttributes">
+		<div style="text-align: center;" class="fa-6x">
+			<i class="fas fa-sync fa-spin"></i>
+		</div>
+	</div>
+
+	<!-- begin panel-body -->
+	<div class="panel-body">
+		<!-- begin table-responsive -->
+		<div class="table-responsive">
+			<table class="table table-striped m-b-0">
+
+				<tbody>
+
+					<tr v-for="(attribute, key) in productAttributes">
+
+						<td>{{attribute.name}}</td>
+						<td>{{attribute.description}}</td>
+						<td class="with-btn" nowrap><a @click="removeAttribute(attribute.key)" class="btn btn-sm btn-danger width-60 m-r-2"><i class="fa fa-trash"></i></a> </td>
+					</tr>
+
+				</tbody>
+			</table>
+		</div>
+		<!-- end table-responsive -->
+	</div>
+	<!-- end panel-body -->
+
+</div>
+
+
+
+
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($att->get("attributeName")) ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormText($att->get("attributeName")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($att->get("attributeName")); ?>
+		</div>
+
+	</div>
+</div>
+
+<div class="form-group row m-b-10">
+
+	<?php echo $this->formlabel($att->get("attributetext"), "<span class='text-danger'>*</span>", "prepend") ?>
+	<div class="col-md-6">
+		<?php echo $this->vueFormTextArea($att->get("attributetext")); ?>
+		<div style="font-size: 9px; color: red;">
+			<?php echo $this->formElementErrors($att->get("attributetext")); ?>
+		</div>
+
+	</div>
+</div>
+
+<a @click="addAddribute()" class="btn btn-default btn-block">Add
+	Attributes</a>

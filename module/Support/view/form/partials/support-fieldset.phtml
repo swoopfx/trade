@@ -1,0 +1,19 @@
+<?php
+?>
+
+<div class="form-group">
+             <?php  echo $this->formtext($fieldset->get("supportTitle"))?>
+             <div style="font-size: 9px; color: red;">
+<?php echo $this->formElementErrors($fieldset->get('supportTitle')); ?>
+</div>
+</div>
+
+<div class="form-group">
+             <?php  echo $this->formtextarea($fieldset->get("messageText"))?>
+             <div style="font-size: 9px; color: red;">
+<?php echo $this->formElementErrors($fieldset->get('messageText')); ?>
+</div>
+</div>
+
+<?php  //echo $this->partial("support-messages-fieldset", array("fieldset"=>$fieldset->get("conversation")))?>
+<!-- form-group -->

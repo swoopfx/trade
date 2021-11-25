@@ -1,0 +1,342 @@
+<?php
+echo $this->headtitle("Product");
+
+?>
+
+<div id="createp" class="slim-mainpanel">
+	<div class="container pd-t-50">
+
+		<div id="row1" class="row">
+
+			<div id="createp" class="col-lg-6">
+
+				<h3 class="tx-inverse mg-b-15">Create a Product</h3>
+				<div class="form-group">
+					<label>Product Name</label> <input class="form-control" type="text" v-model="productname" ref="productname" required>
+				</div>
+
+				<div class="form-group">
+					<label>Product Address</label> <input id="address" class="form-control" type="text" required>
+				</div>
+
+				<div class="form-group">
+					<label>Product Image</label> <input class="form-control" type="file"  ref="productimage" required>
+				</div>
+
+				<!-- <div class="form-group">
+					<label>Product Name</label> <input class="form-control" type="text" v-model="productname" ref="productname" required>
+				</div> -->
+
+				<div class="form-group">
+					<button class="btn btn-block btn-primary" :disabled="isCreatingProduct" @click="createProduct">
+						<div v-if="isCreatingProduct">
+							<div class="sk-wave">
+								<div class="sk-rect sk-rect1 bg-gray-800"></div>
+								<div class="sk-rect sk-rect2 bg-gray-800"></div>
+								<div class="sk-rect sk-rect3 bg-gray-800"></div>
+								<div class="sk-rect sk-rect4 bg-gray-800"></div>
+								<div class="sk-rect sk-rect5 bg-gray-800"></div>
+							</div>
+						</div>
+						<div v-else> Create Product </div>
+					</button>
+				</div>
+
+
+
+
+				<!-- 					<p class="mg-b-40">Welcome to the retailer portal, wehre you get -->
+				<!-- 						empowered to achieve your dreams</p> -->
+
+				
+				<!-- row -->
+			</div>
+			<!-- col-6 -->
+			<div class="col-lg-6 mg-t-20 mg-sm-t-30 mg-lg-t-0">
+				<div v-if="products.length" class="row row-xs mg-t-10">
+					<div class="col-lg-12">
+						<div class="card card-table">
+							<div class="card-header">
+								<h6 class="slim-card-title">Products</h6>
+							</div><!-- card-header -->
+							<div class="table-responsive">
+								<table class="table mg-b-0 tx-13">
+									<thead>
+										<tr class="tx-10">
+											<th class="wd-10p pd-y-5">&nbsp;</th>
+											<th class="pd-y-5">Product</th>
+											<th class="pd-y-5">Product Location</th>
+											<th class="pd-y-5">Action</th>
+										</tr>
+									</thead>
+									<tbody>
+										<tr v-for="item in products" :key="item.id">
+											<td class="pd-l-20">
+												<img :src="item.image.thumbnail" class="wd-36 rounded-circle" alt="Image">
+											</td>
+											<td>
+												<a :href="createoderLink(item.productUid)" class="tx-inverse tx-14 tx-medium d-block">{{item.name.toUpperCase()}} Product(s)</a>
+												<span class="tx-11 d-block">OWNER : {{item.user.fullname}}</span>
+											</td>
+											<td class="tx-12">
+												<span class="square-8 bg-success mg-r-5 rounded-circle"></span> {{item.address}}
+											</td>
+											<td>
+											<a class="btn " :href="createoderLink(item.productUid)" class="tx-inverse tx-14 tx-medium d-block"><i class="fa fa-eye"></i></a>
+											</td>
+										</tr>
+
+									</tbody>
+								</table>
+							</div><!-- table-responsive -->
+							<div class="card-footer tx-12 pd-y-15 bg-transparent">
+								<!--                 <a href=""><i class="fa fa-angle-down mg-r-5"></i>View All Order History</a> -->
+							</div><!-- card-footer -->
+						</div><!-- card -->
+					</div><!-- col-6 -->
+					<div class="col-lg-6 mg-t-10 mg-lg-t-0">
+						<div class="card card-table">
+
+						</div><!-- card -->
+					</div><!-- col-6 -->
+				</div><!-- row -->
+				<!-- card -->
+			</div>
+			<!-- col-6 -->
+
+		</div>
+		<!-- row -->
+
+		<div id="productRow" class="card card-dash-chart-one mg-t-20 mg-sm-t-30">
+			<div class="row no-gutters">
+				<div class="col-lg-4">
+					<div class="left-panel">
+						<nav class="nav">
+							<a href="" class="nav-link active">Shopping Cart</a>
+						</nav>
+
+						<div class="active-visitor-wrapper">
+							<h1><?php //echo $this->dashoboardCartCount() 
+								?><span></span>
+							</h1>
+							<p>My Shopping cart count</p>
+						</div>
+						<!-- active-visitor-wrapper -->
+
+						<hr class="mg-t-30 mg-b-40">
+
+						<h6 class="visitor-operating-label">Cart Activity</h6>
+
+						<a href="<?php echo $this->url("cart") ?>" data-href="<?php
+																				// echo $this->url("appmodal/default", array("action" => "viewcart"))
+																				?>" class="btn btn-xs btn-block btn-primary ajax_element">View Cart</a>
+						<div class="progress mg-b-15">
+							<!-- 							<div class="progress-bar bg-warning progress-bar-xs wd-30p" -->
+							<!-- 								role="progressbar" aria-valuenow="30" aria-valuemin="0" -->
+							<!-- 								aria-valuemax="100"></div> -->
+						</div>
+						<!-- progress -->
+
+						<a href="<?php echo $this->url("application/default", ["action" => "cart-orders"]) ?>" class="btn btn-xs btn-block btn btn-primary">All Orders</a>
+						<div class="progress mg-b-15">
+							<!-- 							<div class="progress-bar bg-success progress-bar-xs wd-50p" -->
+							<!-- 								role="progressbar" aria-valuenow="50" aria-valuemin="0" -->
+							<!-- 								aria-valuemax="100"></div> -->
+						</div>
+						<!-- progress -->
+
+
+
+					</div>
+					<!-- left-panel -->
+				</div>
+				<!-- col-4 -->
+				<div class="col-lg-8">
+					<div class="right-panel">
+						<h6 class="slim-card-title">Latest Products</h6>
+						<!--                 <div id="vmap" class="ht-250 ht-sm-350 ht-md-450 bg-gray-300"></div> -->
+
+
+						<!-- carousel -->
+						<div v-if="isCarouselEmpty">
+							<div class="col-md-12  mg-t-30 mg-xl-t-0">
+								<div class="d-flex bg-gray-200 ht-300 pos-relative align-items-center">
+									<div class="sk-wave">
+										<div class="sk-rect sk-rect1 bg-gray-800"></div>
+										<div class="sk-rect sk-rect2 bg-gray-800"></div>
+										<div class="sk-rect sk-rect3 bg-gray-800"></div>
+										<div class="sk-rect sk-rect4 bg-gray-800"></div>
+										<div class="sk-rect sk-rect5 bg-gray-800"></div>
+									</div>
+								</div>
+								<!-- d-flex -->
+							</div>
+							<!-- col-4 -->
+						</div>
+						<div v-else class="card card-carousel">
+
+							<div id="carousel11" class="carousel slide" data-ride="carousel">
+								<ol class="carousel-indicators indicators-bottom-left">
+									<li v-for="(carousel, i) in carousels" data-target="#carousel11" :data-slide-to="i" :class='slideClass(i)'></li>
+
+								</ol>
+								<div class="carousel-inner" role="listbox">
+									<div v-for="(carousel, i) in carousels" :class='isActive(i)'>
+										<img @click="createLatestLink(carousel.productUid, carousel.productDescription.productName)" class="d-block img-fluid" v-bind:src='carousel.image[0].imageUrl' :alt="carousel.image[0].imageName">
+									</div>
+
+								</div>
+								<!-- carousel-inner -->
+								<a class="carousel-control-prev" href="#carousel11" role="button" data-slide="prev"> <span class="carousel-control-prev-icon" aria-hidden="true"></span> <span class="sr-only">Previous</span>
+								</a> <a class="carousel-control-next" href="#carousel11" role="button" data-slide="next"> <span class="carousel-control-next-icon" aria-hidden="true"></span> <span class="sr-only">Next</span>
+								</a>
+							</div>
+
+							<!-- carousel -->
+						</div>
+						<!-- card -->
+					</div>
+					<!-- right-panel -->
+				</div>
+				<!-- col-8 -->
+			</div>
+			<!-- row -->
+		</div>
+		<!-- card -->
+
+		<?php
+		// echo $this->partial("application-health-card")
+		?>
+		<div id="lowerRow">
+			<?php
+			// echo $this->partial("application-dashboard-sales-report")
+			?>
+
+			<?php //echo $this->partial("application-dashboard-cart-order") 
+			?>
+		</div>
+
+	</div>
+	<!-- container -->
+</div>
+
+<script>
+	function initMap() {
+		// const map = new google.maps.Map(document.getElementById("map"), {
+		// 	zoom: 4,
+		// 	center: {
+		// 		lat: -33,
+		// 		lng: 151
+		// 	},
+		// 	zoom: 8,
+		// 	zoomControl: false
+		// });
+
+		// Create the autocomplete object, restricting the search predictions to
+		// geographical location types.
+		autocomplete = new google.maps.places.Autocomplete(
+			document.getElementById("address"), {
+				// types: ["geocode"],
+				componentRestrictions: {
+					'country': ['ng']
+				},
+				fields: ['place_id', 'geometry', 'formatted_address']
+			}
+		);
+
+
+		autocomplete.addListener("place_changed", addCustomerLocation);
+
+	}
+
+	function addCustomerLocation() {
+		// Get the place details from the autocomplete object.
+		place = autocomplete.getPlace();
+		// console.log(place);
+
+
+		var lat = place.geometry.location.lat();
+		var lon = place.geometry.location.lng();
+
+
+
+		creatp.address = place.formatted_address;
+		creatp.addressLatitude = lat;
+		creatp.addressLongitude = lon;
+		creatp.addressPlaceId = place.place_id;
+
+
+		// cutomerboard.pickUpTime:
+
+	}
+
+	let creatp = new Vue({
+		el: "#createp",
+		data() {
+			return {
+				productname: "",
+				productImage: "",
+				address: "",
+				addressLatitude: "",
+				addressLongitude: '',
+				addressPlaceId: "",
+				productimage:"",
+				isCreatingProduct: false,
+				products: [],
+			}
+		},
+		mounted() {
+			this.getProducts();
+		},
+
+		methods: {
+			createoderLink(linkee) {
+				return "/np/view/" + linkee;
+			},
+			getProducts() {
+				axios.get("/np/getproducts").then(res => {
+					if (res.status == 200) {
+						this.products = res.data.data
+					}
+				}).catch()
+			},
+			createProduct() {
+				this.isCreatingProduct = true;
+				if (this.$refs.productname.value == "" || this.address == "") {
+					swal({
+						title: "Errr!",
+						text: "A required field is empty",
+						icon: "error",
+						button: "Back",
+					});
+					this.isCreatingProduct = false;
+				} else {
+					let formData = new FormData();
+					formData.append("lon", this.addressLongitude);
+					formData.append("lat", this.addressLatitude);
+					formData.append("paddress", this.address);
+					formData.append("pname", this.$refs.productname.value);
+					formData.append("image", this.$refs.productimage.files[0])
+					formData.append("placeid", this.addressPlaceId)
+					axios.post("/np/createjson", formData, {
+						headers: {
+							"Content-Type": "multipart/form-data"
+						}
+					}).then(res => {
+						if (res.status == 201) {
+							window.location.reload();
+						}
+					}).catch(err => {
+						swal({
+							title: "Errr!",
+							text: "A required field is empty",
+							icon: "error",
+							button: "Back",
+						});
+						this.isCreatingProduct = false;
+					});
+				}
+			}
+		},
+	});
+</script>

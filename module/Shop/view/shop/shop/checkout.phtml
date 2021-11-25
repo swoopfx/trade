@@ -1,0 +1,730 @@
+<?php
+
+?>
+
+<div class="hero-wrap hero-bread" style="background-image: url('images/bg_6.jpg');">
+	<div class="container">
+		<div class="row no-gutters slider-text align-items-center justify-content-center">
+			<div class="col-md-9 ftco-animate text-center">
+				<p class="breadcrumbs"><span class="mr-2"><a href="">Home</a></span> <span>Checkout</span></p>
+				<h1 class="mb-0 bread">Checkout</h1>
+			</div>
+		</div>
+	</div>
+</div>
+<div id='checkoutss'>
+	<section class="ftco-section">
+		<div class="container">
+			<div class="row justify-content-center">
+				<div class="col-xl-7 ftco-animate">
+					<div v-if="deliveryInfo == ''">
+						<!-- <form  action="#" class="billing-form"> -->
+						<h3 class="mb-4 billing-heading">Delivery Details</h3>
+						<div class="row align-items-end">
+							<!-- <div class="col-md-6">
+								<div class="form-group">
+									<label for="firstname">First Name</label>
+									<input type="text" v-model="firstname" class="form-control" placeholder="">
+								</div>
+							</div> -->
+							<!-- <div class="col-md-6">
+								<div class="form-group">
+									<label for="lastname">Last Name</label>
+									<input type="text" v-model="lastname" class="form-control" placeholder="">
+								</div>
+							</div>
+							<div class="w-100"></div> -->
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="country"> Country</label>
+									<div class="select-wrap">
+										<div class="icon"><span class="ion-ios-arrow-down"></span></div>
+										<select disabled='disabled' name="" id="" class="form-control">
+											<option value="">Nigeria</option>
+
+										</select>
+									</div>
+								</div>
+							</div>
+
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="country">State</label>
+									<div class="select-wrap">
+										<div class="icon"><span class="ion-ios-arrow-down"></span></div>
+										<select v-if="shippingState.length" name="" id="" ref="selectedState" class="form-control">
+											<option v-for="item in shippingState" :key="item.id" :value="item.id">{{item.name}}</option>
+
+										</select>
+									</div>
+								</div>
+							</div>
+							<div class="w-100"></div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="streetaddress">Street Address</label>
+									<input type="text" v-model='address1' class="form-control" ref="address1" placeholder="House number and street name">
+								</div>
+							</div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<input type="text" v-model="address2" class="form-control" ref="address2" placeholder="Appartment, suite, unit etc: (optional)">
+								</div>
+							</div>
+							<div class="w-100"></div>
+							<div class="col-md-6">
+								<div class="form-group">
+									<label for="towncity">Town / City</label>
+									<input type="text" ref="city" class="form-control" ref="town" placeholder="Surulere">
+								</div>
+							</div>
+
+							<div class="w-100"></div>
+
+							<div class="col-md-12">
+								<div class="form-group">
+									<button @click="postbillingaddress()" class="btn btn-primary">
+										<div v-if="isPostingBilling"> ..Processing</div>
+										<div v-else>CREATE</div>
+									</button>
+								</div>
+							</div>
+							<div class="w-100"></div>
+							<div class="w-100"></div>
+							<div class="col-md-12">
+								<div class="form-group mt-4">
+									<div class="radio">
+										<label class="mr-3"><input type="radio" name="optradio"> Create an Account? </label>
+										<label><input type="radio" name="optradio"> Ship to different address</label>
+									</div>
+								</div>
+							</div>
+						</div>
+						<!-- </form> -->
+					</div>
+
+					<div v-else>
+						<div class="col-md-12">
+							<div class="cart-detail bg-light p-3 p-md-4">
+								<h3 class="billing-heading mb-4"> Delivery Address</h3>
+
+
+								<div class="col-md-12 d-flex ftco-animate">
+									<div class="blog-entry align-self-stretch d-md-flex">
+										<a href="blog-single.html" class="block-20" style="background-image: url('https://www.pngfind.com/pngs/m/132-1326639_delivery-svg-png-icon-free-download-delivery-service.png');">
+										</a>
+										<div class="text d-block pl-md-4">
+											<div class="meta mb-3">
+												<div><a href="#">{{fullname.toUpperCase()}}</a></div>
+												<div><a href="#">Admin</a></div>
+												<!-- <div><a href="#" class="meta-chat"><span class="icon-chat"></span> 3</a></div> -->
+											</div>
+											<h3 class="heading"><a href="#">{{deliveryInfo.billingAddress1}}</a></h3>
+											<p>{{deliveryInfo.billingAddress2}}</p>
+											<p>{{deliveryInfo.city}}</p>
+											<!-- <p>{{deliveryInfo.zone.name}}</p> -->
+											<!-- <p>{{deliveryInfo.billingCountry.name}}</p> -->
+											<p><a href="blog-single.html" class="btn btn-primary py-2 px-3">Change Address</a></p>
+										</div>
+									</div>
+								</div>
+
+								<!-- <p><a href="#" class="btn btn-primary py-3 px-4">Place an order</a></p> -->
+							</div>
+						</div>
+						<div class="w-100"></div>
+						<div class="col-md-12">
+							<div class="form-group mt-4">
+								<div class="radio">
+									<label v-if="orderDeliverType.length" v-for="item in orderDeliverType" :key="item.id" class="mr-3">
+										<input :key="item.id" :value="item.id" @change="toggleDeliverytype()" type="radio" v-model="selectedDelivery" name="optradio"> {{item.type}}
+									</label>
+
+								</div>
+							</div>
+						</div>
+					</div>
+
+
+					<div v-if="deliveryInfo != ''" class="row mt-5 pt-3 d-flex">
+						
+						<div class="col-md-6 d-flex">
+							<div class="cart-detail cart-total bg-light p-3 p-md-4">
+								<h3 class="billing-heading mb-4">Cart Total</h3>
+								<p class="d-flex">
+								<div class="checkbox">
+									<label>
+										<!-- <input type="checkbox" :checked="isCheckedWallet" @click="toggleDeductWalletButton()" class="mr-2"> -->
+										<!-- Deduct  -->
+										Wallet (&#8358;{{formatMoney(walletbalance)}})</label>
+								</div>
+								</p>
+								<hr>
+								<p class="d-flex">
+									<span>Subtotal</span>
+									<span>&#8358;{{formatMoney(finalPrice)}}</span>
+								</p>
+								<p class="d-flex">
+									<span>Delivery</span>
+									<span>&#8358;{{formatMoney(deliveryPrice)}}</span>
+								</p>
+								<p class="d-flex">
+									<span>Discount</span>
+									<span>&#8358;{{formatMoney(discount)}}</span>
+								</p>
+								<p v-if="isCheckedWallet" class="d-flex">
+									<span>Wallet</span>
+									<span>- &#8358;{{formatMoney(walletbalance)}}</span>
+								</p>
+								<hr>
+								<p class="d-flex total-price">
+									<span>Total</span>
+									<span>&#8358;{{formatMoney(checkoutPrice)}}</span>
+								</p>
+							</div>
+						</div>
+						<div class="col-md-6">
+							<div class="cart-detail bg-light p-3 p-md-4">
+								<h3 class="billing-heading mb-4">Payment Method</h3>
+
+								<div v-if="checkoutPaymentMethods.length" v-for="item in checkoutPaymentMethods" :key="item.id" class="form-group">
+									<div class="col-md-12">
+										<div class="radio">
+											<label><input type="radio" v-model="selectedPaymentMode" name="paymentradio" @click="selectPayment(item.id)" :key="item.id" :value="selectedPaymentMode" :checked="checkedRadio" class="mr-2"> {{item.paymentMethod}}</label>
+										</div>
+									</div>
+								</div>
+
+								<div class="form-group">
+									<div class="col-md-12">
+										<div class="checkbox">
+											<label><input v-model="isTermsAndConditions" @click="terms()" type="checkbox" value="" class="mr-2"> I have read and accept the terms and conditions</label>
+										</div>
+									</div>
+								</div>
+								<p><button  :disabled="isPlaceOrder" @click="placeOrder()" class="btn btn-primary">
+
+										<div v-if="isPlaceOrder">...Processing</div > <div v-else>Place an order</div> 
+									</button></p>
+							</div>
+						</div>
+					</div>
+				</div> <!-- .col-md-8 -->
+
+				<div class="col-xl-5 ftco-animate">
+
+
+					<div class="col-md-12">
+						<div class="sidebar-box bg-light ftco-animate">
+							<h3 class="heading">cart</h3>
+							<div v-if="cartItemsCount" v-for="item in cartItems" :key="item.id" class="block-21 mb-4 d-flex">
+								<a class="blog-img mr-4" v-bind:style="{ backgroundImage: 'url(' + item.product_image + ')' }"></a>
+								<div class="text">
+									<h3 class="heading-1"><a href="#">{{item.product_name}}</a></h3>
+									<div class="meta">
+										<div><a href="#"><span></span> {{item.quant}}</a></div> per
+										<div><a href="#"><span></span> &#8358;{{formatMoney(item.price)}}</a></div>|
+										<div><a href="#"><span></span> &#8358;{{formatMoney(item.totalPrice)}}</a></div>
+									</div>
+								</div>
+							</div>
+
+
+						</div>
+
+
+					</div>
+				</div>
+			</div>
+		</div>
+</div>
+</section> <!-- .section -->
+</div>
+<script src="https://checkout.flutterwave.com/v3.js"></script>
+<script>
+	function makeFlutterwavePayment() {
+
+		// if (subs.postPayment) {
+		FlutterwaveCheckout({
+			public_key: checkoutss.public_key,
+			tx_ref: checkoutss.tx_ref,
+			amount: checkoutss.amountPayable,
+			currency: "NGN",
+			country: "NG",
+			payment_options: "card,account",
+			customer: {
+				email: checkoutss.profileEmail,
+				name: checkoutss.profileName,
+			},
+
+			callback: function(response) { // specified callback function
+				if (response.status == "successful") {
+					checkoutss.tx_ref = response.tx_ref;
+					checkoutss.amountPayed = response.amount;
+					checkoutss.flw_ref = response.flw_ref;
+					checkoutss.transaction_id = response.transaction_id;
+					checkoutss.finalizeCardpayment();
+				} else {
+					// set error
+				}
+			},
+			customizations: {
+				title: "TANIM FITS",
+				description: "E-commerce online payment",
+				logo: checkoutss.companyLogo
+
+			},
+		})
+		// }?
+	}
+	Vue.use(VueToast, {
+		// One of options
+		position: 'top'
+	});
+	let checkoutss = new Vue({
+		el: "#checkoutss",
+		data() {
+			return {
+				isPostingBilling: false,
+				hasAddress: false,
+				selectedDelivery: 100,
+				selectedPaymentMode: 200,
+				deliveryInfo: {},
+				fullname: '',
+				shippingState: [],
+				shippingAddress: '',
+				address1: '',
+				address2: '',
+				cartItems: [],
+				orderDeliverType: [],
+				checkoutPaymentMethods: [],
+				finalPrice: 0,
+				cartItemsCount: 0,
+				deliveryPrice: 0,
+				discount: 0,
+				checkoutPrice: 0,
+				checkedRadio: false,
+				walletbalance: 0,
+				isCheckedWallet: false,
+				isTermsAndConditions: false,
+				hasDiscount: false,
+
+				//Payment
+				invoiceAmount: 0,
+				isPlaceOrder: false,
+				public_key: '',
+				tx_ref: '',
+				amountPayable: '',
+				profileEmail: '',
+				profileName: '',
+				amountPayed: '',
+				companyLogo: '',
+				isClickPlaceOrder: false,
+				transaction_id: '',
+				flw_ref: '',
+
+
+
+
+			}
+		},
+
+		mounted() {
+			// this.getzones();
+			// this.getbillilngaddress();
+			// this.getCartItems();
+			// this.getorderDeliveryTypes();
+			// this.getCheckoutPaymentMethods();
+			// this.getDeliveryPrice();
+
+			this.allmounted()
+		},
+
+		methods: {
+
+
+			terms() {
+				this.isTermsAndConditions = !this.isTermsAndConditions
+			},
+
+			toggleDeductWalletButton() {
+				this.isCheckedWallet = !this.isCheckedWallet;
+				this.calculatefinalBill();
+
+			},
+
+			toggleDeliverytype() {
+				if (this.selectedDelivery == 10) {
+					//Personal Pickup
+					// make delivery 0 
+					this.deliveryPrice = 0;
+					this.calculatefinalBill();
+				} else if (this.selectedDelivery == 100) {
+					this.deliveryPrice = 1500
+					this.calculatefinalBill();
+				} else {
+					this.deliveryPrice = 0;
+					this.calculatefinalBill();
+				}
+			},
+
+			allmounted() {
+				let formData = new FormData();
+				formData.append("delivery", this.selectedDelivery);
+				axios.all([
+					axios.get('/productajax/productdetails'), // cart items
+					axios.get('/shopajax/getbillingstatus'),
+					axios.get("/app/getzone"),
+					axios.get('/shopajax/order-delivery-type'),
+					axios.get('/shopajax/checkout-payment-method'),
+					axios.post("/shopajax/delivery-price", formData),
+					axios.get('/walletasync/walletbalance')
+				]).then(axios.spread((...res) => {
+					if (res[0].status == 200) {
+						this.cartItems = res[0].data.data;
+						this.finalPrice = res[0].data.finalprice;
+
+					};
+
+					if (res[1].status == 200) {
+						if (res[1].data.data != null) {
+							this.deliveryInfo = res[1].data.data;
+							this.fullname = res[1].data.fullname
+						}
+
+					};
+
+					if (res[2].status == 200) {
+						this.shippingState = res[2].data.data;
+
+					};
+
+					if (res[3].status == 200) {
+						this.orderDeliverType = res[3].data.data;
+					};
+
+					if (res[4].status == 200) {
+						this.checkoutPaymentMethods = res[4].data.data;
+					};
+
+					if (res[5].status == 200) {
+						this.deliveryPrice = res[5].data.data;
+					};
+					if (res[6].status == 200) {
+						this.walletbalance = res[6].data.data;
+					}
+
+
+				})).catch().finally(() => {
+					this.cartItemsCount = Object.keys(this.cartItems).length;
+					this.calculatefinalBill();
+				});
+			},
+			formatMoney(n) {
+				return "" + (Math.round(n * 100) / 100).toLocaleString();
+			},
+
+			selectPayment(id) {
+				// if(this.checkedRadio){
+				information = 'This amount would be deducted from your balance ';
+				if (id == 10) {
+
+				} else if (id == 20) {
+
+				} else if (id == 30) {
+
+				} else if (id == 200) {
+
+				}
+				this.selectedPaymentMode = id;
+				swal({
+					title: 'Are you sure?',
+					text: information,
+					icon: 'warning',
+					showCancelButton: true,
+					confirmButtonColor: '#3085d6',
+					cancelButtonColor: '#d33',
+					confirmButtonText: 'Yes, delete it!'
+				})
+				// }
+				console.log(id);
+			},
+			postbillingaddress() {
+				this.isPostingBilling = true;
+
+				if (this.$refs.selectedState.value == '' || this.$refs.address1.value == '' || this.$refs.city.value == '') {
+
+					swal({
+						title: "Error",
+						text: "Check the form and fill required information",
+						icon: "error",
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#3085d6',
+						confirmButtonText: 'OK'
+					})
+					this.isPostingBilling = false;
+				} else {
+					let formData = new FormData();
+					formData.append('seletedState', this.$refs.selectedState.value);
+					formData.append('address1', this.$refs.address1.value);
+					formData.append('address2', this.$refs.address2.value);
+					formData.append('city', this.$refs.city.value);
+
+					axios.post('/shopajax/postbillingaddress', formData).then(res => {
+						if (res.status == 201) {
+
+							this.$toast.open({
+								message: 'We have successfully updated your address',
+								type: "success",
+								duration: 5000,
+								dismissible: true
+							})
+						} else {
+							swal({
+								title: "Error",
+								text: "Something went wrong, Please try again latter",
+								icon: "error",
+								showCancelButton: true,
+								confirmButtonColor: '#3085d6',
+								cancelButtonColor: '#3085d6',
+								confirmButtonText: 'OK'
+							})
+						}
+					}).catch(err => {
+						swal({
+							title: "Error",
+							text: err.response.data.messages,
+							icon: "error",
+							showCancelButton: true,
+							confirmButtonColor: '#3085d6',
+							cancelButtonColor: '#3085d6',
+							confirmButtonText: 'OK'
+						})
+					}).finally(() => {
+						this.getbillilngaddress();
+						this.isPostingBilling = false;
+						window.location.reload();
+					});
+				}
+
+			},
+
+			// getbillilngaddress() {
+			// 	axios.get('/shopajax/getbillingstatus').then(res => {
+			// 		// if (res.status == 200) {
+			// 		// 	if (res.data.data != null) {
+			// 		// 		this.deliveryInfo = res.data.data;
+			// 		// 		this.fullname = res.data.fullname
+			// 		// 	}
+
+			// 		// }
+			// 	}).catch();
+			// },
+
+			placeOrder() {
+				this.isPlaceOrder = true;
+				let paymentMethod = this.selectedPaymentMode;
+				let deliveryMode = this.selectedDelivery;
+				let useWallet = this.isCheckedWallet;
+				let hasDiscount = this.hasDiscount;
+
+				if (this.isTermsAndConditions == false) {
+					swal({
+						title: "Error",
+						text: "You must accept the terms and conditions",
+						icon: "error",
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#3085d6',
+						confirmButtonText: 'OK'
+					})
+					this.isPlaceOrder = false;
+				} else {
+					let formData = new FormData();
+					formData.append("paymentMethod", paymentMethod);
+					formData.append("deliveryMode", deliveryMode);
+					formData.append('useWallet', useWallet);
+					formData.append("hasDiscount", hasDiscount);
+					// console.log(paymentMethod);
+					if (paymentMethod == 10) {
+						this.payWithCard(formData);
+					} else if (paymentMethod == 20) {
+						this.paywithbank(formData);
+					} else if (paymentMethod == 30) {
+
+						this.payWithCash(formData);
+					} else if (paymentMethod == 200) {
+						this.paywithWallet(formData);
+					}
+					this.isPlaceOrder = false;
+				}
+
+			},
+
+			payWithCard(formData) {
+				axios.post("/transaction/initiatecardpayment", formData).then(res => {
+					if (res.status == 201) {
+						// this.invoiceAmount = res.data.price;
+						// this.processing = false;
+						this.public_key = res.data.public_key;
+
+						this.tx_ref = res.data.tx_ref;
+
+						this.amountPayable = res.data.amountPayable;
+						this.profileEmail = res.data.email;
+						this.profileName = res.data.name;
+						makeFlutterwavePayment()
+					} else {
+						swal({
+							title: "ERROR",
+							text: 'Something went wrong, please try again latter ', //err.response.data.messages,
+							icon: "error",
+							button: "OK"
+						});
+					}
+				}).catch(err => {
+					swal({
+						title: "ERROR",
+						text: 'Something went wrong, please try again latter ', //err.response.data.messages,
+						icon: "error",
+						button: "OK"
+					});
+				});
+			},
+
+			paywithbank(formData) {
+				axios.post("/transaction/paywithbank", formData).then(res => {
+					if (res.status == 201) {
+						window.location.href = '/app/cart-order/' + res.orderid
+					}
+				}).catch();
+			},
+			paywithWallet(formData) {
+				axios.post("/transaction/paywithwallet", formData).then(res => {
+					if (res.status == 201) {
+						// success in withrawal from wallet 
+						window.location.href = '/app/cart-order/' + res.data.orderid
+					} else if (res.status == 200) {
+						// falied 
+						swal({
+							title: "Error",
+							text: res.messages ?? "insufficient Funds",
+							icon: "error",
+							showCancelButton: true,
+							confirmButtonColor: '#3085d6',
+							cancelButtonColor: '#3085d6',
+							confirmButtonText: 'OK'
+						})
+					}
+				}).catch(err => {
+					swal({
+						title: "Error",
+						text: err.response.data.messages ?? "Something went wrong",
+						icon: "error",
+						showCancelButton: true,
+						confirmButtonColor: '#3085d6',
+						cancelButtonColor: '#3085d6',
+						confirmButtonText: 'OK'
+					})
+				});
+			},
+
+			payWithCash(formData) {
+				// alert("hyey");
+				axios.post("/transaction/paywithcash", formData).then(res => {
+
+				}).catch();
+			},
+			finalizeCardpayment() {
+				let formData = new FormData();
+				formData.append("flw_ref", this.flw_ref);
+				formData.append('tx_ref', this.tx_ref);
+				formData.append('amountPaid', this.amountPayed);
+				formData.append('transaction_id', this.transaction_id);
+				formData.append("paymentMethod", this.selectedPaymentMode);
+				formData.append("deliveryMode", this.selectedDelivery);
+				formData.append('useWallet', this.isCheckedWallet);
+				formData.append("hasDiscount", this.hasDiscount);
+				// formData.append("orderuid", this.orderUid);
+				// formData.append('orderid', this.orderId);
+				axios.post("/transaction/finalize-cardpayment", formData).then(res => {
+					if (res.status == 201) {
+						window.location.replace(res.data.redirect);
+						// window.location.reo
+					} else if (res.status == 200) {
+						swal({
+							title: "ERROR",
+							text: 'Something went wrong, please try again latter ', //err.response.data.messages,
+							icon: "error",
+							button: "OK"
+						});
+					}
+				}).catch(err => {
+					swal({
+						title: "ERROR",
+						text: err.response.data.messages,
+						icon: "error",
+						button: "OK"
+					});
+				});
+
+			},
+
+			// getzones() {
+			// 	axios.get("/app/getzone").then(res => {
+			// 		if (res.status == 200) {
+			// 			this.shippingState = res.data.data;
+
+			// 		}
+			// 	}).catch();
+			// },
+
+			// getorderDeliveryTypes() {
+			// 	axios.get('/shopajax/order-delivery-type').then(res => {
+			// 		if (res.status == 200) {
+			// 			this.orderDeliverType = res.data.data;
+			// 		}
+			// 	}).catch();
+			// },
+
+			// getCheckoutPaymentMethods() {
+			// 	axios.get('/shopajax/checkout-payment-method').then(res => {
+			// 		if (res.status == 200) {
+			// 			this.checkoutPaymentMethods = res.data.data;
+			// 		}
+
+			// 	}).catch();
+			// },
+
+			// getDeliveryPrice() {
+			// 	let formData = new FormData();
+			// 	formData.append("delivery", this.selectedDelivery);
+			// 	axios.post("/shopajax/delivery-price", formData).then(res => {
+			// 		if (res.status == 200) {
+			// 			this.deliveryPrice = res.data.data;
+			// 		}
+			// 	}).catch();
+			// },
+
+			calculatefinalBill() {
+				let finalPrice = this.finalPrice;
+				let walletbalance = this.walletbalance;
+				let discount = this.discount;
+				let deliveryPrice = this.deliveryPrice;
+				let checkoutPrice = this.checkoutPrice;
+				// 
+				if (this.isCheckedWallet == true) {
+					finalPrice = finalPrice - walletbalance;
+					// console.log("hyyy");
+				}
+				checkoutPrice = finalPrice + deliveryPrice + discount;
+
+				this.checkoutPrice = Math.max(0, checkoutPrice);
+			}
+
+
+
+		},
+	});
+</script>

@@ -1,0 +1,31 @@
+<?php
+?>
+
+<ul class="navbar-nav ml-auto">
+<?php foreach ($this->container as $page) :?>
+	          <li
+		class="nav-item <?php  echo ($page->isActive() ? "active" : ""); echo ($page->hasPages() ? "dropdown" : ""); ?>"><a
+		href="<?php echo ($page->hasPages() ? "#" : $page->getHref())?>"
+		class="nav-link <?php echo ($page->hasPages() ? "dropdown-toggle" : "");?>"
+		id="<?php echo ($page->hasPages() ? "dropdown04" : "");?>"
+		data-toggle="<?php  echo ($page->hasPages() ? "dropdown" : "");?>"
+		aria-haspopup="<?php  echo ($page->hasPages() ? "true" : "");?>"
+		aria-expanded="<?php  echo ($page->hasPages() ? "false" : "");?>"><?php  echo $page->getLabel()?></a>
+		<?php  if($page->hasPages()):?>
+		<div class="dropdown-menu" aria-labelledby="dropdown04">
+		<?php foreach ($page->getPages() as $child):?>
+		
+		<a class="dropdown-item" href="<?php  echo $child->getHref()?>"><?php  echo $child->getLabel()?></a>
+	
+		<?php endforeach;?>
+		</div>
+		<?php endif;?>
+		</li>
+	          <?php  endforeach; ?>
+	          
+	<li class="nav-item cta cta-colored"><a href="<?php echo $this->url("cart")?>" class="nav-link"><span
+			class="icon-shopping_cart"></span>{{cartcount}}</a></li>
+			<li class="nav-item cta cta-colored"><a href="<?php echo $this->url("logout")?>" class="nav-link"><span
+			class="fa fa-sign-out"></span></a></li>
+
+</ul>

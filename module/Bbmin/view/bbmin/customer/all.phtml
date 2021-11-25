@@ -1,0 +1,131 @@
+<?php
+echo $this->headtitle("All Customer");
+// var_dump($country);
+// $counties = "";
+
+?>
+
+
+
+
+<!-- begin breadcrumb -->
+<!-- 			<ol class="breadcrumb pull-right"> -->
+<!-- 				<li class="breadcrumb-item"><a href="javascript:;">Home</a></li> -->
+<!-- 				<li class="breadcrumb-item"><a href="javascript:;">Tables</a></li> -->
+<!-- 				<li class="breadcrumb-item"><a href="javascript:;">Managed Tables</a></li> -->
+<!-- 				<li class="breadcrumb-item active">Responsive</li> -->
+<!-- 			</ol> -->
+<!-- end breadcrumb -->
+<!-- begin page-header -->
+<h1 class="page-header">View all customers</h1>
+<!-- end page-header -->
+
+<!-- begin row -->
+<div class="row">
+	<!-- begin col-2 -->
+	<div class="col-lg-2">
+		<h5>Key features include:</h5>
+		<ul class="p-l-25 m-b-15">
+			<li>Views a ist of customers registerd on the platform</li>
+			<li>Provides status of each customer</li>
+			<li>Provide a general overview of customers</li>
+
+		</ul>
+		<p class="m-b-20">
+			<a
+				href="<?php  echo $this->url("bbminshop/default", array("action"=>"addproduct"))?>"
+				class="btn btn-inverse btn-sm btn-block">Add Product</a>
+		</p>
+	</div>
+	<!-- end col-2 -->
+	<!-- begin col-10 -->
+	<div class="col-lg-10">
+		<!-- begin panel -->
+		<div class="panel panel-inverse">
+			<!-- begin panel-heading -->
+			<div class="panel-heading">
+				<div class="panel-heading-btn">
+					<a href="javascript:;"
+						class="btn btn-xs btn-icon btn-circle btn-default"
+						data-click="panel-expand"><i class="fa fa-expand"></i></a> <a
+						href="javascript:;"
+						class="btn btn-xs btn-icon btn-circle btn-success"
+						data-click="panel-reload"><i class="fa fa-redo"></i></a> <a
+						href="javascript:;"
+						class="btn btn-xs btn-icon btn-circle btn-warning"
+						data-click="panel-collapse"><i class="fa fa-minus"></i></a>
+				</div>
+				<h4 class="panel-title">DataTable - Responsive</h4>
+			</div>
+			<!-- end panel-heading -->
+			<!-- begin alert -->
+			<div class="alert alert-secondary fade show">
+				<button type="button" class="close" data-dismiss="alert">
+					<span aria-hidden="true">&times;</span>
+				</button>
+				In the modern world of responsive web design tables can often cause
+				a particular problem for designers due to their row based layout.
+				Responsive is an extension for DataTables that resolves that problem
+				by optimising the table's layout for different screen sizes through
+				the dynamic insertion and removal of columns from the table.
+			</div>
+			<!-- end alert -->
+			<!-- begin panel-body -->
+			<div class="panel-body">
+				<table class="table table-responsive table-striped table-bordered">
+					<thead>
+						<tr>
+							<th width="1%"></th>
+
+							<th class="text-nowrap">User Identifer</th>
+							<th class="text-nowrap">User Phone/Username</th>
+							<th class="text-nowrap">Registration Date</th>
+							<th class="text-nowrap">Status</th>
+							<th class="text-nowrap">Action</th>
+						</tr>
+					</thead>
+					<tbody>
+                                <?php foreach ($customers as $customer):?>
+                                    <tr class="odd gradeX">
+							<td width="1%" class="f-s-600"><?php  //echo $customer["state"]["state"]?></td>
+
+							<td><?php  echo strtoupper($customer["userUid"])?></td>
+							<td><?php  echo $customer['username']?></td>
+							<td><?php  echo $this->dateformat($customer["registrationDate"], IntlDateFormatter::MEDIUM, IntlDateFormatter::NONE)?></td>
+
+							<td><?php echo $this->bbminCustomerStatusHelper($customer)?></td>
+							<td><a
+								href="<?php echo $this->url("bbmincustomer/default", array("action"=>"manage", "id"=>$this->escapehtml($customer["userUid"])))?>"
+								type="button" class="btn btn-success"><i class="fa fa-"></i>Manage</a></td>
+						</tr>
+                                    <?php endforeach;?>
+
+                                </tbody>
+				</table>
+				<?php echo $this->paginationcontrol($customers, "sliding", "bbmin_footer_table_paginator")?>
+			</div>
+			<!-- end panel-body -->
+		</div>
+		<!-- end panel -->
+	</div>
+	<!-- end col-10 -->
+</div>
+<!-- end row -->
+
+<script>
+		$(document).ready(function() {
+			App.init();
+
+			TableManageResponsive.init();
+		});
+	</script>
+
+<script
+	src="/admin/assets/plugins/DataTables/media/js/jquery.dataTables.js"></script>
+<script
+	src="/admin/assets/plugins/DataTables/media/js/dataTables.bootstrap.min.js"></script>
+<script
+	src="/admin/assets/plugins/DataTables/extensions/Responsive/js/dataTables.responsive.min.js"></script>
+<script src="/admin/assets/js/demo/table-manage-responsive.demo.min.js"></script>
+<!-- ================== END PAGE LEVEL JS ================== -->
+
