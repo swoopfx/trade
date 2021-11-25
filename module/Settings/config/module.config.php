@@ -1,6 +1,5 @@
 <?php
 namespace  Settings;
-
 return array(
     'doctrine' => array(
         'driver' => array(
